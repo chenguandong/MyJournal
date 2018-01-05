@@ -2,7 +2,6 @@ package com.smart.weather;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.smart.weather.bean.TodayWeatherBean;
+import com.smart.weather.remote.AppClient;
 import com.smart.weather.remote.WeatherService;
 import com.smart.weather.tools.location.LocationTools;
 import com.smart.weather.tools.logs.LogTools;
@@ -22,7 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,13 +42,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                       // .setAction("Action", null).show();
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://restapi.amap.com/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+                Retrofit retrofit = AppClient.retrofit();
 
                 WeatherService service = retrofit.create(WeatherService.class);
 
