@@ -3,18 +3,23 @@ package com.smart.weather;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.smart.weather.adapter.WeatherAdapter;
 import com.smart.weather.bean.TodayWeatherBean;
 import com.smart.weather.remote.AppClient;
 import com.smart.weather.remote.WeatherService;
 import com.smart.weather.tools.location.LocationTools;
 import com.smart.weather.tools.logs.LogTools;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.contentTextView)
-    TextView contentTextView;
+    @BindView(R.id.recycleView)
+    RecyclerView recyclerView;
+
+    private WeatherAdapter weatherAdapter;
+
+    private List<TodayWeatherBean.ForecastsBean.CastsBean>forecastsBeans = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,31 +47,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        LocationTools.getInstance();
+
+        weatherAdapter = new WeatherAdapter(R.layout.item_weather,forecastsBeans);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(weatherAdapter);
+        weatherAdapter.openLoadAnimation();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                        // .setAction("Action", null).show();
 
-                Retrofit retrofit = AppClient.retrofit();
+                getWeatherData();
 
-                WeatherService service = retrofit.create(WeatherService.class);
+            }
+        });
+        getWeatherData();
+    }
 
-                Call<TodayWeatherBean> call = service.getWeatherData("410102");
+    private void getWeatherData(){
 
-                call.enqueue(new Callback<TodayWeatherBean>() {
-                    @Override
-                    public void onResponse(Call<TodayWeatherBean> call, Response<TodayWeatherBean> response) {
-                        LogTools.json(JSON.toJSONString(response.body()));
-                        contentTextView.setText(JSON.toJSONString(response.body()));
-                    }
+        Retrofit retrofit = AppClient.retrofit();
 
-                    @Override
-                    public void onFailure(Call<TodayWeatherBean> call, Throwable t) {
+        WeatherService service = retrofit.create(WeatherService.class);
 
-                    }
-                });
+        Call<TodayWeatherBean> call = service.getWeatherData(LocationTools.getLocationBean().getAdCode());
+
+        call.enqueue(new Callback<TodayWeatherBean>() {
+            @Override
+            public void onResponse(Call<TodayWeatherBean> call, Response<TodayWeatherBean> response) {
+                LogTools.json(JSON.toJSONString(response.body()));
+                //contentTextView.setText(JSON.toJSONString(response.body()));
+
+                forecastsBeans.clear();
+
+                forecastsBeans.addAll(response.body().getForecasts().get(0).getCasts());
+
+                weatherAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<TodayWeatherBean> call, Throwable t) {
 
             }
         });

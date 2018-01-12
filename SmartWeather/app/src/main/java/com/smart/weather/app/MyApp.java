@@ -6,6 +6,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.smart.weather.tools.location.LocationTools;
 
 /**
  * @author guandongchen
@@ -26,6 +27,7 @@ public class MyApp extends Application{
         super.onCreate();
         ourInstance = this;
         initLogger();
+        LocationTools.getInstance();
 
     }
 

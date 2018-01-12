@@ -5,6 +5,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.smart.weather.app.MyApp;
+import com.smart.weather.tools.location.bean.LocationBean;
 import com.smart.weather.tools.logs.LogTools;
 
 /**
@@ -17,18 +18,25 @@ public class LocationTools {
     private static final LocationTools ourInstance = new LocationTools();
 
     //声明AMapLocationClient类对象
-    public static AMapLocationClient mLocationClient = null;
+    private static AMapLocationClient mLocationClient = null;
 
     //声明AMapLocationClientOption对象
-    public static AMapLocationClientOption mLocationOption = null;
+    private static AMapLocationClientOption mLocationOption = null;
 
 
     private LocationTools() {
     }
 
+    private static LocationBean locationBean;
+
     public static LocationTools getInstance() {
         //初始化定位
-        mLocationClient = new AMapLocationClient(MyApp.getInstance());
+        if (mLocationClient==null){
+            mLocationClient = new AMapLocationClient(MyApp.getInstance());
+        }
+        if (locationBean==null){
+            locationBean = new LocationBean();
+        }
         //设置定位回调监听
         mLocationClient.setLocationListener(new AMapLocationListener() {
             @Override
@@ -60,6 +68,8 @@ public class LocationTools {
 
                         LogTools.d(aMapLocation.toStr());
 
+                        locationBean.setAdCode(aMapLocation.getAdCode());
+
                     }else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         LogTools.d("AmapError","location Error, ErrCode:"
@@ -70,7 +80,10 @@ public class LocationTools {
             }
         });
 
-        mLocationOption = new AMapLocationClientOption();
+        if (mLocationOption==null){
+            mLocationOption = new AMapLocationClientOption();
+        }
+
         /**
          * 设置定位场景，目前支持三种场景（签到、出行、运动，默认无场景）
          */
@@ -94,4 +107,7 @@ public class LocationTools {
     }
 
 
+    public static LocationBean getLocationBean() {
+        return locationBean;
+    }
 }

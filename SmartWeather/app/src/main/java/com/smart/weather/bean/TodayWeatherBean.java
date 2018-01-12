@@ -120,7 +120,7 @@ public class TodayWeatherBean implements Serializable{
             this.casts = casts;
         }
 
-        public static class CastsBean {
+        public static class CastsBean implements Serializable{
             /**
              * date : 2018-01-05
              * daypower : ≤3
