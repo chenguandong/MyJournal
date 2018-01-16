@@ -1,4 +1,6 @@
-package com.smart.weather.remote;
+package com.smart.weather.tools.http;
+
+import com.smart.weather.remote.ApiStores;
 
 import java.io.IOException;
 import java.net.CookieManager;

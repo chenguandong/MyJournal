@@ -65,4 +65,6 @@ dependencies {
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    compile 'com.blankj:utilcode:1.11.1'
 }

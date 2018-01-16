@@ -10,23 +10,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
 import com.smart.weather.adapter.WeatherAdapter;
 import com.smart.weather.bean.TodayWeatherBean;
-import com.smart.weather.remote.AppClient;
-import com.smart.weather.remote.WeatherService;
-import com.smart.weather.tools.location.LocationTools;
-import com.smart.weather.tools.logs.LogTools;
+import com.smart.weather.remote.WeatherApiManager;
+import com.smart.weather.tools.http.CallBackBean;
+import com.smart.weather.tools.http.MyCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,30 +61,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void getWeatherData(){
 
-        Retrofit retrofit = AppClient.retrofit();
 
-        WeatherService service = retrofit.create(WeatherService.class);
+        WeatherApiManager.getWeatherData(new MyCallBack<TodayWeatherBean>(MainActivity.this) {
 
-        Call<TodayWeatherBean> call = service.getWeatherData(LocationTools.getLocationBean().getAdCode());
-
-        call.enqueue(new Callback<TodayWeatherBean>() {
             @Override
-            public void onResponse(Call<TodayWeatherBean> call, Response<TodayWeatherBean> response) {
-                LogTools.json(JSON.toJSONString(response.body()));
-                //contentTextView.setText(JSON.toJSONString(response.body()));
-
+            protected void onSuccess(CallBackBean<TodayWeatherBean> callBackBean) {
                 forecastsBeans.clear();
 
-                forecastsBeans.addAll(response.body().getForecasts().get(0).getCasts());
+                forecastsBeans.addAll(callBackBean.getResponseBody().getForecasts().get(0).getCasts());
 
                 weatherAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<TodayWeatherBean> call, Throwable t) {
+            protected void onFail(CallBackBean<TodayWeatherBean> callBackBean) {
 
             }
         });
+
+
+
     }
 
     @Override

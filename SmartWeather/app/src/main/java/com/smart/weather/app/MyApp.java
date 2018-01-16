@@ -30,6 +30,7 @@ public class MyApp extends Application{
         initLogger();
         LocationTools.getInstance();
         initLeakCanary();
+        com.blankj.utilcode.util.Utils.init(this);
     }
 
     private void initLogger(){
