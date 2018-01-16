@@ -7,6 +7,7 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.smart.weather.tools.location.LocationTools;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * @author guandongchen
@@ -28,7 +29,7 @@ public class MyApp extends Application{
         ourInstance = this;
         initLogger();
         LocationTools.getInstance();
-
+        initLeakCanary();
     }
 
     private void initLogger(){
@@ -44,5 +45,14 @@ public class MyApp extends Application{
         };
         Logger.addLogAdapter(androidLogAdapter);
 
+    }
+
+    private void initLeakCanary(){
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 }
