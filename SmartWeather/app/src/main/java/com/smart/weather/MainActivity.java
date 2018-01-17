@@ -1,20 +1,21 @@
 package com.smart.weather;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.smart.weather.adapter.WeatherAdapter;
-import com.smart.weather.bean.TodayWeatherBean;
-import com.smart.weather.remote.WeatherApiManager;
-import com.smart.weather.tools.http.CallBackBean;
-import com.smart.weather.tools.http.MyCallBack;
+import com.smart.weather.base.BaseActivity;
+import com.smart.weather.fragment.WeatherFragment;
+import com.smart.weather.module.journal.JournalFragment;
+import com.smart.weather.module.map.MapFragment;
+import com.smart.weather.module.mine.MineFragment;
+import com.smart.weather.tools.BottomNavigationViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,66 +23,130 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * @author guandongchen
+ */
+public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.recycleView)
-    RecyclerView recyclerView;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.navigation_view)
+    BottomNavigationView navigationView;
 
-    private WeatherAdapter weatherAdapter;
 
-    private List<TodayWeatherBean.ForecastsBean.CastsBean>forecastsBeans = new ArrayList<>();
+    private FragmentPagerAdapter fragmentPagerAdapter;
+    private List<Fragment> fragmentList = new ArrayList<>();
+    private Fragment journalFragment;
+    private Fragment mapFragment;
+    private Fragment mineFragment;
+    private Fragment weatherFragment;
+
+    private String[] titles = new String[]{"日记","地图","天气","我的"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        initSimpleToolbarWithNoBack(titles[0]);
+        initView();
+        initData();
+    }
 
-        weatherAdapter = new WeatherAdapter(R.layout.item_weather,forecastsBeans);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(weatherAdapter);
-        weatherAdapter.openLoadAnimation();
-        fab.setOnClickListener(new View.OnClickListener() {
+    @Override
+    protected void initView() {
+
+        BottomNavigationViewHelper.disableShiftMode(navigationView);
+
+        journalFragment = JournalFragment.newInstance("","");
+
+        mapFragment = MapFragment.newInstance("","");
+
+        mineFragment = MineFragment.newInstance("","0");
+
+        weatherFragment = WeatherFragment.newInstance("","");
+
+        fragmentList.add(journalFragment);
+        fragmentList.add(mapFragment);
+        fragmentList.add(weatherFragment);
+        fragmentList.add(mineFragment);
+
+        viewPager.setOffscreenPageLimit(fragmentList.size());
+
+        fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                       // .setAction("Action", null).show();
+            public Fragment getItem(int position) {
 
-                getWeatherData();
+                return fragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragmentList.size();
+            }
+
+        };
+
+        viewPager.setAdapter(fragmentPagerAdapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                navigationView.getMenu().getItem(position).setChecked(true);
+
+                setTitle(titles[position]);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
-        getWeatherData();
-    }
 
-    private void getWeatherData(){
-
-
-        WeatherApiManager.getWeatherData(new MyCallBack<TodayWeatherBean>(MainActivity.this) {
-
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            protected void onSuccess(CallBackBean<TodayWeatherBean> callBackBean) {
-                forecastsBeans.clear();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                forecastsBeans.addAll(callBackBean.getResponseBody().getForecasts().get(0).getCasts());
+                String title = "";
+                switch (item.getItemId()) {
 
-                weatherAdapter.notifyDataSetChanged();
-            }
+                    case R.id.item1:
+                        viewPager.setCurrentItem(0,false);
+                        title = titles[0];
+                        break;
+                    case R.id.item2:
+                        viewPager.setCurrentItem(1,false);
+                        title = titles[1];
+                        break;
+                    case R.id.item3:
+                        viewPager.setCurrentItem(2,false);
+                        title = titles[2];
+                        break;
+                    case R.id.item4:
+                        viewPager.setCurrentItem(3,false);
+                        title = titles[3];
+                        break;
 
-            @Override
-            protected void onFail(CallBackBean<TodayWeatherBean> callBackBean) {
 
+                }
+                setToolbarTitle(title);
+                return true;
             }
         });
-
-
-
     }
+
+    @Override
+    protected void initData() {
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
