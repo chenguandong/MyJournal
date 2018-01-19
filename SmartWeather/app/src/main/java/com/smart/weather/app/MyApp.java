@@ -1,20 +1,23 @@
 package com.smart.weather.app;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.smart.weather.BuildConfig;
 import com.smart.weather.tools.location.LocationTools;
 import com.squareup.leakcanary.LeakCanary;
+import com.tencent.bugly.Bugly;
 
 /**
  * @author guandongchen
  * @date 2018/1/5
  */
 
-public class MyApp extends Application{
+public class MyApp extends MultiDexApplication {
 
     private static  MyApp ourInstance ;
 
@@ -22,7 +25,7 @@ public class MyApp extends Application{
         return ourInstance;
     }
 
-
+    public static final String UPDATE_APP_ID = BuildConfig.APPLICATION_ID+".fileProvider";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,6 +34,8 @@ public class MyApp extends Application{
         LocationTools.getInstance();
         initLeakCanary();
         com.blankj.utilcode.util.Utils.init(this);
+        Fresco.initialize(this);
+        Bugly.init(getApplicationContext(), "c789e27850", false);
     }
 
     private void initLogger(){

@@ -43,6 +43,8 @@ public class WeatherFragment extends BaseFragment {
     private String mParam2;
 
 
+
+
     private WeatherAdapter weatherAdapter;
     private List<TodayWeatherBean.ForecastsBean.CastsBean> forecastsBeans = new ArrayList<>();
 
@@ -59,11 +61,11 @@ public class WeatherFragment extends BaseFragment {
      * @return A new instance of fragment WeatherFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WeatherFragment newInstance(String param1, String param2) {
+    public static WeatherFragment newInstance() {
         WeatherFragment fragment = new WeatherFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, "");
+        args.putString(ARG_PARAM2, "");
         fragment.setArguments(args);
         return fragment;
     }

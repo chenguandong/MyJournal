@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smart.weather.module.write.WriteFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include
+        layout="@layout/toolbar"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/write"
+        />
+
+    <com.smart.weather.module.write.Views.ToolView
+        android:id="@+id/toolView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        />
+</LinearLayout>

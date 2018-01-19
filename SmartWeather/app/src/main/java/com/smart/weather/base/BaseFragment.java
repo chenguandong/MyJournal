@@ -3,15 +3,22 @@ package com.smart.weather.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.smart.weather.R;
 
 
 public abstract class BaseFragment extends Fragment {
 
     protected Context context;
-
+    private android.support.v7.app.ActionBar actionBar;
+    private Toolbar toolbar;
     public BaseFragment() {
         // Required empty public constructor
     }
@@ -25,8 +32,35 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         return null;
+    }
+    /**
+     * 设置普通带back 的导航栏
+     * @param titleString 名称
+     */
+    protected void initSimpleToolbar(View view,String titleString){
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(titleString);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+    }
+
+    protected void hiddenToolbarBackButton(){
+
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
     }
 
     @Override
@@ -45,5 +79,11 @@ public abstract class BaseFragment extends Fragment {
     protected void init(){
         initView();
         initData();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //inflater.inflate(R.menu.pictrue_list, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 }

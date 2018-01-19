@@ -1,5 +1,6 @@
 package com.smart.weather;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,6 +16,7 @@ import com.smart.weather.fragment.WeatherFragment;
 import com.smart.weather.module.journal.JournalFragment;
 import com.smart.weather.module.map.MapFragment;
 import com.smart.weather.module.mine.MineFragment;
+import com.smart.weather.module.write.activity.WriteActivity;
 import com.smart.weather.tools.BottomNavigationViewHelper;
 
 import java.util.ArrayList;
@@ -60,13 +62,13 @@ public class MainActivity extends BaseActivity {
 
         BottomNavigationViewHelper.disableShiftMode(navigationView);
 
-        journalFragment = JournalFragment.newInstance("","");
+        journalFragment = JournalFragment.newInstance();
 
-        mapFragment = MapFragment.newInstance("","");
+        mapFragment = MapFragment.newInstance();
 
-        mineFragment = MineFragment.newInstance("","0");
+        mineFragment = MineFragment.newInstance();
 
-        weatherFragment = WeatherFragment.newInstance("","");
+        weatherFragment = WeatherFragment.newInstance();
 
         fragmentList.add(journalFragment);
         fragmentList.add(mapFragment);
@@ -133,6 +135,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.item4:
                         viewPager.setCurrentItem(3,false);
                         title = titles[3];
+                        break;
+                    case R.id.item_add:
+                        startActivity(new Intent(MainActivity.this, WriteActivity.class));
                         break;
 
 

@@ -23,6 +23,7 @@
             android:layout_weight="1"
             />
 
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation_view"
             android:layout_width="match_parent"

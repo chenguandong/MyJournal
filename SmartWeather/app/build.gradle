@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     signingConfigs {
         release {
             keyAlias '10h3y'
@@ -12,10 +13,12 @@ android {
     }
     defaultConfig {
         applicationId "com.smart.weather"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName '1.0.0'
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         signingConfig signingConfigs.release
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -24,7 +27,6 @@ android {
             }
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -41,14 +43,19 @@ android {
             }
         }
     }
+
+    productFlavors {
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:support-v4:26.1.0'
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:support-vector-drawable:${rootProject.ext.supportLibVersion}"
+    implementation 'com.android.support:multidex:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -63,9 +70,16 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.8.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
     compile 'com.blankj:utilcode:1.11.1'
+    compile 'com.facebook.fresco:fresco:0.12.0'
+    compile 'com.zhihu.android:matisse:0.4.3'
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'org.apache.commons:commons-collections4:4.1'
+
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 }
