@@ -20,6 +20,7 @@ import com.smart.weather.module.write.Views.ToolBean;
 import com.smart.weather.module.write.Views.ToolView;
 import com.smart.weather.module.write.adapter.WriteAdapter;
 import com.smart.weather.module.write.bean.JournalBean;
+import com.smart.weather.tools.PermissionTools;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
@@ -111,28 +112,39 @@ public class WriteFragment extends BaseFragment {
 
         adapter.notifyDataSetChanged();
 
-        toolView.setDelegate(new ToolView.ToolViewDelegate() {
-            @Override
-            public void onItemClick(ToolBean toolBean) {
+        toolView.setDelegate(toolBean -> {
 
-                switch (toolBean.getItemType()){
-                    case ToolBean.TOOL_IMAGE:
-                        Matisse.from(getActivity())
-                                .choose(MimeType.allOf())
-                                .countable(true)
-                                .maxSelectable(9)
-                                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                .thumbnailScale(0.85f)
-                                .theme(R.style.Matisse_Zhihu)
-                                .imageEngine(new PicassoEngine())
-                                .capture(true)
-                                .captureStrategy(
-                                        new CaptureStrategy(true, MyApp.UPDATE_APP_ID))
-                                .forResult(REQUEST_CODE_CHOOSE);
-                        break;
-                    case ToolBean.TOOL_WEATHER:
-                        break;
-                }
+            switch (toolBean.getItemType()){
+                case ToolBean.TOOL_IMAGE:
+
+                    PermissionTools.checkPermission(getActivity(), PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, new PermissionTools.PermissionCallBack() {
+                        @Override
+                        public void permissionYES() {
+                            Matisse.from(getActivity())
+                                    .choose(MimeType.allOf())
+                                    .countable(true)
+                                    .maxSelectable(9)
+                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                                    .thumbnailScale(0.85f)
+                                    .theme(R.style.Matisse_Zhihu)
+                                    .imageEngine(new PicassoEngine())
+                                    .capture(true)
+                                    .captureStrategy(
+                                            new CaptureStrategy(true, MyApp.UPDATE_APP_ID))
+                                    .forResult(REQUEST_CODE_CHOOSE);
+                        }
+
+                        @Override
+                        public void permissionNO() {
+
+                        }
+                    });
+
+                    break;
+                case ToolBean.TOOL_WEATHER:
+
+
+                    break;
             }
         });
 
@@ -145,14 +157,10 @@ public class WriteFragment extends BaseFragment {
 
     private void filterJournalItem(){
 
-         Predicate<JournalBean> predicate = new Predicate<JournalBean>() {
-
-                         @Override
-                         public boolean evaluate(JournalBean bean) {
-                             // TODO Auto-generated method stub
-                             return TextUtils.isEmpty(bean.getContent())&&TextUtils.isEmpty(bean.getImageBase64());
-                         }
-                     };
+         Predicate<JournalBean> predicate = bean -> {
+             // TODO Auto-generated method stub
+             return TextUtils.isEmpty(bean.getContent())&&TextUtils.isEmpty(bean.getImageBase64());
+         };
         List<JournalBean> result = (List<JournalBean>) CollectionUtils.select(writeSectionBeans, predicate);
         writeSectionBeans.removeAll(result);
         writeSectionBeans.add(new JournalBean(""));
@@ -171,6 +179,7 @@ public class WriteFragment extends BaseFragment {
             filterJournalItem();
         }
     }
+
 
 
     @Override

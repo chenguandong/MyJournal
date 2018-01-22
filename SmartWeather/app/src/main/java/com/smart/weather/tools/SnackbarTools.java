@@ -15,6 +15,48 @@ import com.smart.weather.R;
 
 public class SnackbarTools {
 
+    public static final int SNACKBAR_DURATION = 5000;
+
+    public static void showSettingSnackBar(final Context context,String titleInfo){
+
+        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+
+        Snackbar snackBar  = Snackbar.make(rootView,titleInfo,Snackbar.LENGTH_LONG)
+                .setAction("去设置", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActionTools.openSetting(context);
+
+                    }
+                })
+                .setActionTextColor(ContextCompat.getColor(context, R.color.black))
+                .setDuration(SNACKBAR_DURATION);
+
+        snackBar.getView().setBackgroundColor(ContextCompat.getColor(context,R.color.black));
+
+        snackBar.show();
+    }
+
+    public static void showGPSSettingSnackBar(final Context context,String titleInfo){
+
+        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+
+        Snackbar snackBar  = Snackbar.make(rootView,titleInfo,Snackbar.LENGTH_LONG)
+                .setAction("去设置", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActionTools.settingLocation(context);
+
+                    }
+                })
+                .setActionTextColor(ContextCompat.getColor(context, R.color.black))
+                .setDuration(SNACKBAR_DURATION);
+
+        snackBar.getView().setBackgroundColor(ContextCompat.getColor(context,R.color.black));
+
+        snackBar.show();
+    }
+
     public static void showSimpleSnackbar(Context context,String message){
 
         View rootView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);

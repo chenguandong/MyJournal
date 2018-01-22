@@ -12,6 +12,11 @@ import com.smart.weather.tools.location.LocationTools;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 
+import java.security.SecureRandom;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * @author guandongchen
  * @date 2018/1/5
@@ -36,6 +41,23 @@ public class MyApp extends MultiDexApplication {
         com.blankj.utilcode.util.Utils.init(this);
         Fresco.initialize(this);
         Bugly.init(getApplicationContext(), "c789e27850", false);
+        initRealm();
+    }
+
+    private void initRealm(){
+
+        Realm.init(this);
+        byte[] key = new byte[64];
+        new SecureRandom().nextBytes(key);
+
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(2)
+                //.encryptionKey(key)//数据库加密
+                .build();
+// Use the config
+        Realm.getInstance(config);
+
+
     }
 
     private void initLogger(){

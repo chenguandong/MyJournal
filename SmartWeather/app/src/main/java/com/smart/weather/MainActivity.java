@@ -18,6 +18,7 @@ import com.smart.weather.module.map.MapFragment;
 import com.smart.weather.module.mine.MineFragment;
 import com.smart.weather.module.write.activity.WriteActivity;
 import com.smart.weather.tools.BottomNavigationViewHelper;
+import com.smart.weather.tools.PermissionTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +145,18 @@ public class MainActivity extends BaseActivity {
                 }
                 setToolbarTitle(title);
                 return true;
+            }
+        });
+
+        PermissionTools.checkPermission(MainActivity.this, PermissionTools.PermissionType.PERMISSION_TYPE_LOCATION, new PermissionTools.PermissionCallBack() {
+            @Override
+            public void permissionYES() {
+
+            }
+
+            @Override
+            public void permissionNO() {
+
             }
         });
     }

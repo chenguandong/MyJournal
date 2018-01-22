@@ -1,22 +1,27 @@
 package com.smart.weather.module.write.bean;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
  * @author guandongchen
  * @date 2018/1/18
  */
 
-public class JournalBean implements Serializable, MultiItemEntity {
-
+public class JournalBean extends RealmObject implements  MultiItemEntity {
+    @Ignore
     public static final int WRITE_TAG_TEXT = 0;
+    @Ignore
     public static final int WRITE_TAG_IMAGE =1;
-
+    @Ignore
     private int itemType;
+    @Ignore
+    private Bitmap bitmap;
 
     private String content;
     private String imageBase64;
@@ -35,6 +40,17 @@ public class JournalBean implements Serializable, MultiItemEntity {
     public JournalBean(String content) {
         this.content = content;
         setItemType(WRITE_TAG_TEXT);
+    }
+
+    public JournalBean() {
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public void setItemType(int itemType) {

@@ -1,16 +1,22 @@
 package com.smart.weather.module.write.adapter;
 
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.smart.weather.R;
 import com.smart.weather.module.write.bean.JournalBean;
-import com.smart.weather.tools.ImageViewTools;
+import com.smart.weather.tools.EncodeTools;
 
 import java.util.List;
 
@@ -66,7 +72,26 @@ public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseVie
                 break;
             case JournalBean.WRITE_TAG_IMAGE:
                 SimpleDraweeView imageView = helper.getView(R.id.write_imageview);
-                ImageViewTools.showImageViewGlide(item.getImageBase64(),imageView);
+                Glide.with(mContext).load(item.getImageBase64()).into(imageView);
+
+
+                if (item.getImageBase64().length()>20){
+                    if (item.getBitmap()!=null){
+                        Glide.with(mContext).load(item.getBitmap()).into(imageView);
+                    }else {
+                        item.setBitmap(EncodeTools.base64ToBitmap(item.getImageBase64()));
+                    }
+
+                }else {
+                    Glide.with(imageView.getContext()).asBitmap().load(item.getImageBase64())
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    item.setImageBase64(EncodeTools.bitmapToBase64(resource));
+                                }
+                            });
+                }
+
                 break;
             default:
 
