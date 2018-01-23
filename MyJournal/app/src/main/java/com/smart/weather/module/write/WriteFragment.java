@@ -23,7 +23,7 @@ import com.smart.weather.module.write.Views.ToolBean;
 import com.smart.weather.module.write.Views.ToolView;
 import com.smart.weather.module.write.adapter.WriteAdapter;
 import com.smart.weather.module.write.bean.JournalBean;
-import com.smart.weather.module.write.db.DBHelper;
+import com.smart.weather.module.write.db.JournalDBHelper;
 import com.smart.weather.tools.PermissionTools;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -203,7 +203,7 @@ public class WriteFragment extends BaseFragment {
 
             case R.id.toolbar_right_action:
 
-                DBHelper.saveJournal(realm,writeSectionBeans);
+                JournalDBHelper.saveJournal(realm,writeSectionBeans);
                 getActivity().finish();
                 break;
         }

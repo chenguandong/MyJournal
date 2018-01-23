@@ -38,11 +38,11 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
         ImageView imageView = helper.getView(R.id.imageView);
         TextView contentTextview = helper.getView(R.id.contentView);
-
+        String imageBase64 = "";
         if (item.getJournalItemBean()==null){
             JournalItemBean itemBean = new JournalItemBean();
             StringBuilder contentBuilder = new StringBuilder();
-            String imageBase64 = "";
+
             if (item.getContent()!=null){
 
                 String contents[] = item.getContent().split("~~~");
@@ -75,5 +75,11 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
         }else{
             imageView.setImageDrawable(null);
         }
+
+       /* if (!TextUtils.isEmpty(imageBase64)){
+            Glide.with(mContext).load(EncodeTools.base64ToBitmap(imageBase64)).into(imageView);
+        }else{
+            imageView.setImageDrawable(null);
+        }*/
     }
 }

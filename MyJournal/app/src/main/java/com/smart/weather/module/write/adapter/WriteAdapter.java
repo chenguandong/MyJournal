@@ -89,6 +89,8 @@ public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseVie
                                     item.setImageBase64(EncodeTools.bitmapToBase64(resource));
                                 }
                             });
+
+
                 }
 
                 break;

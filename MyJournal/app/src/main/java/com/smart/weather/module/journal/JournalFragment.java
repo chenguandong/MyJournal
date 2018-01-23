@@ -1,7 +1,6 @@
 package com.smart.weather.module.journal;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -11,12 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.smart.weather.R;
 import com.smart.weather.base.BaseFragment;
 import com.smart.weather.module.journal.adapter.JournalAdapter;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
-import com.smart.weather.module.write.db.DBHelper;
+import com.smart.weather.module.write.db.JournalDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +47,10 @@ public class JournalFragment extends BaseFragment {
     private String mParam2;
 
     private Realm realm;
+    /**
+     * 数据库查询出来的数据集合
+     */
+    private RealmResults<JournalBeanDBBean> realmResults;
 
     public JournalFragment() {
         // Required empty public constructor
@@ -57,8 +60,7 @@ public class JournalFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment JournalFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -108,9 +110,15 @@ public class JournalFragment extends BaseFragment {
         journalAdapter.setOnItemLongClickListener((adapter, view, position) -> {
 
             new AlertDialog.Builder(context).setItems(new CharSequence[]{"查看", "删除"}, (dialogInterface, i) -> {
+                switch (i){
+                    case 0:
+                        break;
+                    case 1:
+                        JournalDBHelper.deleteJournal(realm,journalBeans.get(position));
+                        break;
+                }
 
             }).create().show();
-
             return false;
         });
         recycleView.setAdapter(journalAdapter);
@@ -120,7 +128,13 @@ public class JournalFragment extends BaseFragment {
     protected void initData() {
         journalBeans.clear();
 
-        journalBeans.addAll(DBHelper.getAllJournals(realm));
+        realmResults= JournalDBHelper.getAllJournals(realm);
+        journalBeans.addAll(realmResults);
+        realmResults.addChangeListener(journalBeanDBBeans -> {
+            journalBeans.clear();
+            journalBeans.addAll(journalBeanDBBeans);
+            journalAdapter.notifyDataSetChanged();
+        });
 
         journalAdapter.notifyDataSetChanged();
     }

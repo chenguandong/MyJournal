@@ -13,14 +13,20 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * @author guandongchen
  * @date 2018/1/22
  */
 
-public class DBHelper {
+public class JournalDBHelper {
 
+    /**
+     * 保存日记
+     * @param realm
+     * @param writeSectionBeans
+     */
     public static void saveJournal(Realm realm,List<JournalBean> writeSectionBeans ){
         realm.executeTransaction(realm1 -> {
             JournalBeanDBBean journalBeanDBBean = realm1.createObject(JournalBeanDBBean.class);
@@ -51,8 +57,22 @@ public class DBHelper {
     }
 
 
-
+    /**
+     * 获取所有日记
+     * @param realm
+     * @return
+     */
     public static RealmResults<JournalBeanDBBean> getAllJournals(Realm realm){
-        return realm.where(JournalBeanDBBean.class).findAll();
+        return realm.where(JournalBeanDBBean.class).findAll().sort("date", Sort.DESCENDING);
+    }
+
+    /**
+     * 删除日记
+     * @param realm
+     * @param journalBeanDBBean
+     */
+    public static void deleteJournal(Realm realm,JournalBeanDBBean journalBeanDBBean){
+
+        realm.executeTransaction(realm1 -> journalBeanDBBean.deleteFromRealm());
     }
 }
