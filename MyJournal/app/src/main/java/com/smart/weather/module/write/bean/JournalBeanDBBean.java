@@ -1,8 +1,11 @@
 package com.smart.weather.module.write.bean;
 
+import com.smart.weather.module.journal.bean.JournalItemBean;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
  * @author guandongchen
@@ -16,6 +19,16 @@ public class JournalBeanDBBean extends RealmObject{
     private JournalLocationDBBean location;
     private Date date;
 
+    @Ignore
+    private JournalItemBean journalItemBean;
+
+    public JournalItemBean getJournalItemBean() {
+        return journalItemBean;
+    }
+
+    public void setJournalItemBean(JournalItemBean journalItemBean) {
+        this.journalItemBean = journalItemBean;
+    }
 
     public String getContent() {
         return content;

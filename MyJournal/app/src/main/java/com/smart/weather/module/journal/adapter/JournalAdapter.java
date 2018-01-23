@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.smart.weather.R;
+import com.smart.weather.module.journal.bean.JournalItemBean;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.tools.EncodeTools;
 
@@ -38,27 +39,41 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
         ImageView imageView = helper.getView(R.id.imageView);
         TextView contentTextview = helper.getView(R.id.contentView);
 
-        StringBuilder contentBuilder = new StringBuilder();
-        String imageBase64 = "";
-        if (item.getContent()!=null){
+        if (item.getJournalItemBean()==null){
+            JournalItemBean itemBean = new JournalItemBean();
+            StringBuilder contentBuilder = new StringBuilder();
+            String imageBase64 = "";
+            if (item.getContent()!=null){
 
-            String contents[] = item.getContent().split("~~~");
+                String contents[] = item.getContent().split("~~~");
 
-            for (String content:
-            contents) {
-                if (content.startsWith("text://")){
-                    contentBuilder.append(content.substring("text://".length(),content.length()));
-                }else if (content.startsWith("image://")){
-                    imageBase64 = content.substring("image://".length(),content.length());
+                for (String content:
+                        contents) {
+                    if (content.startsWith("text://")){
+                        contentBuilder.append(content.substring("text://".length(),content.length()));
+                    }else if (content.startsWith("image://")){
+                        imageBase64 = content.substring("image://".length(),content.length());
+
+                    }
+
+                }
+                if (!TextUtils.isEmpty(imageBase64)){
+                    itemBean.setBitmap(EncodeTools.base64ToBitmap(imageBase64));
                 }
 
+                itemBean.setContent(contentBuilder.toString());
+                item.setJournalItemBean(itemBean);
             }
         }
 
-        contentTextview.setText(contentBuilder.toString());
 
-        if (!TextUtils.isEmpty(imageBase64)){
-            Glide.with(mContext).load(EncodeTools.base64ToBitmap(imageBase64)).into(imageView);
+
+        contentTextview.setText(item.getJournalItemBean().getContent());
+
+        if (item.getJournalItemBean().getBitmap()!=null){
+            Glide.with(mContext).load(item.getJournalItemBean().getBitmap()).into(imageView);
+        }else{
+            imageView.setImageDrawable(null);
         }
     }
 }

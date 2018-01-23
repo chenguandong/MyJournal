@@ -1,14 +1,17 @@
 package com.smart.weather.module.journal;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.smart.weather.R;
 import com.smart.weather.base.BaseFragment;
 import com.smart.weather.module.journal.adapter.JournalAdapter;
@@ -22,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,6 +102,17 @@ public class JournalFragment extends BaseFragment {
     protected void initView() {
         journalAdapter = new JournalAdapter(R.layout.item_journal,journalBeans);
         recycleView.setLayoutManager(new LinearLayoutManager(context));
+        journalAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+        });
+        journalAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+
+            new AlertDialog.Builder(context).setItems(new CharSequence[]{"查看", "删除"}, (dialogInterface, i) -> {
+
+            }).create().show();
+
+            return false;
+        });
         recycleView.setAdapter(journalAdapter);
     }
 
