@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 
 /**
  * @author guandongchen
@@ -17,6 +18,16 @@ public class JournalBean  implements Serializable,MultiItemEntity {
     public static final int WRITE_TAG_IMAGE =1;
     private int itemType;
     private Bitmap bitmap;
+
+    private WeakReference<Bitmap>bitmapWeakReference;
+
+    public WeakReference<Bitmap> getBitmapWeakReference() {
+        return bitmapWeakReference;
+    }
+
+    public void setBitmapWeakReference(WeakReference<Bitmap> bitmapWeakReference) {
+        this.bitmapWeakReference = bitmapWeakReference;
+    }
 
     private String content;
     private String imageBase64;
@@ -40,13 +51,7 @@ public class JournalBean  implements Serializable,MultiItemEntity {
     public JournalBean() {
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
 
     public void setItemType(int itemType) {
         this.itemType = itemType;

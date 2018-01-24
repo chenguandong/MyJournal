@@ -18,6 +18,7 @@ import com.smart.weather.R;
 import com.smart.weather.module.write.bean.JournalBean;
 import com.smart.weather.tools.EncodeTools;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -76,10 +77,10 @@ public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseVie
 
 
                 if (item.getImageBase64().length()>100){
-                    if (item.getBitmap()==null){
-                        item.setBitmap(EncodeTools.base64ToBitmap(item.getImageBase64()));
+                    if (item.getBitmapWeakReference()==null){
+                        item.setBitmapWeakReference(new WeakReference<>(EncodeTools.base64ToBitmap(item.getImageBase64())));
                     }
-                    Glide.with(mContext).load(item.getBitmap()).into(imageView);
+                    Glide.with(mContext).load(item.getBitmapWeakReference()).into(imageView);
 
                 }else {
                     Glide.with(imageView.getContext()).asBitmap().load(item.getImageBase64())

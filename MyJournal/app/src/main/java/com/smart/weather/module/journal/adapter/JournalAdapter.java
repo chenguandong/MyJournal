@@ -58,7 +58,7 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
                 }
                 if (!TextUtils.isEmpty(imageBase64)){
-                    itemBean.setBitmap(EncodeTools.base64ToBitmap(imageBase64));
+                    //itemBean.setBitmap(EncodeTools.base64ToBitmap(imageBase64));
                 }
 
                 itemBean.setContent(contentBuilder.toString());
@@ -70,16 +70,16 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
         contentTextview.setText(item.getJournalItemBean().getContent());
 
-        if (item.getJournalItemBean().getBitmap()!=null){
+        /*if (item.getJournalItemBean().getBitmap()!=null){
             Glide.with(mContext).load(item.getJournalItemBean().getBitmap()).into(imageView);
         }else{
             imageView.setImageDrawable(null);
-        }
+        }*/
 
-       /* if (!TextUtils.isEmpty(imageBase64)){
+        if (!TextUtils.isEmpty(imageBase64)){
             Glide.with(mContext).load(EncodeTools.base64ToBitmap(imageBase64)).into(imageView);
         }else{
             imageView.setImageDrawable(null);
-        }*/
+        }
     }
 }
