@@ -2,11 +2,18 @@ package com.smart.weather.module.map;
 
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -16,20 +23,28 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.Projection;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.smart.weather.R;
 import com.smart.weather.base.BaseFragment;
+import com.smart.weather.module.write.bean.JournalBeanDBBean;
+import com.smart.weather.module.write.db.JournalDBHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * AMapV2地图中介绍自定义定位小蓝点
  */
 public class MapFragment extends BaseFragment implements LocationSource,
-        AMapLocationListener {
+        AMapLocationListener ,AMap.OnMarkerClickListener{
     @BindView(R.id.map)
     MapView mapView;
     Unbinder unbinder;
@@ -37,6 +52,11 @@ public class MapFragment extends BaseFragment implements LocationSource,
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
+
+    //mark
+    private MarkerOptions markerOption;
+   
+    private Realm realm = Realm.getDefaultInstance();
 
     private static final int STROKE_COLOR = Color.argb(180, 3, 145, 255);
     private static final int FILL_COLOR = Color.argb(10, 0, 0, 180);
@@ -87,6 +107,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
         aMap.setLocationSource(this);// 设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setOnMarkerClickListener(this);
         setupLocationStyle();
     }
 
@@ -176,6 +197,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
             mlocationClient.setLocationListener(this);
             //设置为高精度定位模式
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
             //设置定位参数
             mlocationClient.setLocationOption(mLocationOption);
             // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
@@ -183,9 +205,80 @@ public class MapFragment extends BaseFragment implements LocationSource,
             // 在定位结束后，在合适的生命周期调用onDestroy()方法
             // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
             mlocationClient.startLocation();
+            addMarkersToMap();
         }
     }
 
+
+    /**
+     * 在地图上添加marker
+     */
+    private void addMarkersToMap() {
+
+        if (aMap!=null){
+            aMap.clear();
+        }
+
+        RealmResults<JournalBeanDBBean>journalBeanDBBeans = JournalDBHelper.getAllJournals(realm);
+
+        for (JournalBeanDBBean dataBean:
+                journalBeanDBBeans) {
+
+            if (TextUtils.isEmpty(dataBean.getLocation().getLatitude()+"")){
+                continue;
+            }
+
+            markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .position(new LatLng(dataBean.getLocation().getLatitude(),dataBean.getLocation().getLongitude()))
+                    .draggable(true);
+            aMap.addMarker(markerOption);
+        }
+    }
+
+    /**
+     * 对marker标注点点击响应事件
+     */
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        if (aMap != null) {
+            jumpPoint(marker);
+        }
+        Toast.makeText(context, "您点击了Marker", Toast.LENGTH_LONG).show();
+        return true;
+    }
+
+    /**
+     * marker点击时跳动一下
+     */
+    public void jumpPoint(final Marker marker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = aMap.getProjection();
+        final LatLng markerLatlng = marker.getPosition();
+        Point markerPoint = proj.toScreenLocation(markerLatlng);
+        markerPoint.offset(0, -100);
+        final LatLng startLatLng = proj.fromScreenLocation(markerPoint);
+        final long duration = 1500;
+
+        final Interpolator interpolator = new BounceInterpolator();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * markerLatlng.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * markerLatlng.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
+                if (t < 1.0) {
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+    }
 
 
     /**
@@ -206,5 +299,6 @@ public class MapFragment extends BaseFragment implements LocationSource,
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        realm.close();
     }
 }
