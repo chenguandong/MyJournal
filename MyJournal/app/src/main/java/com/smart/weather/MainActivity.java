@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.smart.weather.base.BaseActivity;
+import com.smart.weather.customview.MViewPagerNoScroll;
 import com.smart.weather.fragment.WeatherFragment;
 import com.smart.weather.module.journal.JournalFragment;
 import com.smart.weather.module.map.MapFragment;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    MViewPagerNoScroll viewPager;
     @BindView(R.id.navigation_view)
     BottomNavigationView navigationView;
 

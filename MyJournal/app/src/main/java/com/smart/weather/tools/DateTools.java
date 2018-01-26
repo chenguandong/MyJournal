@@ -1,11 +1,47 @@
 package com.smart.weather.tools;
 
+import com.blankj.utilcode.util.TimeUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * @author guandongchen
  * @date 2018/1/12
  */
 
 public class DateTools {
+    private static Locale locale = Locale.getDefault();
+
+    /**
+     * 格式化时间格式
+     * @param time
+     * @return
+     */
+    public static String formatTime(long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", locale);
+        String birthStr = sdf.format(time);
+        return birthStr;
+    }
+
+    public static String getChineseWeek(Date date){
+
+        return TimeUtils.getChineseWeek(date);
+    }
+
+    /**
+     * 获取时间的年、月、日
+     */
+    public static int[] getYMd(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DATE);
+        return new int[]{year, month+1, day};
+    }
 
     public  static String coverNumToWeekChina(String num){
         String numName = num;

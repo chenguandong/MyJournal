@@ -15,6 +15,7 @@ import com.smart.weather.base.BaseFragment;
 import com.smart.weather.module.journal.adapter.JournalAdapter;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
+import com.smart.weather.tools.DividerItemDecorationTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,7 @@ public class JournalFragment extends BaseFragment {
     protected void initView() {
         journalAdapter = new JournalAdapter(R.layout.item_journal,journalBeans);
         recycleView.setLayoutManager(new LinearLayoutManager(context));
+        recycleView.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context));
         journalAdapter.setOnItemClickListener((adapter, view, position) -> {
 
         });

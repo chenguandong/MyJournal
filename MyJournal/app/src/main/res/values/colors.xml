@@ -5,4 +5,5 @@
     <color name="colorAccent">#000000</color>
     <color name="write">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="divider">#e6e6e6</color>
 </resources>

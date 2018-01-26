@@ -11,7 +11,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.smart.weather.R;
 import com.smart.weather.module.journal.bean.JournalItemBean;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
+import com.smart.weather.tools.DateTools;
 import com.smart.weather.tools.EncodeTools;
+import com.smart.weather.tools.StringTools;
 
 import java.util.List;
 
@@ -38,6 +40,10 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
         ImageView imageView = helper.getView(R.id.imageView);
         TextView contentTextview = helper.getView(R.id.contentView);
+        TextView infoTextview = helper.getView(R.id.infoTextView);
+        TextView weekTextview = helper.getView(R.id.weekTextView);
+        TextView dayTextview = helper.getView(R.id.dayTextView);
+
         String imageBase64 = "";
         if (item.getJournalItemBean()==null){
             JournalItemBean itemBean = new JournalItemBean();
@@ -69,12 +75,9 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
 
         contentTextview.setText(item.getJournalItemBean().getContent());
-
-        /*if (item.getJournalItemBean().getBitmap()!=null){
-            Glide.with(mContext).load(item.getJournalItemBean().getBitmap()).into(imageView);
-        }else{
-            imageView.setImageDrawable(null);
-        }*/
+        infoTextview.setText(DateTools.formatTime(item.getDate().getTime())+" 🌎"+StringTools.getNotNullString(item.getLocation().getAdress()));
+        weekTextview.setText(DateTools.getChineseWeek(item.getDate()));
+        dayTextview.setText(DateTools.getYMd(item.getDate())[2]+"");
 
         if (!TextUtils.isEmpty(imageBase64)){
             Glide.with(mContext).load(EncodeTools.base64ToBitmap(imageBase64)).into(imageView);
