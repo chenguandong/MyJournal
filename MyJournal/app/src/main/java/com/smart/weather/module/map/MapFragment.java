@@ -188,6 +188,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
     /**
      * 激活定位
      */
+    @Override
     public void activate(LocationSource.OnLocationChangedListener listener) {
         mListener = listener;
         if (mlocationClient == null) {

@@ -75,7 +75,10 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
 
         contentTextview.setText(item.getJournalItemBean().getContent());
-        infoTextview.setText(DateTools.formatTime(item.getDate().getTime())+" 🌎"+StringTools.getNotNullString(item.getLocation().getAdress()));
+        if (item.getLocation()!=null){
+
+            infoTextview.setText(DateTools.formatTime(item.getDate().getTime())+" 🌎"+StringTools.getNotNullString(item.getLocation().getAdress()));
+        }
         weekTextview.setText(DateTools.getChineseWeek(item.getDate()));
         dayTextview.setText(DateTools.getYMd(item.getDate())[2]+"");
 

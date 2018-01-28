@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.smart.weather.base.BaseActivity;
 import com.smart.weather.customview.MViewPagerNoScroll;
 import com.smart.weather.fragment.WeatherFragment;
+import com.smart.weather.module.calendar.CalendarFragment;
 import com.smart.weather.module.journal.JournalFragment;
 import com.smart.weather.module.map.MapFragment;
 import com.smart.weather.module.mine.MineFragment;
@@ -46,8 +47,9 @@ public class MainActivity extends BaseActivity {
     private Fragment mapFragment;
     private Fragment mineFragment;
     private Fragment weatherFragment;
+    private Fragment calendarFragment;
 
-    private String[] titles = new String[]{"日记","地图","天气","我的"};
+    private String[] titles = new String[]{"日记","地图","日历","我的"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +74,12 @@ public class MainActivity extends BaseActivity {
 
         weatherFragment = WeatherFragment.newInstance();
 
+        calendarFragment = CalendarFragment.newInstance();
+
         fragmentList.add(journalFragment);
         fragmentList.add(mapFragment);
+        fragmentList.add(calendarFragment);
         fragmentList.add(weatherFragment);
-        fragmentList.add(mineFragment);
 
         viewPager.setOffscreenPageLimit(fragmentList.size());
 

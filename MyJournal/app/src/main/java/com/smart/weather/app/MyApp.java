@@ -1,5 +1,7 @@
 package com.smart.weather.app;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -32,6 +34,7 @@ public class MyApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
         ourInstance = this;
         initLogger();
         LocationTools.getInstance();
@@ -40,6 +43,12 @@ public class MyApp extends MultiDexApplication {
         Fresco.initialize(this);
         Bugly.init(getApplicationContext(), "c789e27850", false);
         initRealm();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initRealm(){
