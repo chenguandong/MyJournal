@@ -32,7 +32,7 @@ public class LocationTools {
     public static LocationTools getInstance() {
         //初始化定位
         if (mLocationClient==null){
-            mLocationClient = new AMapLocationClient(MyApp.getInstance());
+            mLocationClient = new AMapLocationClient(MyApp.Companion.getInstance());
         }
         if (locationBean==null){
             locationBean = new LocationBean();
