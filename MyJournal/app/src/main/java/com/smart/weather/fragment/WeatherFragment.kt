@@ -71,7 +71,7 @@ class WeatherFragment : BaseFragment() {
             override fun onSuccess(callBackBean: CallBackBean<TodayWeatherBean>) {
                 forecastsBeans.clear()
 
-                forecastsBeans.addAll(callBackBean.responseBody.forecasts[0].casts)
+                forecastsBeans.addAll(callBackBean.responseBody.forecasts!![0].casts!!)
 
                 weatherAdapter!!.notifyDataSetChanged()
             }
