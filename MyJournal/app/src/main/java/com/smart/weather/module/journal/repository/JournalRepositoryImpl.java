@@ -51,4 +51,11 @@ public class JournalRepositoryImpl implements JournalRepository{
         JournalDBHelper.deleteJournal(realm,journalBeanDBBean);
         getLiveDataJournalBeans();
     }
+
+    @Override
+    public void onLiveDataCleared() {
+        realm.close();
+    }
+
+
 }

@@ -20,4 +20,6 @@ public interface JournalRepository {
      List<JournalBeanDBBean> getJournalBeans();
 
      void deleteJournal(JournalBeanDBBean journalBeanDBBean);
+
+     void onLiveDataCleared();
 }

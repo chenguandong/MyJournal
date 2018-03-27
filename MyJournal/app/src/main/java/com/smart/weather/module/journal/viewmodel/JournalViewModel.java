@@ -51,4 +51,15 @@ public class JournalViewModel extends ViewModel implements JournalRepository{
     public void deleteJournal(JournalBeanDBBean journalBeanDBBean) {
         journalRepository.deleteJournal(journalBeanDBBean);
     }
+
+    @Override
+    public void onLiveDataCleared() {
+
+    }
+
+    @Override
+    public void onCleared() {
+        journalRepository.onLiveDataCleared();
+        super.onCleared();
+    }
 }
