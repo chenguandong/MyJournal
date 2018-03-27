@@ -13,9 +13,9 @@ import io.realm.RealmResults
 
 interface JournalRepository {
 
-    val liveDataJournalBeans: MutableLiveData<RealmResults<JournalBeanDBBean>>
+    fun getLiveDataJournalBeans(): MutableLiveData<RealmResults<JournalBeanDBBean>>
 
-    val journalBeans: List<JournalBeanDBBean>
+    fun getJournalBeans() :List<JournalBeanDBBean>
 
     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean)
 
