@@ -161,7 +161,9 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (mapView!=null){
+            mapView.onDestroy();
+        }
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
