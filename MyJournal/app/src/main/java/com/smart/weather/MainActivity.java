@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
 
         BottomNavigationViewHelper.disableShiftMode(navigationView);
 
-        journalFragment = JournalFragment.newInstance();
+        journalFragment = JournalFragment.Companion.newInstance();
 
         mapFragment = MapFragment.newInstance();
 
