@@ -9,11 +9,11 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.ButterKnife
 import com.smart.weather.base.BaseActivity
-import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.calendar.CalendarFragment
 import com.smart.weather.module.journal.JournalFragment
 import com.smart.weather.module.map.MapFragment
 import com.smart.weather.module.mine.MineFragment
+import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.write.activity.WriteActivity
 import com.smart.weather.tools.BottomNavigationViewHelper
 import com.smart.weather.tools.PermissionTools
@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
         fragmentList.add((calendarFragment as CalendarFragment?)!!)
         fragmentList.add((weatherFragment as WeatherFragment?)!!)
 
-        viewPager!!.offscreenPageLimit = fragmentList.size
+        viewPager!!.offscreenPageLimit = 0;
 
         fragmentPagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {

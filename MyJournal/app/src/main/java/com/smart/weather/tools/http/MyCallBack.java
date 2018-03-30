@@ -1,9 +1,6 @@
 package com.smart.weather.tools.http;
 
-import android.content.Context;
-
 import com.blankj.utilcode.util.NetworkUtils;
-import com.smart.weather.tools.SnackbarTools;
 
 import java.io.Serializable;
 
@@ -20,11 +17,7 @@ public abstract class MyCallBack<T extends Serializable> implements Callback<T> 
 
     private CallBackBean<T> callBackBean;
 
-    private Context context;
-
-    public MyCallBack(Context context) {
-        this.callBackBean = callBackBean;
-        this.context = context;
+    public MyCallBack() {
     }
 
     @Override
@@ -32,23 +25,19 @@ public abstract class MyCallBack<T extends Serializable> implements Callback<T> 
         callBackBean = new CallBackBean<T>(call, response);
         if (response.code() != 200) {
             callBackBean.setErrorMeg("请求出错");
-        }
-        if (context != null) {
+        }else{
             onSuccess(callBackBean);
         }
+
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        callBackBean = new CallBackBean<T>(call, t);
+        callBackBean = new CallBackBean<>(call, t);
         if (!NetworkUtils.isConnected()) {
-            SnackbarTools.showSimpleSnackbar(context, "请检查网络连接");
             callBackBean.setErrorMeg("请检查网络连接");
         }
-        if (context != null) {
-
-            onFail(callBackBean);
-        }
+        onFail(callBackBean);
 
     }
 

@@ -152,7 +152,9 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+        if (mapView!=null) {
+            mapView.onSaveInstanceState(outState);
+        }
     }
 
     /**
