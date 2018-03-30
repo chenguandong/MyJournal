@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.smart.weather.fragment.WeatherFragment">
+    tools:context="com.smart.weather.module.weather.WeatherFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"

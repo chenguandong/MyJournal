@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.ButterKnife
 import com.smart.weather.base.BaseActivity
-import com.smart.weather.fragment.WeatherFragment
+import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.calendar.CalendarFragment
 import com.smart.weather.module.journal.JournalFragment
 import com.smart.weather.module.map.MapFragment

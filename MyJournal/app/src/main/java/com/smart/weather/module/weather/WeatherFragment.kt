@@ -1,4 +1,4 @@
-package com.smart.weather.fragment
+package com.smart.weather.module.weather
 
 
 import android.os.Bundle
