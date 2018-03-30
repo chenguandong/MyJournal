@@ -2,17 +2,12 @@ package com.smart.weather.module.map;
 
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -23,7 +18,6 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.Projection;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
@@ -236,7 +230,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
             markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
                     .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                     .position(new LatLng(dataBean.getLocation().getLatitude(),dataBean.getLocation().getLongitude()))
-                    .draggable(true);
+                    .draggable(false);
             aMap.addMarker(markerOption);
         }
     }
@@ -247,43 +241,12 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     public boolean onMarkerClick(final Marker marker) {
         if (aMap != null) {
-            jumpPoint(marker);
         }
         Toast.makeText(context, "您点击了Marker", Toast.LENGTH_LONG).show();
         return true;
     }
 
-    /**
-     * marker点击时跳动一下
-     */
-    public void jumpPoint(final Marker marker) {
-        final Handler handler = new Handler();
-        final long start = SystemClock.uptimeMillis();
-        Projection proj = aMap.getProjection();
-        final LatLng markerLatlng = marker.getPosition();
-        Point markerPoint = proj.toScreenLocation(markerLatlng);
-        markerPoint.offset(0, -100);
-        final LatLng startLatLng = proj.fromScreenLocation(markerPoint);
-        final long duration = 1500;
 
-        final Interpolator interpolator = new BounceInterpolator();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = SystemClock.uptimeMillis() - start;
-                float t = interpolator.getInterpolation((float) elapsed
-                        / duration);
-                double lng = t * markerLatlng.longitude + (1 - t)
-                        * startLatLng.longitude;
-                double lat = t * markerLatlng.latitude + (1 - t)
-                        * startLatLng.latitude;
-                marker.setPosition(new LatLng(lat, lng));
-                if (t < 1.0) {
-                    handler.postDelayed(this, 16);
-                }
-            }
-        });
-    }
 
 
     /**
