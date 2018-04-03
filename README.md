@@ -1,2 +1,2 @@
-# SmartWeather
-开源天气应用
+# MyJournal
+开源日记应用
