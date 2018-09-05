@@ -2,6 +2,7 @@ package com.smart.weather.module.write.db;
 
 import android.text.TextUtils;
 
+import com.smart.weather.contants.Contancts;
 import com.smart.weather.module.write.bean.JournalBean;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.module.write.bean.JournalLocationDBBean;
@@ -10,6 +11,7 @@ import com.smart.weather.tools.location.bean.LocationBean;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -29,16 +31,18 @@ public class JournalDBHelper {
      */
     public static void saveJournal(Realm realm,List<JournalBean> writeSectionBeans ){
         realm.executeTransaction(realm1 -> {
-            JournalBeanDBBean journalBeanDBBean = realm1.createObject(JournalBeanDBBean.class);
-
+            JournalBeanDBBean journalBeanDBBean = realm1.createObject(JournalBeanDBBean.class,UUID.randomUUID()+"");
             StringBuilder contentSb = new StringBuilder();
             for (JournalBean journalBean:
                     writeSectionBeans) {
 
                 if (journalBean.getItemType()==JournalBean.WRITE_TAG_IMAGE){
-                    contentSb.append("image://"+journalBean.getImageBase64()+"~~~");
+                    contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+"~~~");
                 }else{
-                    contentSb.append("text://"+journalBean.getContent()+"~~~");
+                    if (!TextUtils.isEmpty(journalBean.getContent().trim())){
+                        contentSb.append(Contancts.FILE_TYPE_TEXT+journalBean.getContent()+"~~~");
+                    }
+
                 }
             }
             journalBeanDBBean.setContent(contentSb.toString());

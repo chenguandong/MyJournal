@@ -1,24 +1,17 @@
 package com.smart.weather.module.write.adapter;
 
-import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.smart.weather.R;
 import com.smart.weather.module.write.bean.JournalBean;
-import com.smart.weather.tools.EncodeTools;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -29,14 +22,22 @@ import java.util.List;
 public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
 
 
+    public enum WriteAdapterModel{
+        WriteAdapterModel_SHOW,
+        WriteAdapterModel_EDIT
+    }
+
+    private WriteAdapterModel writeAdapterModel;
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public WriteAdapter(List<JournalBean> data) {
+    public WriteAdapter(List<JournalBean> data,WriteAdapterModel writeAdapterModel) {
         super(data);
+        this.writeAdapterModel = writeAdapterModel;
         addItemType(JournalBean.WRITE_TAG_TEXT, R.layout.item_write_text);
         addItemType(JournalBean.WRITE_TAG_IMAGE, R.layout.item_write_image);
     }
@@ -70,29 +71,14 @@ public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseVie
 
                     }
                 });
+
+                if (writeAdapterModel==WriteAdapterModel.WriteAdapterModel_SHOW){
+                    editText.setEnabled(false);
+                }
                 break;
             case JournalBean.WRITE_TAG_IMAGE:
                 SimpleDraweeView imageView = helper.getView(R.id.write_imageview);
-                Glide.with(mContext).load(item.getImageBase64()).into(imageView);
-
-
-                if (item.getImageBase64().length()>100){
-                    if (item.getBitmapWeakReference()==null){
-                        item.setBitmapWeakReference(new WeakReference<>(EncodeTools.base64ToBitmap(item.getImageBase64())));
-                    }
-                    Glide.with(mContext).load(item.getBitmapWeakReference()).into(imageView);
-
-                }else {
-                    Glide.with(imageView.getContext()).asBitmap().load(item.getImageBase64())
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    item.setImageBase64(EncodeTools.bitmapToBase64(resource));
-                                }
-                            });
-
-
-                }
+                Glide.with(mContext).load(item.getImageURL()).into(imageView);
 
                 break;
             default:

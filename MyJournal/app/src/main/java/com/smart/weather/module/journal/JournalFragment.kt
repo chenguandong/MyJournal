@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.smart.weather.R
 import com.smart.weather.base.BaseFragment
-import com.smart.weather.customview.dialog.BottomSheetDialogFragment
+import com.smart.weather.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.weather.module.journal.adapter.JournalAdapter
 import com.smart.weather.module.journal.viewmodel.JournalViewModel
 import com.smart.weather.tools.DividerItemDecorationTools
@@ -77,7 +77,7 @@ class JournalFragment : BaseFragment{
         recycleView!!.layoutManager = LinearLayoutManager(context)
         recycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
-            BottomSheetDialogFragment().show(fragmentManager,"")
+            PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")
         }
         journalAdapter!!.setOnItemLongClickListener { adapter, view, position ->
 

@@ -1,12 +1,10 @@
 package com.smart.weather.module.write.bean;
 
-import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 
 /**
  * @author guandongchen
@@ -17,28 +15,16 @@ public class JournalBean  implements Serializable,MultiItemEntity {
     public static final int WRITE_TAG_TEXT = 0;
     public static final int WRITE_TAG_IMAGE =1;
     private int itemType;
-    private Bitmap bitmap;
-
-    private WeakReference<Bitmap>bitmapWeakReference;
-
-    public WeakReference<Bitmap> getBitmapWeakReference() {
-        return bitmapWeakReference;
-    }
-
-    public void setBitmapWeakReference(WeakReference<Bitmap> bitmapWeakReference) {
-        this.bitmapWeakReference = bitmapWeakReference;
-    }
-
     private String content;
-    private String imageBase64;
+    private String imageURL;
 
-    public JournalBean(String content, String imageBase64) {
+    public JournalBean(String content, String imageURL) {
         this.content = content;
-        this.imageBase64 = imageBase64;
+        this.imageURL = imageURL;
         if (!TextUtils.isEmpty(content)){
             setItemType(WRITE_TAG_TEXT);
         }
-        if (!TextUtils.isEmpty(imageBase64)){
+        if (!TextUtils.isEmpty(imageURL)){
             setItemType(WRITE_TAG_IMAGE);
         }
     }
@@ -71,11 +57,11 @@ public class JournalBean  implements Serializable,MultiItemEntity {
         this.content = content;
     }
 
-    public String getImageBase64() {
-        return imageBase64;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

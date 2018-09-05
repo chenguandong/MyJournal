@@ -47,7 +47,7 @@ class MyApp : MultiDexApplication() {
         new SecureRandom().nextBytes(key);*/
 
         val config = RealmConfiguration.Builder()
-                .schemaVersion(6)
+                .schemaVersion(7)
                 //.encryptionKey(key)//数据库加密
                 .deleteRealmIfMigrationNeeded()
                 .build()

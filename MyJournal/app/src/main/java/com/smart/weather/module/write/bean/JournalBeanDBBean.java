@@ -6,6 +6,7 @@ import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * @author guandongchen
@@ -13,6 +14,8 @@ import io.realm.annotations.Ignore;
  */
 
 public class JournalBeanDBBean extends RealmObject{
+    @PrimaryKey
+    private String id;
     private String content;
     private String weather;
     private String tags;
@@ -68,5 +71,13 @@ public class JournalBeanDBBean extends RealmObject{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

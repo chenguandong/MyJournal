@@ -123,10 +123,9 @@ public class WriteFragment extends BaseFragment {
     protected void initView() {
         writeSectionBeans.add(new JournalBean(""));
 
-        adapter = new WriteAdapter(writeSectionBeans);
+        adapter = new WriteAdapter(writeSectionBeans, WriteAdapter.WriteAdapterModel.WriteAdapterModel_EDIT);
         recycleView.setLayoutManager(new LinearLayoutManager(context));
         recycleView.setAdapter(adapter);
-
         adapter.notifyDataSetChanged();
 
         toolView.setDelegate(toolBean -> {
@@ -176,7 +175,7 @@ public class WriteFragment extends BaseFragment {
 
          Predicate<JournalBean> predicate = bean -> {
              // TODO Auto-generated method stub
-             return TextUtils.isEmpty(bean.getContent())&&TextUtils.isEmpty(bean.getImageBase64());
+             return TextUtils.isEmpty(bean.getContent())&&TextUtils.isEmpty(bean.getImageURL());
          };
         List<JournalBean> result = (List<JournalBean>) CollectionUtils.select(writeSectionBeans, predicate);
         writeSectionBeans.removeAll(result);

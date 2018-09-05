@@ -42,7 +42,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            minifyEnabled true // 是否运行混淆
+            shrinkResources true//去除系统无用资源
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk {
                 abiFilters 'armeabi', 'armeabi-v7a', 'x86'/*, "arm64-v8a"*/
@@ -50,6 +52,7 @@ android {
         }
 
         debug {
+            debuggable true
             minifyEnabled false
             ndk {
                 abiFilters 'armeabi', 'armeabi-v7a', 'x86'/*, "arm64-v8a"*/
@@ -167,6 +170,7 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:8.8.1"
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    implementation 'com.github.githubwing:DragPhotoView:1.0.1'
 }
 repositories {
     mavenCentral()

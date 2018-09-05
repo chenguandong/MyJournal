@@ -66,6 +66,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.write.activity.WriteActivity"></activity>
+        <activity android:name=".customview.preview.PhotoViewPagerActivity" android:theme="@style/ActivityTranslucent"></activity>
 
 
     </application>

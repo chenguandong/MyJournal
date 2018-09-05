@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -25,6 +24,7 @@ import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.smart.weather.R;
 import com.smart.weather.base.BaseFragment;
+import com.smart.weather.customview.dialog.PreViewBottomSheetDialogFragment;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
 
@@ -52,6 +52,8 @@ public class MapFragment extends BaseFragment implements LocationSource,
    
     private Realm realm = Realm.getDefaultInstance();
 
+    private RealmResults<JournalBeanDBBean>journalBeanDBBeans;
+
     private static final int STROKE_COLOR = Color.argb(180, 3, 145, 255);
     private static final int FILL_COLOR = Color.argb(10, 0, 0, 180);
 
@@ -70,6 +72,12 @@ public class MapFragment extends BaseFragment implements LocationSource,
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         initMap();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -111,6 +119,8 @@ public class MapFragment extends BaseFragment implements LocationSource,
         // 自定义定位蓝点图标
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.
                 fromResource(R.drawable.gps_point));
+        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false
         // 自定义精度范围的圆形边框颜色
         myLocationStyle.strokeColor(STROKE_COLOR);
         //自定义精度范围的圆形边框宽度
@@ -218,7 +228,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
             aMap.clear();
         }
 
-        RealmResults<JournalBeanDBBean>journalBeanDBBeans = JournalDBHelper.getAllJournals(realm);
+        journalBeanDBBeans = JournalDBHelper.getAllJournals(realm);
 
         for (JournalBeanDBBean dataBean:
                 journalBeanDBBeans) {
@@ -229,6 +239,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
 
             markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
                     .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .title(dataBean.getId()+"")
                     .position(new LatLng(dataBean.getLocation().getLatitude(),dataBean.getLocation().getLongitude()))
                     .draggable(false);
             aMap.addMarker(markerOption);
@@ -242,7 +253,8 @@ public class MapFragment extends BaseFragment implements LocationSource,
     public boolean onMarkerClick(final Marker marker) {
         if (aMap != null) {
         }
-        Toast.makeText(context, "您点击了Marker", Toast.LENGTH_LONG).show();
+        new PreViewBottomSheetDialogFragment(journalBeanDBBeans.where().beginsWith("id",marker.getTitle()).findAll().first()).show(getFragmentManager(),"");
+
         return true;
     }
 
