@@ -172,6 +172,8 @@ dependencies {
     implementation 'com.github.githubwing:DragPhotoView:1.0.1'
 
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
 }
 repositories {
     mavenCentral()

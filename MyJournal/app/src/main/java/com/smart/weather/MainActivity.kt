@@ -44,7 +44,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var calendarFragment: Fragment? = null
     private var photoFragment: Fragment? = null
 
-    private val titles = arrayOf("日记", "地图", "日历", "我的")
+    private val titles = arrayOf("日记", "图片", "地图", "日历")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,12 +72,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         photoFragment = PhotosFragment.newInstance("","")
 
         fragmentList.add(journalFragment as JournalFragment)
+        fragmentList.add((photoFragment as PhotosFragment?)!!)
         fragmentList.add((mapFragment as MapFragment?)!!)
         fragmentList.add((calendarFragment as CalendarFragment?)!!)
         //fragmentList.add((weatherFragment as WeatherFragment?)!!)
-        fragmentList.add((photoFragment as PhotosFragment?)!!)
 
         viewPager!!.offscreenPageLimit = 0;
+
+        navigationView.setupWithViewPager(viewPager)
+        navigationView.enableShiftingMode(false)
 
         fragmentPagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
@@ -110,32 +113,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
 
-        navigationView!!.setOnNavigationItemSelectedListener { item ->
-            var title = ""
-            when (item.itemId) {
-
-                R.id.item1 -> {
-                    viewPager!!.setCurrentItem(0, false)
-                    title = titles[0]
-                }
-                R.id.item2 -> {
-                    viewPager!!.setCurrentItem(1, false)
-                    title = titles[1]
-                }
-                R.id.item3 -> {
-                    viewPager!!.setCurrentItem(2, false)
-                    title = titles[2]
-                }
-                R.id.item4 -> {
-                    viewPager!!.setCurrentItem(3, false)
-                    title = titles[3]
-                }
-                R.id.item_add -> startActivity(Intent(this@MainActivity, WriteActivity::class.java))
-            }
-            setToolbarTitle(title)
-            true
-        }
-
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -157,6 +134,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (!TextUtils.isEmpty(UserTools.lockCode)){
             PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
         }
+
+        fab.setOnClickListener({
+            startActivity(Intent(this@MainActivity, WriteActivity::class.java))
+        })
+
     }
 
     override fun initData() {}

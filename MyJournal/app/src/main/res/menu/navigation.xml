@@ -7,22 +7,19 @@
         android:title="日记" />
 
     <item
-        android:id="@+id/item2"
+        android:id="@+id/item_photos"
+        android:icon="@drawable/ic_weather"
+        android:title="图片" />
+
+    <item
+        android:id="@+id/item_map"
         android:icon="@drawable/ic_map"
         android:title="地图" />
 
     <item
-        android:id="@+id/item_add"
+        android:id="@+id/item_calendar"
         android:icon="@drawable/ic_add"
-        android:title="写日记" />
+        android:title="日历" />
 
-    <item
-        android:id="@+id/item3"
-        android:icon="@drawable/ic_weather"
-        android:title="天气" />
 
-    <item
-        android:id="@+id/item4"
-        android:icon="@drawable/ic_mine"
-        android:title="我的" />
 </menu>

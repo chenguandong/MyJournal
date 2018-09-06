@@ -6,11 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.smart.weather.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+
 
         <include
             layout="@layout/toolbar"
@@ -20,11 +16,12 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_above="@+id/navigationView"
+            android:layout_below="@+id/toolbar"
             />
 
 
-        <android.support.design.widget.BottomNavigationView
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,16 +30,19 @@
             app:itemIconTint="@color/tab_color"
             app:itemTextColor="@color/tab_color"
             app:menu="@menu/navigation" />
-    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_popup_sync" />
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:tint="#FFFFFF"
+        android:backgroundTint="@android:color/holo_red_light"
+        app:borderWidth="0dp"
+        android:visibility="visible"
+        android:layout_above="@+id/navigationView"
+        app:srcCompat="@android:drawable/ic_menu_send" />
 
 
 
