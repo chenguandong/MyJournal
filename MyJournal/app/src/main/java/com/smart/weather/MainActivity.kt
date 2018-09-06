@@ -19,6 +19,7 @@ import com.smart.weather.module.journal.JournalFragment
 import com.smart.weather.module.map.MapFragment
 import com.smart.weather.module.mine.MineFragment
 import com.smart.weather.module.mine.setting.SettingActivity
+import com.smart.weather.module.photos.PhotosFragment
 import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.write.activity.WriteActivity
 import com.smart.weather.tools.BottomNavigationViewHelper
@@ -41,6 +42,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var mineFragment: Fragment? = null
     private var weatherFragment: Fragment? = null
     private var calendarFragment: Fragment? = null
+    private var photoFragment: Fragment? = null
 
     private val titles = arrayOf("日记", "地图", "日历", "我的")
 
@@ -67,10 +69,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         calendarFragment = CalendarFragment.newInstance()
 
+        photoFragment = PhotosFragment.newInstance("","")
+
         fragmentList.add(journalFragment as JournalFragment)
         fragmentList.add((mapFragment as MapFragment?)!!)
         fragmentList.add((calendarFragment as CalendarFragment?)!!)
-        fragmentList.add((weatherFragment as WeatherFragment?)!!)
+        //fragmentList.add((weatherFragment as WeatherFragment?)!!)
+        fragmentList.add((photoFragment as PhotosFragment?)!!)
 
         viewPager!!.offscreenPageLimit = 0;
 

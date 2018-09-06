@@ -46,6 +46,7 @@ public class PreViewBottomSheetDialogFragment extends android.support.design.wid
     private WriteAdapter adapter;
     private JournalBeanDBBean journalBeanDBBean;
 
+
     public PreViewBottomSheetDialogFragment(JournalBeanDBBean journalBeanDBBean) {
         this.journalBeanDBBean = journalBeanDBBean;
 
