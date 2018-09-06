@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.smart.weather.customview.preview;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
@@ -106,6 +107,7 @@ public class PhotoViewPagerActivity extends BaseActivity {
             return photoUrl.size();
         }
 
+        @SuppressLint("ResourceType")
         @Override
         public View instantiateItem(ViewGroup container, int position) {
 
@@ -115,18 +117,18 @@ public class PhotoViewPagerActivity extends BaseActivity {
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-            photoView.setOnExitListener(new DragPhotoView.OnExitListener() {
-                @Override
-                public void onExit(DragPhotoView dragPhotoView, float v, float v1, float v2, float v3) {
-                    finish();
-                }
+            photoView.setBackgroundColor(android.R.color.transparent);
+
+            photoView.setOnExitListener((dragPhotoView, v, v1, v2, v3) -> finish());
+            photoView.setOnTapListener(dragPhotoView -> {
+                finish();
             });
 
             photoView.setBackgroundColor(ContextCompat.getColor(container.getContext(),R.color.black));
 
            Glide.with(container.getContext()).load(photoUrl.get(position)).into(photoView);
-            //ImageTools.showImageViewGlide(photoUrl.get(position),photoView);
-            return photoView;
+
+           return photoView;
         }
 
         @Override

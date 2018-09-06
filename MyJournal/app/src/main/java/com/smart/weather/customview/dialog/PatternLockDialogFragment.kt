@@ -31,6 +31,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class PatternLockDialogFragment : DialogFragment() {
     // TODO: Rename and change types of parameters
+
+    /**
+     * changelock 修改手势密码
+     * closelock   关闭手势密码
+     */
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -63,17 +68,25 @@ class PatternLockDialogFragment : DialogFragment() {
                 var pass =  PatternLockUtils.patternToString(lockView, pattern)
 
 
-
                 if (pass.length<4){
                     infoTextView.text = "密码过短,请重新绘制"
                     errorLock()
                     clearLockCode()
+                }else if(param1== param1closelock){
+                    if (pass==UserTools.lockCode){
+                        UserTools.deleteLockCode()
+                        clearLockCodeAndDissMiss()
+
+
+                    }else{
+                        infoTextView.text = "密码错误,请重新绘制"
+                    }
                 }else{
                     //说明已经设置了密码 需要解锁
-                    if (!TextUtils.isEmpty(UserTools.getLockCode())){
+                    if (!TextUtils.isEmpty(UserTools.lockCode)){
 
-                        if (pass==UserTools.getLockCode()){
-                            dismiss()
+                        if (pass==UserTools.lockCode){
+                            clearLockCodeAndDissMiss()
                         }else{
                             infoTextView.text = "密码错误,请重新绘制"
                         }
@@ -87,7 +100,7 @@ class PatternLockDialogFragment : DialogFragment() {
                     }else{
                         if (pass == passcode){
                             UserTools.saveLockCode(pass)
-                            dismiss()
+                            clearLockCodeAndDissMiss()
                         }else{
                             infoTextView.text = "两次输入密码不一致,请重新输入"
                             errorLock()
@@ -112,6 +125,13 @@ class PatternLockDialogFragment : DialogFragment() {
 
     private fun errorLock(){
         lockView.setViewMode(PatternLockView.PatternViewMode.WRONG)
+    }
+
+    private fun clearLockCodeAndDissMiss(){
+        Handler().postDelayed({
+            lockView.clearPattern()
+            dismiss()
+        },2000)
     }
 
     private fun clearLockCode(){
@@ -180,6 +200,9 @@ class PatternLockDialogFragment : DialogFragment() {
          * @return A new instance of fragment PatternLockDialogFragment.
          */
         // TODO: Rename and change types and number of parameters
+
+        const val param1changelock: String = "changelock"
+        const val param1closelock: String = "closelock"
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 PatternLockDialogFragment().apply {

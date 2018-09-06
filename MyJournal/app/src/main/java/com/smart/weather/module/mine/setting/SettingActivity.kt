@@ -11,13 +11,17 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BaseActivity() {
     override fun initView() {
         initSimpleToolbar("设置")
-        switchView.isChecked = !TextUtils.isEmpty(UserTools.getLockCode())
+        switchView.isChecked = !TextUtils.isEmpty(UserTools.lockCode)
 
         switchView.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
                 PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
+            }else{
+                PatternLockDialogFragment.newInstance(PatternLockDialogFragment.param1closelock,"").show(supportFragmentManager,"")
+
             }
         }
+
     }
 
     override fun initData() {

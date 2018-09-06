@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".module.mine.setting.SettingActivity">
 
@@ -11,10 +11,11 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_ripple"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         app:showDividers="beginning"
+        app:divider="@drawable/line"
+        android:background="@drawable/bar_selector_white"
         >
 
         <android.support.v7.widget.AppCompatTextView
@@ -34,5 +35,6 @@
             />
 
     </android.support.v7.widget.LinearLayoutCompat>
+
 
 </LinearLayout>

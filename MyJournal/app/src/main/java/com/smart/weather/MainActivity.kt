@@ -149,7 +149,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
 
-        if (!TextUtils.isEmpty(UserTools.getLockCode())){
+        if (!TextUtils.isEmpty(UserTools.lockCode)){
             PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
         }
     }
