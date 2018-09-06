@@ -23,7 +23,6 @@
     <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
@@ -52,7 +51,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity
@@ -65,10 +64,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.write.activity.WriteActivity"></activity>
-        <activity android:name=".customview.preview.PhotoViewPagerActivity" android:theme="@style/ActivityTranslucent"></activity>
-
-
+        <activity android:name=".module.write.activity.WriteActivity" />
+        <activity
+            android:name=".customview.preview.PhotoViewPagerActivity"
+            android:theme="@style/ActivityTranslucent" />
+        <activity android:name=".module.mine.setting.SettingActivity"></activity>
     </application>
 
 </manifest>

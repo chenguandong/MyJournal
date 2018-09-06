@@ -2,28 +2,37 @@ package com.smart.weather
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.app.ActionBarDrawerToggle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.ButterKnife
 import com.smart.weather.base.BaseActivity
+import com.smart.weather.customview.dialog.PatternLockDialogFragment
 import com.smart.weather.module.calendar.CalendarFragment
 import com.smart.weather.module.journal.JournalFragment
 import com.smart.weather.module.map.MapFragment
 import com.smart.weather.module.mine.MineFragment
+import com.smart.weather.module.mine.setting.SettingActivity
 import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.write.activity.WriteActivity
 import com.smart.weather.tools.BottomNavigationViewHelper
 import com.smart.weather.tools.PermissionTools
+import com.smart.weather.tools.user.UserTools
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_center.*
 import java.util.*
 
 /**
  * @author guandongchen
  */
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener  {
+
 
     private var fragmentPagerAdapter: FragmentPagerAdapter? = null
     private val fragmentList = ArrayList<Fragment>()
@@ -122,6 +131,14 @@ class MainActivity : BaseActivity() {
             true
         }
 
+        val toggle = ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener(this)
+
+
         PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_LOCATION, object : PermissionTools.PermissionCallBack {
             override fun permissionYES() {
 
@@ -131,6 +148,10 @@ class MainActivity : BaseActivity() {
 
             }
         })
+
+        if (!TextUtils.isEmpty(UserTools.getLockCode())){
+            PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
+        }
     }
 
     override fun initData() {}
@@ -154,5 +175,30 @@ class MainActivity : BaseActivity() {
             true
         } else super.onOptionsItemSelected(item)
 
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        val id = item.itemId
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+
+            startActivity(Intent(this,SettingActivity::class.java))
+        }
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 }
