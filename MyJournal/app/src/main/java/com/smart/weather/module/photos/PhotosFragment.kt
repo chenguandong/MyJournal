@@ -4,7 +4,6 @@ package com.smart.weather.module.photos
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +44,7 @@ class PhotosFragment : BaseFragment() {
     private var journalBeanDBBeans: RealmResults<JournalBeanDBBean>? = null
     override fun initView() {
         photoAdapter = PhotoAdapter(R.layout.item_photo,photosList)
-        recyclerView.layoutManager = GridLayoutManager(getContext(),3) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = GridLayoutManager(getContext(),3)
         recyclerView.addItemDecoration(GridDividerItemDecoration(getContext(),3))
         recyclerView.adapter = photoAdapter
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
@@ -67,7 +66,7 @@ class PhotosFragment : BaseFragment() {
     override fun initData() {
         journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
         photosList.clear()
-        for (dataBean in (journalBeanDBBeans as RealmResults<JournalBeanDBBean>?)!!) {
+        for (dataBean in journalBeanDBBeans!!) {
 
             if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))){
                 var photoBean = PhotoBean()
