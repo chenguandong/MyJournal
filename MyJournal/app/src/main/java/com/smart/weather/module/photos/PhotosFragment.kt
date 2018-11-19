@@ -50,7 +50,7 @@ class PhotosFragment : BaseFragment() {
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
              var predicate: Predicate<JournalBeanDBBean> = Predicate {
-                 it-> it.id== journalBeanDBBeans!![position]!!.id
+                 it.id == journalBeanDBBeans!![position]!!.id
              }
              var result:List<JournalBeanDBBean> = CollectionUtils.select(journalBeanDBBeans,predicate) as List<JournalBeanDBBean>
 
@@ -76,8 +76,10 @@ class PhotosFragment : BaseFragment() {
                 photosList.add(photoBean)
             }
 
-            photoAdapter!!.notifyDataSetChanged()
+
         }
+
+        photoAdapter!!.notifyDataSetChanged()
     }
 
     // TODO: Rename and change types of parameters
