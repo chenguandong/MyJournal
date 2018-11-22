@@ -26,6 +26,7 @@ import com.smart.weather.module.write.adapter.WriteAdapter;
 import com.smart.weather.module.write.bean.JournalBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
 import com.smart.weather.tools.PermissionTools;
+import com.smart.weather.tools.file.MJFileTools;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
@@ -190,7 +191,7 @@ public class WriteFragment extends BaseFragment {
             List<Uri> mSelected= Matisse.obtainResult(data);
             for (Uri uri:
                  mSelected) {
-                writeSectionBeans.add(new JournalBean("",uri.toString()));
+                writeSectionBeans.add(new JournalBean("", MJFileTools.saveJournalFile2Local(context,uri)));
             }
             filterJournalItem();
         }

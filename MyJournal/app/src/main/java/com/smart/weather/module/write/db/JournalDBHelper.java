@@ -37,6 +37,8 @@ public class JournalDBHelper {
                     writeSectionBeans) {
 
                 if (journalBean.getItemType()==JournalBean.WRITE_TAG_IMAGE){
+
+
                     contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+"~~~");
                 }else{
                     if (!TextUtils.isEmpty(journalBean.getContent().trim())){

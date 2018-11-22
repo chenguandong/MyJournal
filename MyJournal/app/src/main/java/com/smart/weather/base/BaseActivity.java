@@ -24,7 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-
     }
 
     /**
@@ -77,6 +76,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (toolbar!=null){
             toolbar.setVisibility(View.GONE);
         }
+
+
     }
 
 
