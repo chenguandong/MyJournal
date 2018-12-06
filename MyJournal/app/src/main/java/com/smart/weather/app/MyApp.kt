@@ -3,7 +3,6 @@ package com.smart.weather.app
 import android.content.Context
 import android.support.multidex.MultiDex
 import android.support.multidex.MultiDexApplication
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -29,7 +28,6 @@ class MyApp : MultiDexApplication() {
         LocationTools.getInstance()
         initLeakCanary()
         com.blankj.utilcode.util.Utils.init(this)
-        Fresco.initialize(this)
         Bugly.init(applicationContext, "c789e27850", false)
         initRealm()
     }

@@ -1,6 +1,8 @@
 package com.smart.weather.module.map;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,7 +19,10 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptor;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.Circle;
+import com.amap.api.maps2d.model.CircleOptions;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -47,12 +52,17 @@ public class MapFragment extends BaseFragment implements LocationSource,
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
 
+    private Marker mLocMarker;
+    private SensorEventHelper mSensorHelper;
+    private Circle mCircle;
     //mark
     private MarkerOptions markerOption;
    
     private Realm realm = Realm.getDefaultInstance();
 
     private RealmResults<JournalBeanDBBean>journalBeanDBBeans;
+
+    boolean mFirstFix = false;
 
     private static final int STROKE_COLOR = Color.argb(180, 3, 145, 255);
     private static final int FILL_COLOR = Color.argb(10, 0, 0, 180);
@@ -99,7 +109,10 @@ public class MapFragment extends BaseFragment implements LocationSource,
             aMap = mapView.getMap();
             setUpMap();
         }
-
+        mSensorHelper = new SensorEventHelper(context);
+        if (mSensorHelper != null) {
+            mSensorHelper.registerSensorListener();
+        }
     }
 
     /**
@@ -138,6 +151,9 @@ public class MapFragment extends BaseFragment implements LocationSource,
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        if (mSensorHelper != null) {
+            mSensorHelper.registerSensorListener();
+        }
     }
 
     /**
@@ -146,8 +162,14 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     public void onPause() {
         super.onPause();
+        if (mSensorHelper != null) {
+            mSensorHelper.unRegisterSensorListener();
+            mSensorHelper.setCurrentMarker(null);
+            mSensorHelper = null;
+        }
         mapView.onPause();
         deactivate();
+        mFirstFix = false;
     }
 
     /**
@@ -190,7 +212,57 @@ public class MapFragment extends BaseFragment implements LocationSource,
                 Log.e("AmapErr", errText);
 
             }
+
+            addMarkersToMap();
         }
+
+
+        if (mListener != null && amapLocation != null) {
+            if (amapLocation != null
+                    && amapLocation.getErrorCode() == 0) {
+                LatLng location = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                if (!mFirstFix) {
+                    mFirstFix = true;
+                    addCircle(location, amapLocation.getAccuracy());//添加定位精度圆
+                    addMarker(location);//添加定位图标
+                    mSensorHelper.setCurrentMarker(mLocMarker);//定位图标旋转
+                } else {
+                    mCircle.setCenter(location);
+                    mCircle.setRadius(amapLocation.getAccuracy());
+                    mLocMarker.setPosition(location);
+                }
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+            } else {
+                String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
+
+            }
+        }
+    }
+
+    private void addMarker(LatLng latlng) {
+        if (mLocMarker != null) {
+            return;
+        }
+        Bitmap bMap = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.navi_map_gps_locked);
+        BitmapDescriptor des = BitmapDescriptorFactory.fromBitmap(bMap);
+
+        MarkerOptions options = new MarkerOptions();
+        options.icon(des);
+        options.anchor(0.5f, 0.5f);
+        options.position(latlng);
+        mLocMarker = aMap.addMarker(options);
+        mLocMarker.setTitle("当前位置");
+    }
+
+    private void addCircle(LatLng latlng, double radius) {
+        CircleOptions options = new CircleOptions();
+        options.strokeWidth(1f);
+        options.fillColor(FILL_COLOR);
+        options.strokeColor(STROKE_COLOR);
+        options.center(latlng);
+        options.radius(radius);
+        mCircle = aMap.addCircle(options);
     }
 
     /**
@@ -214,7 +286,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
             // 在定位结束后，在合适的生命周期调用onDestroy()方法
             // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
             mlocationClient.startLocation();
-            addMarkersToMap();
+
         }
     }
 

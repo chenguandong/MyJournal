@@ -8,8 +8,8 @@ import android.widget.EditText;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.smart.weather.R;
+import com.smart.weather.customview.imageview.AspectRatioRoundedImageView;
 import com.smart.weather.module.write.bean.JournalBean;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class WriteAdapter extends BaseMultiItemQuickAdapter<JournalBean, BaseVie
                 }
                 break;
             case JournalBean.WRITE_TAG_IMAGE:
-                SimpleDraweeView imageView = helper.getView(R.id.write_imageview);
+                AspectRatioRoundedImageView imageView = helper.getView(R.id.write_imageview);
                 Glide.with(mContext).load(item.getImageURL()).into(imageView);
 
                 break;

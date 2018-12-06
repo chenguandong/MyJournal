@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <com.facebook.drawee.view.SimpleDraweeView
+    <com.smart.weather.customview.imageview.AspectRatioRoundedImageView
         android:id="@+id/write_imageview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_10"
+        app:riv_corner_radius="10dip"
         android:scaleType="centerCrop"
-        fresco:viewAspectRatio="1.33"/>
+        app:widthRatio = "16"
+        app:heightRatio = "9"
+        />
 </LinearLayout>

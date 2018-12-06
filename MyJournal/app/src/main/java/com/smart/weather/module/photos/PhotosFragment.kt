@@ -58,10 +58,6 @@ class PhotosFragment : BaseFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        initData()
-    }
 
     override fun initData() {
         journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
@@ -92,6 +88,7 @@ class PhotosFragment : BaseFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +99,7 @@ class PhotosFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        init()
     }
 
 

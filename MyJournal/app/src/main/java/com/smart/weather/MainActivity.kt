@@ -14,7 +14,7 @@ import android.view.MenuItem
 import butterknife.ButterKnife
 import com.smart.weather.base.BaseActivity
 import com.smart.weather.customview.dialog.PatternLockDialogFragment
-import com.smart.weather.module.calendar.CalendarFragment
+import com.smart.weather.module.calendar.Calendar2Fragment
 import com.smart.weather.module.journal.JournalFragment
 import com.smart.weather.module.map.MapFragment
 import com.smart.weather.module.mine.MineFragment
@@ -67,17 +67,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         weatherFragment = WeatherFragment.newInstance()
 
-        calendarFragment = CalendarFragment.newInstance()
+        calendarFragment = Calendar2Fragment.newInstance()
 
         photoFragment = PhotosFragment.newInstance("","")
 
         fragmentList.add(journalFragment as JournalFragment)
         fragmentList.add((photoFragment as PhotosFragment?)!!)
         fragmentList.add((mapFragment as MapFragment?)!!)
-        fragmentList.add((calendarFragment as CalendarFragment?)!!)
+        fragmentList.add(calendarFragment as Calendar2Fragment)
         //fragmentList.add((weatherFragment as WeatherFragment?)!!)
 
-        viewPager!!.offscreenPageLimit = 0;
+        viewPager!!.offscreenPageLimit = fragmentList.size
 
         navigationView.setupWithViewPager(viewPager)
         navigationView.enableShiftingMode(false)
