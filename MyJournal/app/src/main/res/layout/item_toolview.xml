@@ -4,11 +4,12 @@
     android:layout_height="48dp"
     android:gravity="center"
     >
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/toolImageView"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ic_add"
-        android:scaleType="center"
+        android:src="@mipmap/tab_weizhi"
+        android:background="@drawable/bg_ripple"
+        android:scaleType="centerInside"
         />
 </LinearLayout>

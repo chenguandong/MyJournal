@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,14 +79,14 @@ public class MapFragment extends BaseFragment implements LocationSource,
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         unbinder = ButterKnife.bind(this, view);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
-        initMap();
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
+        initMap();
     }
 
     @Override
@@ -202,7 +201,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
      */
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        if (mListener != null && amapLocation != null) {
+        /*if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
@@ -213,8 +212,8 @@ public class MapFragment extends BaseFragment implements LocationSource,
 
             }
 
-            addMarkersToMap();
-        }
+
+        }*/
 
 
         if (mListener != null && amapLocation != null) {
@@ -231,6 +230,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
                     mCircle.setRadius(amapLocation.getAccuracy());
                     mLocMarker.setPosition(location);
                 }
+                addMarkersToMap();
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
@@ -238,6 +238,8 @@ public class MapFragment extends BaseFragment implements LocationSource,
             }
         }
     }
+
+
 
     private void addMarker(LatLng latlng) {
         if (mLocMarker != null) {
@@ -305,16 +307,16 @@ public class MapFragment extends BaseFragment implements LocationSource,
         for (JournalBeanDBBean dataBean:
                 journalBeanDBBeans) {
 
-            if (TextUtils.isEmpty(dataBean.getLocation().getLatitude()+"")){
-                continue;
+            if (!TextUtils.isEmpty(dataBean.getLocation().getLatitude()+"")){
+                markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                        .title(dataBean.getId()+"")
+                        .position(new LatLng(dataBean.getLocation().getLatitude(),dataBean.getLocation().getLongitude()))
+                        .draggable(false);
+                aMap.addMarker(markerOption);
             }
 
-            markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
-                    .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                    .title(dataBean.getId()+"")
-                    .position(new LatLng(dataBean.getLocation().getLatitude(),dataBean.getLocation().getLongitude()))
-                    .draggable(false);
-            aMap.addMarker(markerOption);
+
         }
     }
 

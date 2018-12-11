@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "com.smart.weather"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName '1.0.0'
         multiDexEnabled true

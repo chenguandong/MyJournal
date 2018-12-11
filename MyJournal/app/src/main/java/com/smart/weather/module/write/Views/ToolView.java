@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.smart.weather.R;
 
 import java.util.ArrayList;
@@ -37,8 +36,8 @@ public class ToolView extends LinearLayout {
     private List<ToolBean>toolBeans = new ArrayList<ToolBean>(){
 
         {
-            add(new ToolBean(R.drawable.ic_add,ToolBean.TOOL_IMAGE));
-            add(new ToolBean(R.drawable.ic_weather,ToolBean.TOOL_WEATHER));
+            add(new ToolBean(R.mipmap.fujian,ToolBean.TOOL_IMAGE));
+            add(new ToolBean(R.drawable.ic_weizhi,ToolBean.TOOL_WEATHER));
         }
     };
 
@@ -70,13 +69,10 @@ public class ToolView extends LinearLayout {
 
         view.setBackgroundColor(ContextCompat.getColor(context,R.color.write));
 
-        toolViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        toolViewAdapter.setOnItemClickListener((adapter, view1, position) -> {
 
-                if (delegate!=null){
-                    delegate.onItemClick(toolBeans.get(position));
-                }
+            if (delegate!=null){
+                delegate.onItemClick(toolBeans.get(position));
             }
         });
     }

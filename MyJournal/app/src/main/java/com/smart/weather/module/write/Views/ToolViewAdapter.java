@@ -2,7 +2,7 @@ package com.smart.weather.module.write.Views;
 
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.widget.ImageView;
+import android.support.v7.widget.AppCompatImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,7 +32,7 @@ public class ToolViewAdapter extends BaseQuickAdapter<ToolBean,BaseViewHolder>{
     @Override
     protected void convert(BaseViewHolder helper, ToolBean item) {
 
-        ImageView imageView = helper.getView(R.id.toolImageView);
+        AppCompatImageView imageView = helper.getView(R.id.toolImageView);
         imageView.setImageDrawable(ContextCompat.getDrawable(mContext,item.getIcon()));
     }
 }
