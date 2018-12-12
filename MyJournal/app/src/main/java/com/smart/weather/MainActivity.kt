@@ -178,10 +178,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {// 导入导出数据
+
+            
 
         } else if (id == R.id.nav_send) {
-
 
             startActivity(Intent(this,SettingActivity::class.java))
         }
