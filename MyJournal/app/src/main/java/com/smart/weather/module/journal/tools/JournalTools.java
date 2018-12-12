@@ -14,7 +14,7 @@ public class JournalTools {
      * @return
      */
     public static String getFistPhoto(String content){
-        String contents[] = content.split("~~~");
+        String contents[] = content.split(Contancts.FILE_TYPE_SPLIT);
         for (String mcontent:
                 contents) {
             if (mcontent.startsWith(Contancts.FILE_TYPE_TEXT)){

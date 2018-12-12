@@ -39,10 +39,10 @@ public class JournalDBHelper {
                 if (journalBean.getItemType()==JournalBean.WRITE_TAG_IMAGE){
 
 
-                    contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+"~~~");
+                    contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+Contancts.FILE_TYPE_SPLIT);
                 }else{
                     if (!TextUtils.isEmpty(journalBean.getContent().trim())){
-                        contentSb.append(Contancts.FILE_TYPE_TEXT+journalBean.getContent()+"~~~");
+                        contentSb.append(Contancts.FILE_TYPE_TEXT+journalBean.getContent()+Contancts.FILE_TYPE_SPLIT);
                     }
 
                 }

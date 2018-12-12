@@ -52,7 +52,7 @@ public class PreViewBottomSheetDialogFragment extends android.support.design.wid
 
         if (journalBeanDBBean.getContent()!=null){
 
-            String[] contents = journalBeanDBBean.getContent().split("~~~");
+            String[] contents = journalBeanDBBean.getContent().split(Contancts.FILE_TYPE_SPLIT);
 
             for (String content:
                     contents) {

@@ -180,7 +180,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         } else if (id == R.id.nav_share) {// 导入导出数据
 
-            
+
 
         } else if (id == R.id.nav_send) {
 

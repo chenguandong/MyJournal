@@ -52,7 +52,7 @@ public class JournalAdapter extends BaseQuickAdapter<JournalBeanDBBean,BaseViewH
 
             if (item.getContent()!=null){
 
-                String contents[] = item.getContent().split("~~~");
+                String contents[] = item.getContent().split(Contancts.FILE_TYPE_SPLIT);
 
                 for (String content:
                         contents) {
