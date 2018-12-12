@@ -31,6 +31,9 @@ import com.smart.weather.base.BaseFragment;
 import com.smart.weather.customview.dialog.PreViewBottomSheetDialogFragment;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
+import com.smart.weather.tools.eventbus.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,6 +80,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+        EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this, view);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
 
@@ -230,8 +234,10 @@ public class MapFragment extends BaseFragment implements LocationSource,
                     mCircle.setRadius(amapLocation.getAccuracy());
                     mLocMarker.setPosition(location);
                 }
+                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
                 addMarkersToMap();
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+                aMap.setMyLocationEnabled(true);
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
 
@@ -348,11 +354,19 @@ public class MapFragment extends BaseFragment implements LocationSource,
         mlocationClient = null;
     }
 
+    @Override
+    public void onMessageEvent(MessageEvent event) {
+        super.onMessageEvent(event);
+        if (event.getTag()==MessageEvent.NOTE_CHANGE){
+            addMarkersToMap();
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
         realm.close();
     }
 }

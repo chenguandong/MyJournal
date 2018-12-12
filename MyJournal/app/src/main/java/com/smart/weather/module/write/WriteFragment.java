@@ -26,6 +26,7 @@ import com.smart.weather.module.write.adapter.WriteAdapter;
 import com.smart.weather.module.write.bean.JournalBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
 import com.smart.weather.tools.PermissionTools;
+import com.smart.weather.tools.eventbus.MessageEvent;
 import com.smart.weather.tools.file.MJFileTools;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -34,6 +35,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,6 +214,7 @@ public class WriteFragment extends BaseFragment {
             case R.id.toolbar_right_action:
 
                 JournalDBHelper.saveJournal(realm,writeSectionBeans);
+                EventBus.getDefault().post(new MessageEvent("", MessageEvent.NOTE_CHANGE));
                 getActivity().finish();
                 break;
         }

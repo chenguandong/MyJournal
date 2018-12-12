@@ -16,7 +16,9 @@ import com.smart.weather.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.weather.module.journal.adapter.JournalAdapter
 import com.smart.weather.module.journal.viewmodel.JournalViewModel
 import com.smart.weather.tools.DividerItemDecorationTools
+import com.smart.weather.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_write.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * A simple [Fragment] subclass.
@@ -84,8 +86,12 @@ class JournalFragment : BaseFragment{
             AlertDialog.Builder(context).setItems(arrayOf<CharSequence>("查看", "删除")) { dialogInterface, i ->
                 when (i) {
                     0 -> {
+                        PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")
                     }
-                    1 -> journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
+                    1 -> {
+                        journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
+                        EventBus.getDefault().post(MessageEvent("",MessageEvent.NOTE_CHANGE))
+                    }
                 }
 
             }.create().show()

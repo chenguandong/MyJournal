@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.smart.weather.R;
+import com.smart.weather.tools.eventbus.MessageEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 public abstract class BaseFragment extends Fragment {
@@ -87,4 +91,7 @@ public abstract class BaseFragment extends Fragment {
         //inflater.inflate(R.menu.pictrue_list, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {/* Do something */};
 }

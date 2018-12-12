@@ -9,6 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.smart.weather.R;
+import com.smart.weather.tools.eventbus.MessageEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * @author guandongchen
@@ -91,4 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {/* Do something */};
 }

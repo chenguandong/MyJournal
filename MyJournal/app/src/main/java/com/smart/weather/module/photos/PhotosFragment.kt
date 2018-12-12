@@ -18,11 +18,13 @@ import com.smart.weather.module.write.bean.JournalBeanDBBean
 import com.smart.weather.module.write.db.JournalDBHelper
 import com.smart.weather.tools.DateTools
 import com.smart.weather.tools.decorator.GridDividerItemDecoration
+import com.smart.weather.tools.eventbus.MessageEvent
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_photos.*
 import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.collections4.Predicate
+import org.greenrobot.eventbus.EventBus
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +52,7 @@ class PhotosFragment : BaseFragment() {
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
              var predicate: Predicate<JournalBeanDBBean> = Predicate {
-                 it.id == journalBeanDBBeans!![position]!!.id
+                 it.id == photosList!![position].journalID
              }
              var result:List<JournalBeanDBBean> = CollectionUtils.select(journalBeanDBBeans,predicate) as List<JournalBeanDBBean>
 
@@ -94,6 +96,7 @@ class PhotosFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
 
@@ -123,8 +126,16 @@ class PhotosFragment : BaseFragment() {
                 }
     }
 
+    override fun onMessageEvent(event: MessageEvent?) {
+        super.onMessageEvent(event)
+        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+            initData()
+        }
+    }
+
     override fun onDestroy() {
         realm.close()
+        EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
 }

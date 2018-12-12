@@ -13,8 +13,10 @@ import com.smart.weather.R
 import com.smart.weather.base.BaseFragment
 import com.smart.weather.module.write.db.JournalDBHelper
 import com.smart.weather.tools.color.ColorTools
+import com.smart.weather.tools.eventbus.MessageEvent
 import io.realm.Realm
 import kotlinx.android.synthetic.main.calendar2_fragment.*
+import org.greenrobot.eventbus.EventBus
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 
@@ -26,7 +28,7 @@ class Calendar2Fragment : BaseFragment() {
     }
 
     override fun initData() {
-
+        indicators.clear()
         val journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
         for (dataBean in journalBeanDBBeans)
         {
@@ -93,6 +95,7 @@ class Calendar2Fragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.calendar2_fragment, container, false)
     }
 
@@ -112,7 +115,13 @@ class Calendar2Fragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
+        EventBus.getDefault().unregister(this)
     }
 
-
+    override fun onMessageEvent(event: MessageEvent?) {
+        super.onMessageEvent(event)
+        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+            initData()
+        }
+    }
 }
