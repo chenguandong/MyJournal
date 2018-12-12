@@ -2,14 +2,11 @@ package com.smart.weather.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.smart.weather.R;
 import com.smart.weather.tools.eventbus.MessageEvent;
@@ -18,7 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends LazyLoadFragment {
 
     protected Context context;
     protected android.support.v7.app.ActionBar actionBar;
@@ -33,12 +30,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
-        return null;
-    }
     /**
      * 设置普通带back 的导航栏
      * @param titleString 名称

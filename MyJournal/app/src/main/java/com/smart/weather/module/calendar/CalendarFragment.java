@@ -64,6 +64,11 @@ public class CalendarFragment extends BaseFragment  implements
         // Required empty public constructor
     }
 
+    @Override
+    protected void getData() {
+        init();
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -95,7 +100,6 @@ public class CalendarFragment extends BaseFragment  implements
         view =  inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
         realm = Realm.getDefaultInstance();
-        init();
 
         return view;
     }

@@ -90,7 +90,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     public void onStart() {
         super.onStart();
-        initMap();
+
     }
 
     @Override
@@ -234,8 +234,11 @@ public class MapFragment extends BaseFragment implements LocationSource,
                     mCircle.setRadius(amapLocation.getAccuracy());
                     mLocMarker.setPosition(location);
                 }
+
+
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
                 addMarkersToMap();
+                aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
                 aMap.setMyLocationEnabled(true);
             } else {
@@ -368,5 +371,10 @@ public class MapFragment extends BaseFragment implements LocationSource,
         unbinder.unbind();
         EventBus.getDefault().unregister(this);
         realm.close();
+    }
+
+    @Override
+    protected void getData() {
+        initMap();
     }
 }

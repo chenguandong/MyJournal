@@ -77,6 +77,11 @@ public class WriteFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    @Override
+    protected void getData() {
+
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

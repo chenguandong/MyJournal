@@ -38,6 +38,9 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class PhotosFragment : BaseFragment() {
+    override fun getData() {
+        init()
+    }
 
     var photoAdapter:PhotoAdapter ?= null
     var photosList:ArrayList<PhotoBean>  = ArrayList()
@@ -102,7 +105,6 @@ class PhotosFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
     }
 
 

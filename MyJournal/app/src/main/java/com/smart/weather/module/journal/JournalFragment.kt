@@ -17,7 +17,7 @@ import com.smart.weather.module.journal.adapter.JournalAdapter
 import com.smart.weather.module.journal.viewmodel.JournalViewModel
 import com.smart.weather.tools.DividerItemDecorationTools
 import com.smart.weather.tools.eventbus.MessageEvent
-import kotlinx.android.synthetic.main.fragment_write.*
+import kotlinx.android.synthetic.main.fragment_journal.*
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -26,6 +26,15 @@ import org.greenrobot.eventbus.EventBus
  * create an instance of this fragment.
  */
 class JournalFragment : BaseFragment{
+
+    private var isLoaded:Boolean?=false
+    override fun getData() {
+        if (!isLoaded!!){
+            initData()
+            isLoaded  = true
+        }
+
+    }
 
 
     private var journalAdapter: JournalAdapter? = null
@@ -41,6 +50,7 @@ class JournalFragment : BaseFragment{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
@@ -50,15 +60,6 @@ class JournalFragment : BaseFragment{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        journalViewModel = ViewModelProviders.of(this).get(JournalViewModel::class.java)
-
-        journalViewModel!!
-                .getLiveDataJournalBeans().observe(this, Observer {
-                    journalBeanDBBeans -> journalAdapter!!.notifyDataSetChanged()
-                })
-        initView()
-        initData()
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -67,17 +68,23 @@ class JournalFragment : BaseFragment{
         return inflater.inflate(R.layout.fragment_journal, container, false);
     }
 
-
-
-    override fun onStart() {
-        super.onStart()
-        journalViewModel!!.getLiveDataJournalBeans()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
     }
 
+
     override fun initView() {
+        journalViewModel = ViewModelProviders.of(this).get(JournalViewModel::class.java)
+
+        journalViewModel!!
+                .getLiveDataJournalBeans().observe(this, Observer {
+                    journalBeanDBBeans -> journalAdapter!!.notifyDataSetChanged()
+                })
+
         journalAdapter = JournalAdapter(R.layout.item_journal, journalViewModel!!.getJournalBeans())
-        recycleView!!.layoutManager = LinearLayoutManager(context)
-        recycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
+        journalRecycleView!!.layoutManager = LinearLayoutManager(context)
+        journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
             PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")
         }
@@ -97,12 +104,18 @@ class JournalFragment : BaseFragment{
             }.create().show()
             false
         }
-        recycleView!!.adapter = journalAdapter
+        journalRecycleView!!.adapter = journalAdapter
+
+        swipeRefreshLayout.setOnRefreshListener({
+            initData()
+        })
     }
 
     override fun initData() {
 
+        journalViewModel!!.getLiveDataJournalBeans()
 
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onDestroyView() {
@@ -110,6 +123,7 @@ class JournalFragment : BaseFragment{
     }
 
     override fun onDestroy() {
+        EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
 
@@ -128,5 +142,14 @@ class JournalFragment : BaseFragment{
             return fragment
         }
     }
+
+    override fun onMessageEvent(event: MessageEvent?) {
+        super.onMessageEvent(event)
+        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+            initData()
+        }
+    }
+
+
 }
 

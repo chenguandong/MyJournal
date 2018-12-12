@@ -21,6 +21,10 @@ import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 
 class Calendar2Fragment : BaseFragment() {
+    override fun getData() {
+        init()
+    }
+
     internal lateinit var realm: Realm
     val indicators = mutableListOf<CalendarView.DateIndicator>()
 
@@ -102,7 +106,7 @@ class Calendar2Fragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         realm = Realm.getDefaultInstance()
-        init()
+
 
     }
 

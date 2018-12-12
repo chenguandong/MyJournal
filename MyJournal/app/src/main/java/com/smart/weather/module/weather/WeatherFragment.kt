@@ -23,6 +23,9 @@ import kotlinx.android.synthetic.main.fragment_weather.*
  * create an instance of this fragment.
  */
 class WeatherFragment : BaseFragment() {
+    override fun getData() {
+        init()
+    }
 
 
     // TODO: Rename and change types of parameters
@@ -67,7 +70,7 @@ class WeatherFragment : BaseFragment() {
 
             swipeRefreshLayout.isRefreshing = false
         })
-        init()
+
     }
 
     override fun initView() {

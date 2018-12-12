@@ -102,6 +102,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 navigationView!!.menu.getItem(position).isChecked = true
 
                 title = titles[position]
+                toolbar.title = title
             }
 
             override fun onPageSelected(position: Int) {
