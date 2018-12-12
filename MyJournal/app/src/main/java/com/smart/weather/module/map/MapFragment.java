@@ -32,6 +32,7 @@ import com.smart.weather.customview.dialog.PreViewBottomSheetDialogFragment;
 import com.smart.weather.module.write.bean.JournalBeanDBBean;
 import com.smart.weather.module.write.db.JournalDBHelper;
 import com.smart.weather.tools.eventbus.MessageEvent;
+import com.smart.weather.tools.location.LocationTools;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -96,12 +97,11 @@ public class MapFragment extends BaseFragment implements LocationSource,
     @Override
     protected void initView() {
 
-
     }
 
     @Override
     protected void initData() {
-
+        initMap();
     }
 
     /**
@@ -205,20 +205,6 @@ public class MapFragment extends BaseFragment implements LocationSource,
      */
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        /*if (mListener != null && amapLocation != null) {
-            if (amapLocation != null
-                    && amapLocation.getErrorCode() == 0) {
-                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
-                aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-            } else {
-                String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
-                Log.e("AmapErr", errText);
-
-            }
-
-
-        }*/
-
 
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
@@ -227,7 +213,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
                 if (!mFirstFix) {
                     mFirstFix = true;
                     addCircle(location, amapLocation.getAccuracy());//添加定位精度圆
-                    addMarker(location);//添加定位图标
+
                     mSensorHelper.setCurrentMarker(mLocMarker);//定位图标旋转
                 } else {
                     mCircle.setCenter(location);
@@ -236,10 +222,12 @@ public class MapFragment extends BaseFragment implements LocationSource,
                 }
 
 
-                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
                 addMarkersToMap();
-                aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+                addMarker(location);//添加定位图标
+               // aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+
                 aMap.setMyLocationEnabled(true);
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
@@ -255,7 +243,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
             return;
         }
         Bitmap bMap = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.navi_map_gps_locked);
+                R.mipmap.navi_map_gps_locked);
         BitmapDescriptor des = BitmapDescriptorFactory.fromBitmap(bMap);
 
         MarkerOptions options = new MarkerOptions();
@@ -264,6 +252,7 @@ public class MapFragment extends BaseFragment implements LocationSource,
         options.position(latlng);
         mLocMarker = aMap.addMarker(options);
         mLocMarker.setTitle("当前位置");
+        mSensorHelper.setCurrentMarker(mLocMarker);//定位图标旋转
     }
 
     private void addCircle(LatLng latlng, double radius) {
@@ -309,6 +298,9 @@ public class MapFragment extends BaseFragment implements LocationSource,
 
         if (aMap!=null){
             aMap.clear();
+            if (LocationTools.getLocationBean()!=null) {
+                addMarker(new LatLng(LocationTools.getLocationBean().getLatitude(), LocationTools.getLocationBean().getLongitude()));
+            }
         }
 
         journalBeanDBBeans = JournalDBHelper.getAllJournals(realm);
@@ -375,6 +367,6 @@ public class MapFragment extends BaseFragment implements LocationSource,
 
     @Override
     protected void getData() {
-        initMap();
+        initData();
     }
 }
