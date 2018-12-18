@@ -18,7 +18,7 @@ public class WriteActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        writeFragment = WriteFragment.newInstance();
+        writeFragment = WriteFragment.Companion.newInstance();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.contentView,writeFragment).commit();
     }

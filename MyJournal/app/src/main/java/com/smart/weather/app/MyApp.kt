@@ -7,8 +7,8 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.smart.weather.BuildConfig
+import com.smart.weather.tools.file.MJFileTools
 import com.smart.weather.tools.location.LocationTools
-import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.Bugly
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -26,10 +26,10 @@ class MyApp : MultiDexApplication() {
         instance = this
         initLogger()
         LocationTools.getInstance()
-        initLeakCanary()
         com.blankj.utilcode.util.Utils.init(this)
         Bugly.init(applicationContext, "c789e27850", false)
         initRealm()
+        MJFileTools.createJournalPath()
     }
 
     override fun attachBaseContext(base: Context) {
@@ -68,14 +68,6 @@ class MyApp : MultiDexApplication() {
 
     }
 
-    private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
-    }
 
     companion object {
 

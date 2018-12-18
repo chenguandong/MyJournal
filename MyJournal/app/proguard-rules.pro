@@ -51,26 +51,7 @@
 	static final int *;
 }
 
-#友盟
--keepclassmembers class * {
-   <init>(org.json.JSONObject);
-}
--keepclassmembers enum * {
-    static **[] values();
-    static ** valueOf(java.lang.String);
-}
 
--keep class com.umeng.fb.ui.ThreadView {}
--keep,allowshrinking class org.android.agoo.service.* {
-    <fields>;
-    <methods>;
-}
-
--keep,allowshrinking class com.umeng.message.* {
-    <fields>;
-    <methods>;
-}
-# 友盟 end
 
 #EventBus
 
@@ -85,17 +66,7 @@
 }
 
 
-#微信
--keep interface com.tencent.**
--keep class com.tencent.** {*;}
--keep class com.tencent.mm.sdk.** {*;}
-#微信 end
 
-#科大讯飞
--keep class com.iflytek.**{*;}
-#-keepattributes Signature
--libraryjars libs/armeabi/libmsc.so
-#科大讯飞 end
 
 -keep class * extends android.app.Fragment
 -keep class * extends android.app.Activity      # 保持哪些类不被混淆
@@ -202,12 +173,7 @@
 -keep class **JNI* {*;}
 
 
-#https://github.com/Justson/AgentWeb
--keep class com.just.library.** {
-    *;
-}
--dontwarn com.just.library.**
--keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }
+
 
 
 #高德地图
@@ -304,3 +270,7 @@
     -keepclasseswithmembers class * {
         public <init>(android.content.Context);
     }
+
+
+   -dontwarn com.yanzhenjie.album.**
+   -dontwarn com.yanzhenjie.mediascanner.**

@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import butterknife.ButterKnife
 import com.smart.weather.base.BaseActivity
 import com.smart.weather.customview.dialog.PatternLockDialogFragment
 import com.smart.weather.module.calendar.Calendar2Fragment
@@ -22,7 +21,6 @@ import com.smart.weather.module.mine.setting.SettingActivity
 import com.smart.weather.module.photos.PhotosFragment
 import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.write.activity.WriteActivity
-import com.smart.weather.tools.BottomNavigationViewHelper
 import com.smart.weather.tools.PermissionTools
 import com.smart.weather.tools.user.UserTools
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,15 +47,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
         initSimpleToolbarWithNoBack(titles[0])
-        initView()
-        initData()
+        init()
     }
+
 
     override fun initView() {
 
-        BottomNavigationViewHelper.disableShiftMode(navigationView)
+        //BottomNavigationViewHelper.disableShiftMode(navigationView)
 
         journalFragment = JournalFragment.newInstance()
 
@@ -80,7 +77,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         viewPager!!.offscreenPageLimit = fragmentList.size
 
         navigationView.setupWithViewPager(viewPager)
-        navigationView.enableShiftingMode(false)
+       // navigationView.enableShiftingMode(false)
 
         fragmentPagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
@@ -113,18 +110,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             }
         })
-
+        nav_view.setNavigationItemSelectedListener(this)
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
-
-
-        PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_LOCATION, object : PermissionTools.PermissionCallBack {
+        PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
             override fun permissionYES() {
+                PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_LOCATION, object : PermissionTools.PermissionCallBack {
+                    override fun permissionYES() {
 
+                    }
+
+                    override fun permissionNO() {
+
+                    }
+                })
             }
 
             override fun permissionNO() {
@@ -132,17 +134,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
 
+
+
         if (!TextUtils.isEmpty(UserTools.lockCode)){
             PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
         }
 
-        fab.setOnClickListener({
+        fab.setOnClickListener {
             startActivity(Intent(this@MainActivity, WriteActivity::class.java))
-        })
+        }
+
+
 
     }
 
-    override fun initData() {}
+    override fun initData() {
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -168,23 +175,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val id = item.itemId
+        val id:Int = item.itemId
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        when (id) {
+            R.id.nav_camera -> {
+                // Handle the camera action
+            }
+            R.id.nav_gallery -> {
 
-        } else if (id == R.id.nav_slideshow) {
+            }
+            R.id.nav_slideshow -> {
 
-        } else if (id == R.id.nav_manage) {
+            }
+            R.id.nav_manage -> {
 
-        } else if (id == R.id.nav_share) {// 导入导出数据
+            }
+            R.id.nav_share -> {// 导入导出数据
 
 
-
-        } else if (id == R.id.nav_send) {
-
-            startActivity(Intent(this,SettingActivity::class.java))
+            }
+            R.id.nav_send -> startActivity(Intent(this,SettingActivity::class.java))
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

@@ -1,10 +1,6 @@
 package com.smart.weather.tools;
 
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by guandongchen on 2017/9/11.
@@ -14,7 +10,7 @@ public class BottomNavigationViewHelper {
 
     public static void disableShiftMode(BottomNavigationView navigationView) {
 
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigationView.getChildAt(0);
+        /*BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigationView.getChildAt(0);
         try {
             Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
             shiftingMode.setAccessible(true);
@@ -29,6 +25,6 @@ public class BottomNavigationViewHelper {
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

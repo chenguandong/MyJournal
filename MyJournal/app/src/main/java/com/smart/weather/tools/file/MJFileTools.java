@@ -5,24 +5,30 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
 
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ZipUtils;
 import com.smart.weather.bean.PhotoFileInfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
+
+import static android.os.Environment.DIRECTORY_DCIM;
 
 /**
  * @author guandongchen
  * @date 2018/11/19
  */
 public class MJFileTools {
+    //日记图片存放路径
+    public static String JOURNALDIR = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyJournal").getAbsolutePath();
+    //日记图片导出导入路径
+    public static String JOURNALDIR_EXPORT = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyJournal/export").getAbsolutePath();
 
-    public static String journalDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyJournal").getAbsolutePath();
+    public static String DCIM = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath()).getAbsolutePath();
 
-    static {
-        createJournalPath();
-    }
 
     /**
      * 存储图片到本地文件件
@@ -30,50 +36,88 @@ public class MJFileTools {
      * @param photoUri
      * @return  本地文件路径
      */
-    public static String saveJournalFile2Local(Context context, Uri photoUri) {
-
-        PhotoFileInfo fileInfo = getPathFromUri(context, photoUri);
-        String fileName = UUID.randomUUID()+"."+fileInfo.getFileType().split("/")[1];
-        File file = new File(journalDir,fileName);
+    public static String saveJournalImageFile2Local(Context context, Uri photoUri) {
+        PhotoFileInfo fileInfo = getAbsoluteFilePath(context, photoUri);
+        String fileName = UUID.randomUUID()+"."+fileInfo.getFileType();
+        File file = new File(JOURNALDIR,fileName);
         FileUtils.copyFile(new File(fileInfo.getFilePath()), file, () -> false);
-
         return file.getAbsolutePath();
     }
 
+    public static String saveJournalFile2Local(Context context, Uri fileUri,boolean unzip) {
+
+        PhotoFileInfo fileInfo = getAbsoluteFilePath(context, fileUri);
+        String fileName = UUID.randomUUID()+"."+fileInfo.getFileType();
+        File file = new File(JOURNALDIR_EXPORT,fileName);
+        FileUtils.copyFile(new File(fileInfo.getFilePath()), file, () -> false);
+        if (unzip){
+            try {
+                ZipUtils.unzipFile(file, new File(JOURNALDIR_EXPORT));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file.getAbsolutePath();
+    }
+
+
     public static void createJournalPath() {
-        File journalPath = new File(journalDir);
+        File journalPath = new File(JOURNALDIR);
+        File journalExpPath = new File(JOURNALDIR_EXPORT);
         if (!journalPath.exists()) {
             journalPath.mkdir();
         }
-    }
-
-    public static PhotoFileInfo getPathFromUri(Context context, Uri uri) {
-
-        PhotoFileInfo photoFileInfo = new PhotoFileInfo();
-
-        String[] projection = {MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Images.Media.MIME_TYPE};
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-        if (cursor == null) {
-            return null;
+        if (!journalExpPath.exists()) {
+            journalExpPath.mkdir();
         }
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        int DISPLAY_NAME = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
-        int DATE_ADDED = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED);
-        int MIME_TYPE = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE);
-        cursor.moveToFirst();
-        String s = cursor.getString(column_index);
-        String s_DISPLAY_NAME = cursor.getString(DISPLAY_NAME);
-        String s_DATE_ADDED = cursor.getString(DATE_ADDED);
-        String s_MIME_TYPE = cursor.getString(MIME_TYPE);
-
-        photoFileInfo.setFilePath(s);
-        photoFileInfo.setFileName(s_DISPLAY_NAME);
-        photoFileInfo.setFileType(s_MIME_TYPE);
-        cursor.close();
-        return photoFileInfo;
     }
+
+    /**
+     * 从URI获取本地路径
+     *
+     * @return
+     */
+    public static  PhotoFileInfo getAbsoluteFilePath(Context activity, Uri contentUri) {
+
+        //如果是对媒体文件，在android开机的时候回去扫描，然后把路径添加到数据库中。
+        //由打印的contentUri可以看到：2种结构。正常的是：content://那么这种就要去数据库读取path。
+        //另外一种是Uri是 file:///那么这种是 Uri.fromFile(File file);得到的
+        PhotoFileInfo fileInfo = new PhotoFileInfo();
+
+        String[] projection = { MediaStore.Images.Media.DATA};
+        String urlpath;
+        CursorLoader loader = new CursorLoader(activity,contentUri, projection, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        try
+        {
+            int column_index = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            urlpath =cursor.getString(column_index);
+            fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
+            fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+            fileInfo.setFilePath(urlpath);
+            //如果是正常的查询到数据库。然后返回结构
+            return fileInfo;
+        }
+        catch (Exception e)
+        {
+
+            e.printStackTrace();
+            // TODO: handle exception
+        }finally{
+            if(cursor != null){
+                cursor.close();
+            }
+        }
+
+        //如果是文件。Uri.fromFile(File file)生成的uri。那么下面这个方法可以得到结果
+        urlpath = contentUri.getPath();
+        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
+        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+
+        fileInfo.setFilePath(urlpath);
+        return fileInfo;
+    }
+
 
 }
