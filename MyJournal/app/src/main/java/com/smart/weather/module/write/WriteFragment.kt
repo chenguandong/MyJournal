@@ -1,7 +1,6 @@
 package com.smart.weather.module.write
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -17,8 +16,12 @@ import com.smart.weather.module.write.bean.JournalBean
 import com.smart.weather.module.write.db.JournalDBHelper
 import com.smart.weather.tools.PermissionTools
 import com.smart.weather.tools.eventbus.MessageEvent
+import com.smart.weather.tools.file.MJFileTools
+import com.smart.weather.tools.image.ImageLoader
 import com.smart.weather.tools.logs.LogTools
 import com.yanzhenjie.album.Album
+import com.yanzhenjie.album.AlbumConfig
+import com.yanzhenjie.album.api.widget.Widget
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_write.*
 import org.apache.commons.collections4.CollectionUtils
@@ -90,24 +93,30 @@ class WriteFragment : BaseFragment() {
                         PermissionTools.checkPermission(activity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
                             override fun permissionYES() {
 
-                                /* Matisse.from(getActivity())
-                                        .choose(MimeType.ofAll())
-                                        .countable(true)
-                                        .maxSelectable(9)
-                                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                        .thumbnailScale(0.85f)
-                                        .imageEngine(new PicassoEngine())
-                                        .capture(true)
-                                        .forResult(REQUEST_CODE_CHOOSE);*/
 
-                                activity?.let {
+                                activity?.let { it ->
+
+                                    Album.initialize(
+                                            AlbumConfig.newBuilder(it)
+                                                    .setAlbumLoader(ImageLoader())
+                                                    .build()
+                                    )
+
 
                                     Album.image(it) // Image selection.
                                             .multipleChoice()
                                             .camera(true)
                                             .columnCount(4)
+                                            .widget(Widget.newDarkBuilder(it).title("选择文件")
+                                                    .build())
                                             .onResult {
                                                 LogTools.json(JSON.toJSONString(it))
+                                                val mSelected: ArrayList<String> = ArrayList()
+                                                for (album in it) {
+
+                                                    writeSectionBeans.add(JournalBean("", MJFileTools.saveJournalImageFile2Local( album)))
+                                                    filterJournalItem()
+                                                }
                                             }
                                             .start()
 
@@ -146,19 +155,6 @@ class WriteFragment : BaseFragment() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-
-        /*if (resultCode === RESULT_OK && requestCode === PhotoPicker.REQUEST_CODE) {
-            val mSelected:ArrayList<String> = ArrayList()
-            mSelected.addAll(data!!.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS))
-            for (uri in mSelected) {
-               // writeSectionBeans.add(JournalBean("", MJFileTools.saveJournalImageFile2Local(context, uri)))
-            }
-            filterJournalItem()
-        }*/
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater!!.inflate(R.menu.menu_main, menu)

@@ -10,12 +10,11 @@ import android.support.v4.content.CursorLoader;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ZipUtils;
 import com.smart.weather.bean.PhotoFileInfo;
+import com.yanzhenjie.album.AlbumFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
-import static android.os.Environment.DIRECTORY_DCIM;
 
 /**
  * @author guandongchen
@@ -27,17 +26,10 @@ public class MJFileTools {
     //日记图片导出导入路径
     public static String JOURNALDIR_EXPORT = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyJournal/export").getAbsolutePath();
 
-    public static String DCIM = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath()).getAbsolutePath();
 
 
-    /**
-     * 存储图片到本地文件件
-     * @param context
-     * @param photoUri
-     * @return  本地文件路径
-     */
-    public static String saveJournalImageFile2Local(Context context, Uri photoUri) {
-        PhotoFileInfo fileInfo = getAbsoluteFilePath(context, photoUri);
+    public static String saveJournalImageFile2Local(AlbumFile albumFile) {
+        PhotoFileInfo fileInfo = getPhotoInfoFromAlbum(albumFile);
         String fileName = UUID.randomUUID()+"."+fileInfo.getFileType();
         File file = new File(JOURNALDIR,fileName);
         FileUtils.copyFile(new File(fileInfo.getFilePath()), file, () -> false);
@@ -119,5 +111,17 @@ public class MJFileTools {
         return fileInfo;
     }
 
+    public static PhotoFileInfo getPhotoInfoFromAlbum(AlbumFile albumFile){
+        PhotoFileInfo fileInfo = new PhotoFileInfo();
+        String urlpath = albumFile.getPath();
+        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
+        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+        fileInfo.setMimeType(albumFile.getMimeType());
+        fileInfo.setAddDate(albumFile.getAddDate());
+        fileInfo.setLatitude(albumFile.getLatitude());
+        fileInfo.setLongitude(albumFile.getLongitude());
+        fileInfo.setFilePath(urlpath);
+        return fileInfo;
+    }
 
 }
