@@ -37,14 +37,19 @@ public class MJFileTools {
     }
 
     public static String saveJournalFile2Local(Context context, Uri fileUri,boolean unzip) {
-
-        PhotoFileInfo fileInfo = getAbsoluteFilePath(context, fileUri);
-        String fileName = UUID.randomUUID()+"."+fileInfo.getFileType();
+        //获取外部分享文件SD 路径
+        String shareFilePath  = MJFileUtils.fileProviderPath(fileUri);
+        String fileName = UUID.randomUUID()+"."+MJFileUtils.getFileEndType(fileUri.toString());
         File file = new File(JOURNALDIR_EXPORT,fileName);
-        FileUtils.copyFile(new File(fileInfo.getFilePath()), file, () -> false);
+        FileUtils.copyFile(new File(shareFilePath), file, () -> false);
         if (unzip){
             try {
-                ZipUtils.unzipFile(file, new File(JOURNALDIR_EXPORT));
+                File exportFile =  new File(JOURNALDIR_EXPORT+"/"+fileName.substring(0,fileName.indexOf(".")));
+                if (!exportFile.exists()){
+                    exportFile.mkdir();
+                }
+                ZipUtils.unzipFile(file,exportFile);
+                file.delete();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -123,5 +128,6 @@ public class MJFileTools {
         fileInfo.setFilePath(urlpath);
         return fileInfo;
     }
+
 
 }

@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -51,12 +52,12 @@ import java.util.Locale;
  * @author Bill Farmer (billthefarmer)
  * @version 2017-06-22
  */
-public class FileUtils
+public class MJFileUtils
 {
     /**
      * TAG for log messages.
      */
-    private static final String TAG = "FileUtils";
+    private static final String TAG = "MJFileUtils";
     // pattern
     /**
      * File and folder comparator. TODO Expose sorting option method
@@ -100,7 +101,7 @@ public class FileUtils
         return file.isDirectory() && !fileName.startsWith(HIDDEN_PREFIX);
     };
 
-    private FileUtils()
+    private MJFileUtils()
     {
     } // private constructor to enforce Singleton
 
@@ -694,7 +695,7 @@ public class FileUtils
                              MediaStore.Video.Thumbnails.MINI_KIND,
                              null);
                 }
-                else if (mimeType.contains(FileUtils.MIME_TYPE_IMAGE))
+                else if (mimeType.contains(MJFileUtils.MIME_TYPE_IMAGE))
                 {
                     bm = MediaStore.Images.Thumbnails.getThumbnail(
                              resolver,
@@ -727,5 +728,16 @@ public class FileUtils
         // Only return URIs that can be opened with ContentResolver
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         return intent;
+    }
+
+    /**
+     * 回去文件后缀名
+     * @return
+     */
+    public static String getFileEndType(String urlpath){
+        if (TextUtils.isEmpty(urlpath)){
+            return "";
+        }
+        return urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length());
     }
 }

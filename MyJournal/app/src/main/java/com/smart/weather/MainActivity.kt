@@ -22,6 +22,7 @@ import com.smart.weather.module.photos.PhotosFragment
 import com.smart.weather.module.weather.WeatherFragment
 import com.smart.weather.module.write.activity.WriteActivity
 import com.smart.weather.tools.PermissionTools
+import com.smart.weather.tools.file.MJFileTools
 import com.smart.weather.tools.user.UserTools
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_center.*
@@ -49,6 +50,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setContentView(R.layout.activity_main)
         initSimpleToolbarWithNoBack(titles[0])
         init()
+        MJFileTools.createJournalPath()
     }
 
 

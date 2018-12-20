@@ -7,7 +7,6 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.smart.weather.BuildConfig
-import com.smart.weather.tools.file.MJFileTools
 import com.smart.weather.tools.location.LocationTools
 import com.tencent.bugly.Bugly
 import io.realm.Realm
@@ -29,7 +28,7 @@ class MyApp : MultiDexApplication() {
         com.blankj.utilcode.util.Utils.init(this)
         Bugly.init(applicationContext, "c789e27850", false)
         initRealm()
-        MJFileTools.createJournalPath()
+
     }
 
     override fun attachBaseContext(base: Context) {
