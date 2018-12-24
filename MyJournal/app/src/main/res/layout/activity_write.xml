@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/contentView"
-    tools:context="com.smart.weather.module.write.activity.WriteActivity">
+    tools:context="com.smart.journal.module.write.activity.WriteActivity">
 
 </FrameLayout>

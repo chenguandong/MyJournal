@@ -5,7 +5,7 @@
     android:background="@drawable/transparent">
 
 
-    <com.smart.weather.customview.preview.HackyViewPager
+    <com.smart.journal.customview.preview.HackyViewPager
         android:layout_weight="1"
         android:id="@+id/photoViewPage"
         android:background="@drawable/transparent"

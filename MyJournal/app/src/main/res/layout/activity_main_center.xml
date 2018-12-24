@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.smart.weather.MainActivity">
+    tools:context="com.smart.journal.MainActivity">
 
 
 
@@ -12,7 +12,7 @@
             layout="@layout/toolbar"
             />
 
-        <com.smart.weather.customview.MViewPagerNoScroll
+        <com.smart.journal.customview.MViewPagerNoScroll
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.smart.weather.module.map.MapFragment">
+    tools:context="com.smart.journal.module.map.MapFragment">
 
     <com.amap.api.maps2d.MapView
 
