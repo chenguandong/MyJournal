@@ -1,6 +1,6 @@
 package com.smart.journal.module.journal.repository
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 
 import com.smart.journal.module.write.bean.JournalBeanDBBean
 

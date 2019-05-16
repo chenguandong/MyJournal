@@ -1,8 +1,8 @@
 package com.smart.journal.module.write.Views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -49,7 +49,7 @@ class ToolView : LinearLayout {
 
         toolViewAdapter = ToolViewAdapter(R.layout.item_toolview, toolBeans)
 
-        view.toolbarRecycleView.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        view.toolbarRecycleView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, HORIZONTAL, false)
 
         view.toolbarRecycleView.adapter = toolViewAdapter
 

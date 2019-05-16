@@ -1,8 +1,8 @@
 package com.smart.journal.tools;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.ColorRes;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.smart.journal.R;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;

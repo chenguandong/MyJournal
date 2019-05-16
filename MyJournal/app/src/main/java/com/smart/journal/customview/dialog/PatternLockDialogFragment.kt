@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.*
 import com.andrognito.patternlockview.PatternLockView
@@ -29,7 +29,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class PatternLockDialogFragment : DialogFragment() {
+class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
     // TODO: Rename and change types of parameters
 
     /**
@@ -50,7 +50,7 @@ class PatternLockDialogFragment : DialogFragment() {
         }
 
         isCancelable = true
-        val style = DialogFragment.STYLE_NO_TITLE
+        val style = androidx.fragment.app.DialogFragment.STYLE_NO_TITLE
         val theme = android.R.style.Theme_Holo_Light_NoActionBar_Fullscreen
         setStyle(style, theme)
     }

@@ -1,6 +1,6 @@
 package com.smart.journal.module.weather.repository
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.smart.journal.bean.TodayWeatherBean
 import com.smart.journal.tools.http.CallBackBean
 import java.util.*

@@ -24,9 +24,9 @@
     <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    //允许sd卡写权限，需写入地图数据，禁用后无法显示地图
+    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    //读取设备硬件信息，统计数据
+<!--    //读取设备硬件信息，统计数据-->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
 
 
@@ -56,7 +56,7 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

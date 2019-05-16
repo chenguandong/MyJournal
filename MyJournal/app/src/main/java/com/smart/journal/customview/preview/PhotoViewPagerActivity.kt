@@ -17,9 +17,9 @@ package com.smart.journal.customview.preview
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
@@ -53,7 +53,7 @@ class PhotoViewPagerActivity : BaseActivity() {
         samplePagerAdapter = SamplePagerAdapter()
         photoViewPage.setAdapter(samplePagerAdapter)
         photoViewPage.setCurrentItem(choosedIndex)
-        photoViewPage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        photoViewPage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
             }
@@ -79,7 +79,7 @@ class PhotoViewPagerActivity : BaseActivity() {
     }
 
 
-    internal inner class SamplePagerAdapter : PagerAdapter() {
+    internal inner class SamplePagerAdapter : androidx.viewpager.widget.PagerAdapter() {
 
 
         override fun getCount(): Int {
@@ -116,7 +116,7 @@ class PhotoViewPagerActivity : BaseActivity() {
         }
 
         override fun getItemPosition(`object`: Any): Int {
-            return PagerAdapter.POSITION_NONE
+            return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
         }
 
     }

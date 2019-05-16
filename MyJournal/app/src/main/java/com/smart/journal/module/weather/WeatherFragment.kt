@@ -1,12 +1,12 @@
 package com.smart.journal.module.weather
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +58,7 @@ class WeatherFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
-        weatherViewModel!!.getWeatherLiveData().observe(this,android.arch.lifecycle.Observer {
+        weatherViewModel!!.getWeatherLiveData().observe(this, androidx.lifecycle.Observer {
 
             todayWeatherBean->weatherAdapter!!.notifyDataSetChanged()
 
@@ -75,7 +75,7 @@ class WeatherFragment : BaseFragment() {
 
     override fun initView() {
         weatherAdapter = WeatherAdapter(R.layout.item_weather, weatherViewModel!!.getTodayWeatherData())
-        recycleView!!.layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
+        recycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context) as androidx.recyclerview.widget.RecyclerView.LayoutManager?
         recycleView!!.adapter = weatherAdapter
         weatherAdapter!!.openLoadAnimation()
 

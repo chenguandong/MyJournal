@@ -1,6 +1,6 @@
 package com.smart.journal.tools;
 
-import android.support.design.widget.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * Created by guandongchen on 2017/9/11.

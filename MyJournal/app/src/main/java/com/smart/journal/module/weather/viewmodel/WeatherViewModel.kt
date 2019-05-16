@@ -1,7 +1,7 @@
 package com.smart.journal.module.weather.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.smart.journal.bean.TodayWeatherBean
 import com.smart.journal.module.weather.repository.WeatherRepository
 import com.smart.journal.module.weather.repository.WeatherRepositoryImpl

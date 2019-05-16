@@ -2,12 +2,12 @@ package com.smart.journal
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
-import android.support.v7.app.ActionBarDrawerToggle
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.core.view.GravityCompat
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.ActionBarDrawerToggle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -34,14 +34,14 @@ import java.util.*
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener  {
 
 
-    private var fragmentPagerAdapter: FragmentPagerAdapter? = null
-    private val fragmentList = ArrayList<Fragment>()
-    private var journalFragment: Fragment? = null
-    private var mapFragment: Fragment? = null
-    private var mineFragment: Fragment? = null
-    private var weatherFragment: Fragment? = null
-    private var calendarFragment: Fragment? = null
-    private var photoFragment: Fragment? = null
+    private var fragmentPagerAdapter: androidx.fragment.app.FragmentPagerAdapter? = null
+    private val fragmentList = ArrayList<androidx.fragment.app.Fragment>()
+    private var journalFragment: androidx.fragment.app.Fragment? = null
+    private var mapFragment: androidx.fragment.app.Fragment? = null
+    private var mineFragment: androidx.fragment.app.Fragment? = null
+    private var weatherFragment: androidx.fragment.app.Fragment? = null
+    private var calendarFragment: androidx.fragment.app.Fragment? = null
+    private var photoFragment: androidx.fragment.app.Fragment? = null
 
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
@@ -82,8 +82,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         navigationView.setupWithViewPager(viewPager)
        // navigationView.enableShiftingMode(false)
 
-        fragmentPagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
-            override fun getItem(position: Int): Fragment {
+        fragmentPagerAdapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
+            override fun getItem(position: Int): androidx.fragment.app.Fragment {
 
                 return fragmentList[position]
             }
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         viewPager!!.adapter = fragmentPagerAdapter
 
-        viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager!!.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
                 navigationView!!.menu.getItem(position).isChecked = true

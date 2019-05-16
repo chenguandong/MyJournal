@@ -3,16 +3,17 @@ package com.smart.journal.customview.dialog
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ScreenUtils
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smart.journal.R
 import com.smart.journal.contants.Contancts
 import com.smart.journal.customview.preview.PhotoViewTools
@@ -28,7 +29,7 @@ import java.util.*
  * @date 2018/9/4
  */
 @SuppressLint("ValidFragment")
-class PreViewBottomSheetDialogFragment : android.support.design.widget.BottomSheetDialogFragment {
+class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
 
 
     private var behavior: BottomSheetBehavior<*>? = null
@@ -65,7 +66,7 @@ class PreViewBottomSheetDialogFragment : android.support.design.widget.BottomShe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = WriteAdapter(writeSectionBeans, WriteAdapter.WriteAdapterModel.WriteAdapterModel_SHOW)
-        recyclerView.setLayoutManager(LinearLayoutManager(activity))
+        recyclerView.setLayoutManager(androidx.recyclerview.widget.LinearLayoutManager(activity))
         recyclerView.setAdapter(adapter)
         adapter!!.notifyDataSetChanged()
         adapter!!.setOnItemClickListener { adapter, view1, position ->
@@ -90,9 +91,9 @@ class PreViewBottomSheetDialogFragment : android.support.design.widget.BottomShe
         // 设置软键盘不自动弹出
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         val dialog = dialog as BottomSheetDialog
-        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(android.support.design.R.id.design_bottom_sheet)
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(R.id.design_bottom_sheet)
         if (bottomSheet != null) {
-            val layoutParams = bottomSheet.layoutParams as CoordinatorLayout.LayoutParams
+            val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
             layoutParams.height = ScreenUtils.getScreenHeight()
             behavior = BottomSheetBehavior.from(bottomSheet)
             // 初始为展开状态

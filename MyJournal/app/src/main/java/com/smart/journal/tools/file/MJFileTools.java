@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.CursorLoader;
+import androidx.loader.content.CursorLoader;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ZipUtils;

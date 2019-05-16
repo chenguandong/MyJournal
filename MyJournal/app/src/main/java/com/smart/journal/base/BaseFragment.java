@@ -2,8 +2,8 @@ package com.smart.journal.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public abstract class BaseFragment extends LazyLoadFragment {
 
     protected Context context;
-    protected android.support.v7.app.ActionBar actionBar;
+    protected androidx.appcompat.app.ActionBar actionBar;
     protected Toolbar toolbar;
     public BaseFragment() {
         // Required empty public constructor

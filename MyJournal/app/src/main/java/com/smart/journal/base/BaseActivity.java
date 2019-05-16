@@ -2,10 +2,10 @@ package com.smart.journal.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import com.parfoismeng.slidebacklib.SlideBack;
@@ -24,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Context context;
     protected Toolbar toolbar;
-    private android.support.v7.app.ActionBar actionBar;
+    private androidx.appcompat.app.ActionBar actionBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,12 +1,12 @@
 package com.smart.journal.module.journal
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +83,7 @@ class JournalFragment : BaseFragment{
                 })
 
         journalAdapter = JournalAdapter(R.layout.item_journal, journalViewModel!!.getJournalBeans())
-        journalRecycleView!!.layoutManager = LinearLayoutManager(context)
+        journalRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
             PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")

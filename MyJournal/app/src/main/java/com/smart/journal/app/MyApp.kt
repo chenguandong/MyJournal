@@ -1,8 +1,8 @@
 package com.smart.journal.app
 
 import android.content.Context
-import android.support.multidex.MultiDex
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.orhanobut.logger.AndroidLogAdapter
