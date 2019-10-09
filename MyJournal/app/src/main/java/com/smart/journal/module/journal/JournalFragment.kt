@@ -4,6 +4,7 @@ package com.smart.journal.module.journal
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
 import com.smart.journal.tools.DividerItemDecorationTools
+import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
 import org.greenrobot.eventbus.EventBus
@@ -71,6 +73,8 @@ class JournalFragment : BaseFragment{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        var sha1 = KeyStoreTools.sHA1(activity);
+        Log.i("sha1=",sha1);
     }
 
 

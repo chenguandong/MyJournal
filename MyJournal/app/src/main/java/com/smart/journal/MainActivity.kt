@@ -23,6 +23,7 @@ import com.smart.journal.module.weather.WeatherFragment
 import com.smart.journal.module.write.activity.WriteActivity
 import com.smart.journal.tools.PermissionTools
 import com.smart.journal.tools.file.MJFileTools
+import com.smart.journal.tools.location.LocationTools
 import com.smart.journal.tools.user.UserTools
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_center.*
@@ -147,7 +148,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             startActivity(Intent(this@MainActivity, WriteActivity::class.java))
         }
 
-
+        LocationTools.getInstance();
 
     }
 
