@@ -11,8 +11,8 @@ import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.module.map.activity.BaiDuAddressSearchActivity
-import com.smart.journal.module.map.activity.PoiItem
+import com.smart.journal.module.map.activity.AMapAdressSearchActivity
+import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.Views.ToolBean
 import com.smart.journal.module.write.Views.ToolView
 import com.smart.journal.module.write.adapter.WriteAdapter
@@ -95,9 +95,9 @@ class WriteFragment : BaseFragment() {
                 when (toolBean.itemType) {
 
                     ToolBean.TOOL_LOCATION->{
-                        val locationIntent = Intent(context, BaiDuAddressSearchActivity::class.java)
-                        locationIntent.putExtra(BaiDuAddressSearchActivity.INTENT_TITLE, "位置")
-                        startActivityForResult(locationIntent,BaiDuAddressSearchActivity.REQUEST_LOCATION_CODE)
+                        val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
+                        locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
+                        startActivityForResult(locationIntent,REQUEST_LOCATION_CODE)
                     }
 
                     ToolBean.TOOL_IMAGE -> {
@@ -194,10 +194,10 @@ class WriteFragment : BaseFragment() {
         }
 
         when (requestCode) {
-            BaiDuAddressSearchActivity.REQUEST_LOCATION_CODE->{
-                val jsonStr = data!!.getStringExtra(BaiDuAddressSearchActivity.INTENT_LOCATION)
+            REQUEST_LOCATION_CODE->{
+                val jsonStr = data!!.getStringExtra(AMapAdressSearchActivity.INTENT_LOCATION)
                         ?: return
-                val poiItem = Gson().fromJson<Any>(jsonStr, PoiItem::class.java) ?: return
+                val poiItem = Gson().fromJson<Any>(jsonStr, MjPoiItem::class.java) ?: return
 
             }
         }
@@ -213,7 +213,7 @@ class WriteFragment : BaseFragment() {
     }
 
     companion object {
-        const val REQUEST_CODE_CHOOSE = 9
+        const val REQUEST_LOCATION_CODE = 9
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"

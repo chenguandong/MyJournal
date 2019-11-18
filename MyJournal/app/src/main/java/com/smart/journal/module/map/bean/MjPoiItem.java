@@ -1,14 +1,12 @@
-package com.smart.journal.module.map.activity;
+package com.smart.journal.module.map.bean;
 
 /**
  * Created by guandongchen on 05/06/2017.
  */
 
-public class PoiItem {
+public class MjPoiItem {
 
     private String snippet;
-
-    private com.baidu.mapapi.search.core.PoiInfo PoiInfo;
 
     private  double latitude;
     private double longitude;
@@ -16,9 +14,6 @@ public class PoiItem {
     private String cityName;
     private String adName;
     private String title;
-
-    private String IMEI;
-
 
 
     //高度
@@ -32,11 +27,7 @@ public class PoiItem {
         this.title = title;
     }
 
-    public PoiItem(com.baidu.mapapi.search.core.PoiInfo poiInfo) {
-        PoiInfo = poiInfo;
-    }
-
-    public PoiItem() {
+    public MjPoiItem() {
     }
 
     public String getAltitude() {
@@ -47,13 +38,6 @@ public class PoiItem {
         this.altitude = altitude;
     }
 
-    public com.baidu.mapapi.search.core.PoiInfo getPoiInfo() {
-        return PoiInfo;
-    }
-
-    public void setPoiInfo(com.baidu.mapapi.search.core.PoiInfo poiInfo) {
-        PoiInfo = poiInfo;
-    }
 
 
     public double getLatitude() {
@@ -98,11 +82,4 @@ public class PoiItem {
         this.adName = adName;
     }
 
-    public String getIMEI() {
-        return IMEI;
-    }
-
-    public void setIMEI(String IMEI) {
-        this.IMEI = IMEI;
-    }
 }

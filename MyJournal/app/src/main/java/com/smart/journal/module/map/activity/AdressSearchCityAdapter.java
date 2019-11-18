@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smart.journal.R;
+import com.smart.journal.module.map.bean.MjPoiItem;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ import java.util.List;
 
 public class AdressSearchCityAdapter extends BaseAdapter {
 
-    private List<PoiItem> cityList;
+    private List<MjPoiItem> cityList;
 
     private Context context;
 
     public int selPostion = -1;
 
-    public AdressSearchCityAdapter(Context context, List<PoiItem> cityList) {
+    public AdressSearchCityAdapter(Context context, List<MjPoiItem> cityList) {
         this.cityList = cityList;
         this.context = context;
     }
@@ -69,7 +70,7 @@ public class AdressSearchCityAdapter extends BaseAdapter {
 
         }
 
-        PoiItem poiItem = cityList.get(position);
+        MjPoiItem poiItem = cityList.get(position);
 
         viewHodel.locationTitleTextView.setText(poiItem.getSnippet());
 

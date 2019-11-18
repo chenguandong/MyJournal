@@ -4,6 +4,7 @@ package com.smart.journal.module.map
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,11 @@ import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
 import com.amap.api.maps2d.AMap
+import com.amap.api.maps2d.CameraUpdate
 import com.amap.api.maps2d.CameraUpdateFactory
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.*
+import com.blankj.utilcode.util.LogUtils
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
@@ -65,7 +68,10 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
 
     override fun onStart() {
         super.onStart()
-
+        if (aMap!=null&&amapLocation!=null) {
+            aMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(
+                    LatLng(amapLocation!!.latitude, amapLocation!!.longitude), 18f, 30f, 30f)));
+        }
     }
 
     override fun initView() {
@@ -98,6 +104,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.uiSettings.isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
+        aMap!!.setMyLocationEnabled(true)
         setupLocationStyle()
     }
 
@@ -170,7 +177,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     /**
      * 定位成功后回调函数
      */
-    override fun onLocationChanged(amapLocation: AMapLocation?) {
+    @Override override fun onLocationChanged(amapLocation: AMapLocation?) {
 
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null && amapLocation.errorCode == 0) {
@@ -191,12 +198,14 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
                 aMap!!.isMyLocationEnabled = true
                 mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
                 //addMarker(location)//添加定位图标
-                // aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
 
                 this@MapFragment.amapLocation = amapLocation
-                aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
+                //aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
+                LogUtils.d(amapLocation.toStr());
+
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
+                LogUtils.d(errText);
 
             }
         }
@@ -233,6 +242,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     /**
      * 激活定位
      */
+    @Override
     override fun activate(listener: LocationSource.OnLocationChangedListener) {
         mListener = listener
         if (mlocationClient == null) {

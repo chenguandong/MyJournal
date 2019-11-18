@@ -62,7 +62,7 @@ public class LocationTools {
             amapLocation.getAdCode();//地区编码
             amapLocation.getPoiName();//获取当前定位点的AOI信息
 
-            LogTools.d(amapLocation.toStr());
+            //LogTools.d(amapLocation.toStr());
 
             locationBean.setAdCode(amapLocation.getAdCode());
             locationBean.setLatitude(amapLocation.getLatitude());
