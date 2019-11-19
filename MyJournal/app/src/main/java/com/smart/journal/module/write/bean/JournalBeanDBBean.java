@@ -4,6 +4,10 @@ import com.smart.journal.module.journal.bean.JournalItemBean;
 
 import java.util.Date;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -13,24 +17,34 @@ import io.realm.annotations.PrimaryKey;
  * @date 2018/1/22
  */
 
-public class JournalBeanDBBean extends RealmObject{
-    @PrimaryKey
+@Entity(tableName = "journal")
+public class JournalBeanDBBean {
+    @PrimaryKey(autoGenerate = true)
     private String id;
+    @ColumnInfo(name = "content")
     private String content;
+    @ColumnInfo(name = "weather")
     private String weather;
+    @ColumnInfo(name = "tags")
     private String tags;
-    private JournalLocationDBBean location;
-    private Date date;
+    @ColumnInfo(name = "date")
+    private long date;
+    @ColumnInfo(name = "latitude")
+    private double latitude;
+    @ColumnInfo(name = "longitude")
+    private double longitude;
+    @ColumnInfo(name = "address")
+    private String address;
 
     @Ignore
     private JournalItemBean journalItemBean;
 
-    public JournalItemBean getJournalItemBean() {
-        return journalItemBean;
+    public String getId() {
+        return id;
     }
 
-    public void setJournalItemBean(JournalItemBean journalItemBean) {
-        this.journalItemBean = journalItemBean;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -57,27 +71,43 @@ public class JournalBeanDBBean extends RealmObject{
         this.tags = tags;
     }
 
-    public JournalLocationDBBean getLocation() {
-        return location;
-    }
-
-    public void setLocation(JournalLocationDBBean location) {
-        this.location = location;
-    }
-
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
-    public String getId() {
-        return id;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public JournalItemBean getJournalItemBean() {
+        return journalItemBean;
+    }
+
+    public void setJournalItemBean(JournalItemBean journalItemBean) {
+        this.journalItemBean = journalItemBean;
     }
 }
