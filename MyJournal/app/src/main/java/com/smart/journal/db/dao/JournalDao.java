@@ -1,5 +1,7 @@
 package com.smart.journal.db.dao;
 
+import com.smart.journal.module.write.bean.JournalBean;
+import com.smart.journal.module.write.bean.JournalBeanDBBean;
 import com.xindun.testroom.db.entity.User;
 
 import java.util.List;
@@ -24,22 +26,18 @@ public abstract class JournalDao {
 /*  @Query("SELECT count(*)as b1,SUM(age) as b2,MAX(score) sentTime,* FROM user")
    public abstract List<BaseUser> getAll();*/
 
-  @Query("SELECT * FROM user")
-  public abstract List<User> getAll();
 
-  @Query("SELECT * FROM user WHERE score in ('1','3')")
-  public abstract List<User> getAllIn();
-
-  @Query("SELECT * FROM User WHERE uid IN (:userIds)")
-  public abstract List<User> loadAllByIds(int[] userIds);
-
-  @Query("SELECT * FROM User WHERE first_name LIKE :first AND " + "last_name LIKE :last LIMIT 1")
-  public abstract User findByName(String first, String last);
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void insertAll(User... users);
+  public abstract void saveJournal(JournalBeanDBBean... journalBean);
+
+  @Query("SELECT * FROM journal")
+  public abstract List<JournalBeanDBBean> getAllJournal();
 
   @Delete
+  public abstract void deleteJournal(JournalBeanDBBean journalBeanDBBean);
+
+ /* @Delete
   public abstract void delete(User user);
 
   @Update
@@ -51,13 +49,16 @@ public abstract class JournalDao {
   @Query("SELECT EXISTS(SELECT * FROM user WHERE first_name LIKE :name LIMIT 1)")
   public abstract boolean checkExists(String name);
 
-  public void insertUserBy(){
-    for (int i = 0; i <10 ; i++) {
-      User user =  new User(i+"fistName",i+"LastName");
-      user.setScore(i+2);
-      user.setAge(i);
-      user.setSelect(true);
-      insertAll();
-    }
-  }
+  @Query("SELECT * FROM user")
+  public abstract List<User> getAll();
+
+  @Query("SELECT * FROM user WHERE score in ('1','3')")
+  public abstract List<User> getAllIn();
+
+  @Query("SELECT * FROM User WHERE uid IN (:userIds)")
+  public abstract List<User> loadAllByIds(int[] userIds);
+
+  @Query("SELECT * FROM User WHERE first_name LIKE :first AND " + "last_name LIKE :last LIMIT 1")
+  public abstract User findByName(String first, String last);*/
+
 }

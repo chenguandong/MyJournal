@@ -8,9 +8,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
+
 
 /**
  * @author guandongchen

@@ -3,9 +3,10 @@ package com.smart.journal.module.write.db;
 import android.text.TextUtils;
 
 import com.smart.journal.contants.Contancts;
+import com.smart.journal.db.AppDatabase;
+import com.smart.journal.db.dao.JournalDao;
 import com.smart.journal.module.write.bean.JournalBean;
 import com.smart.journal.module.write.bean.JournalBeanDBBean;
-import com.smart.journal.module.write.bean.JournalLocationDBBean;
 import com.smart.journal.tools.location.LocationTools;
 import com.smart.journal.tools.location.bean.LocationBean;
 
@@ -26,50 +27,43 @@ public class JournalDBHelper {
 
     /**
      * 保存日记
-     * @param realm
      * @param writeSectionBeans
      */
-    public static void saveJournal(Realm realm,List<JournalBean> writeSectionBeans ){
-        realm.executeTransaction(realm1 -> {
-            JournalBeanDBBean journalBeanDBBean = realm1.createObject(JournalBeanDBBean.class,UUID.randomUUID()+"");
-            StringBuilder contentSb = new StringBuilder();
-            for (JournalBean journalBean:
-                    writeSectionBeans) {
+    public static void saveJournal(List<JournalBean> writeSectionBeans ){
+        JournalBeanDBBean journalBeanDBBean = new JournalBeanDBBean();
+        StringBuilder contentSb = new StringBuilder();
+        for (JournalBean journalBean:
+            writeSectionBeans) {
 
-                if (journalBean.getItemType()==JournalBean.WRITE_TAG_IMAGE){
+            if (journalBean.getItemType()==JournalBean.WRITE_TAG_IMAGE){
 
-
-                    contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+Contancts.FILE_TYPE_SPLIT);
-                }else{
-                    if (!TextUtils.isEmpty(journalBean.getContent().trim())){
-                        contentSb.append(Contancts.FILE_TYPE_TEXT+journalBean.getContent()+Contancts.FILE_TYPE_SPLIT);
-                    }
-
+                contentSb.append(Contancts.FILE_TYPE_IMAGE+journalBean.getImageURL()+Contancts.FILE_TYPE_SPLIT);
+            }else{
+                if (!TextUtils.isEmpty(journalBean.getContent().trim())){
+                    contentSb.append(Contancts.FILE_TYPE_TEXT+journalBean.getContent()+Contancts.FILE_TYPE_SPLIT);
                 }
-            }
-            journalBeanDBBean.setContent(contentSb.toString());
-            journalBeanDBBean.setDate(new Date());
-            LocationBean locationBean =  LocationTools.getLocationBean();
-            if (!TextUtils.isEmpty(locationBean.getAdress())){
-                JournalLocationDBBean locationDBBean = realm1.createObject(JournalLocationDBBean.class);
-                locationDBBean.setAdress(locationBean.getAdress());
-                locationDBBean.setLatitude(locationBean.getLatitude());
-                locationDBBean.setLongitude(locationBean.getLongitude());
-                journalBeanDBBean.setLocation(locationDBBean);
-            }
-            journalBeanDBBean.setTags("默认");
 
-        });
+            }
+        }
+        journalBeanDBBean.setContent(contentSb.toString());
+        journalBeanDBBean.setDate(System.currentTimeMillis());
+        LocationBean locationBean =  LocationTools.getLocationBean();
+        if (!TextUtils.isEmpty(locationBean.getAdress())){
+            journalBeanDBBean.setAddress(locationBean.getAdress());
+            journalBeanDBBean.setLatitude(locationBean.getLatitude());
+            journalBeanDBBean.setLongitude(locationBean.getLongitude());
+        }
+        journalBeanDBBean.setTags("默认");
+        AppDatabase.Companion.getInstance().mJournalDao().saveJournal(journalBeanDBBean);
     }
 
 
     /**
      * 获取所有日记
-     * @param realm
      * @return
      */
-    public static RealmResults<JournalBeanDBBean> getAllJournals(Realm realm){
-        return realm.where(JournalBeanDBBean.class).findAll().sort("date", Sort.DESCENDING);
+    public static List<JournalBeanDBBean> getAllJournals(JournalBeanDBBean journalBeanDBBean){
+        return AppDatabase.Companion.getInstance().mJournalDao().getAllJournal();
     }
 
     /**
