@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 
 import com.smart.journal.module.journal.repository.JournalRepository
 import com.smart.journal.module.journal.repository.JournalRepositoryImpl
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 
-import io.realm.RealmResults
 
 /**
  * @author guandongchen
@@ -18,7 +17,7 @@ class JournalViewModel : ViewModel(), JournalRepository {
 
     private val journalRepository: JournalRepository
 
-    private var listMutableLiveData: MutableLiveData<RealmResults<JournalBeanDBBean>>? = null
+    private var listMutableLiveData: MutableLiveData<List<JournalBeanDBBean>>? = null
 
 
     init {
@@ -42,7 +41,7 @@ class JournalViewModel : ViewModel(), JournalRepository {
 
     }
 
-    override fun getLiveDataJournalBeans(): MutableLiveData<RealmResults<JournalBeanDBBean>> {
+    override fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>> {
         return journalRepository.getLiveDataJournalBeans()
     }
 

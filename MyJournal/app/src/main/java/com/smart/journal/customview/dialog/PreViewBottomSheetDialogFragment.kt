@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,7 @@ import com.smart.journal.contants.Contancts
 import com.smart.journal.customview.preview.PhotoViewTools
 import com.smart.journal.module.write.adapter.WriteAdapter
 import com.smart.journal.module.write.bean.JournalBean
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
 import java.util.*
 
@@ -43,7 +41,7 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
 
         if (journalBeanDBBean.content != null) {
 
-            val contents = journalBeanDBBean.content.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
             for (content in contents) {
                 if (content.startsWith(Contancts.FILE_TYPE_TEXT)) {
@@ -57,7 +55,7 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
         }
     }
 
-    constructor() {}
+    constructor()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.view_dialog_preview_bottom_sheet, container, false)
@@ -66,8 +64,8 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = WriteAdapter(writeSectionBeans, WriteAdapter.WriteAdapterModel.WriteAdapterModel_SHOW)
-        recyclerView.setLayoutManager(androidx.recyclerview.widget.LinearLayoutManager(activity))
-        recyclerView.setAdapter(adapter)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
         adapter!!.notifyDataSetChanged()
         adapter!!.setOnItemClickListener { adapter, view1, position ->
             if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
@@ -89,7 +87,7 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
     override fun onStart() {
         super.onStart()
         // 设置软键盘不自动弹出
-        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        dialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         val dialog = dialog as BottomSheetDialog
         val bottomSheet = dialog.delegate.findViewById<FrameLayout>(R.id.design_bottom_sheet)
         if (bottomSheet != null) {
@@ -106,7 +104,4 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
         behavior!!.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

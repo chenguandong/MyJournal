@@ -43,8 +43,8 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
     private var mListener: LocationSource.OnLocationChangedListener? = null
     private var mlocationClient: AMapLocationClient? = null
     private var mLocationOption: AMapLocationClientOption? = null
-    private var aMapLocation:AMapLocation? = null;
-    private var aMapSearchAdapter:AMapSearchAdapter?=null;
+    private var aMapLocation:AMapLocation? = null
+    private var aMapSearchAdapter:AMapSearchAdapter?=null
     private var mMjPoiItemList:MutableList<MjPoiItem> = ArrayList<MjPoiItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         })
         aMapSearchAdapter = AMapSearchAdapter(R.layout.item_select_location_subtitle,mMjPoiItemList)
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        recyclerView.adapter = aMapSearchAdapter;
+        recyclerView.adapter = aMapSearchAdapter
 
     }
 
@@ -89,8 +89,8 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
 //keyWord表示搜索字符串，
 //第二个参数表示POI搜索类型，二者选填其一，选用POI搜索类型时建议填写类型代码，码表可以参考下方（而非文字）
 //cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
-        query.setPageSize(10)// 设置每页最多返回多少条poiitem
-        query.setPageNum(1)//设置查询页码
+        query.pageSize = 10// 设置每页最多返回多少条poiitem
+        query.pageNum = 1//设置查询页码
         progressBar.show()
         var poiSearch: PoiSearch = PoiSearch(this, query).also {
             it.run {
@@ -105,16 +105,16 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                         mMjPoiItemList.clear()
                         if (p0!!.pois.size!=0){
                             for (itemPoint in p0.pois){
-                                var poiItem:MjPoiItem = MjPoiItem();
+                                var poiItem:MjPoiItem = MjPoiItem()
                                 poiItem.snippet  =itemPoint.snippet
-                                poiItem.title = itemPoint.title;
+                                poiItem.title = itemPoint.title
                                 poiItem.latitude = itemPoint.latLonPoint.latitude
                                 poiItem.longitude = itemPoint.latLonPoint.longitude
                                         mMjPoiItemList.add(poiItem)
                             }
                         }
 
-                        aMapSearchAdapter!!.notifyDataSetChanged();
+                        aMapSearchAdapter!!.notifyDataSetChanged()
                         progressBar.hide()
                     }
 
@@ -139,8 +139,8 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         myLocationStyle.strokeWidth(1.0f)// 设置圆形的边框粗细
         aMap!!.setMyLocationStyle(myLocationStyle)
         aMap!!.setLocationSource(this)// 设置定位监听
-        aMap!!.getUiSettings().isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
-        aMap!!.setMyLocationEnabled(true)// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap!!.uiSettings.isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
+        aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // aMap.setMyLocationType()
     }
 
@@ -183,9 +183,9 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
     override fun onLocationChanged(amapLocation: AMapLocation?) {
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null && amapLocation.errorCode == 0) {
-                aMapLocation = amapLocation;
+                aMapLocation = amapLocation
                 mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
-                searchPlace();
+                searchPlace()
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
@@ -205,7 +205,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
             //设置定位监听
             mlocationClient!!.setLocationListener(this)
             //设置为高精度定位模式
-            mLocationOption!!.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy)
+            mLocationOption!!.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
             //设置定位参数
             mlocationClient!!.setLocationOption(mLocationOption)
             // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，

@@ -44,11 +44,6 @@ class WeatherFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return  inflater.inflate(R.layout.fragment_weather, container, false)
@@ -75,7 +70,7 @@ class WeatherFragment : BaseFragment() {
 
     override fun initView() {
         weatherAdapter = WeatherAdapter(R.layout.item_weather, weatherViewModel!!.getTodayWeatherData())
-        recycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context) as androidx.recyclerview.widget.RecyclerView.LayoutManager?
+        recycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recycleView!!.adapter = weatherAdapter
         weatherAdapter!!.openLoadAnimation()
 
@@ -88,10 +83,6 @@ class WeatherFragment : BaseFragment() {
     override fun initData() {
         swipeRefreshLayout.isRefreshing = true
         weatherViewModel!!.getWeatherLiveData()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     companion object {

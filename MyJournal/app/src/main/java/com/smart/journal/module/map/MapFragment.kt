@@ -4,7 +4,6 @@ package com.smart.journal.module.map
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -14,20 +13,16 @@ import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
 import com.amap.api.maps2d.AMap
-import com.amap.api.maps2d.CameraUpdate
 import com.amap.api.maps2d.CameraUpdateFactory
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.*
 import com.blankj.utilcode.util.LogUtils
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.location.LocationTools
-import io.realm.Realm
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_map.*
 import org.greenrobot.eventbus.EventBus
 
@@ -47,9 +42,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     //mark
     private var markerOption: MarkerOptions? = null
 
-    private val realm = Realm.getDefaultInstance()
 
-    private var journalBeanDBBeans: RealmResults<JournalBeanDBBean>? = null
+    private var journalBeanDBBeans: List<JournalBeanDBBean>? = null
     private var amapLocation:AMapLocation? = null
 
     internal var mFirstFix = false
@@ -70,7 +64,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         super.onStart()
         if (aMap!=null&&amapLocation!=null) {
             aMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(
-                    LatLng(amapLocation!!.latitude, amapLocation!!.longitude), 18f, 30f, 30f)));
+                    LatLng(amapLocation!!.latitude, amapLocation!!.longitude), 18f, 30f, 30f)))
         }
     }
 
@@ -87,7 +81,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
      */
     fun initMap() {
         if (aMap == null) {
-            aMap = mapView.getMap()
+            aMap = mapView.map
             setUpMap()
         }
         mSensorHelper = SensorEventHelper(context)
@@ -104,7 +98,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.uiSettings.isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
-        aMap!!.setMyLocationEnabled(true)
+        aMap!!.isMyLocationEnabled = true
         setupLocationStyle()
     }
 
@@ -201,11 +195,11 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
 
                 this@MapFragment.amapLocation = amapLocation
                 //aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
-                LogUtils.d(amapLocation.toStr());
+                LogUtils.d(amapLocation.toStr())
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
-                LogUtils.d(errText);
+                LogUtils.d(errText)
 
             }
         }
@@ -272,20 +266,20 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
 
         if (aMap != null) {
             aMap!!.clear()
-            if (LocationTools.getLocationBean() != null) {
-                addMarker(LatLng(LocationTools.getLocationBean().latitude, LocationTools.getLocationBean().longitude))
+            if (LocationTools.locationBean != null) {
+                addMarker(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude))
             }
         }
 
-        journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
+        journalBeanDBBeans = JournalDBHelper.allJournals
 
         for (dataBean in journalBeanDBBeans!!) {
 
-            if (!TextUtils.isEmpty(dataBean.location.latitude.toString() + "")) {
+            if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
                 markerOption = MarkerOptions().icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                         .title(dataBean.id + "")
-                        .position(LatLng(dataBean.location.latitude, dataBean.location.longitude))
+                        .position(LatLng(dataBean.latitude, dataBean.longitude))
                         .draggable(false)
                 aMap!!.addMarker(markerOption)
             }
@@ -303,7 +297,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onMarkerClick(marker: Marker): Boolean {
         if (aMap != null) {
         }
-        PreViewBottomSheetDialogFragment(journalBeanDBBeans!!.where().beginsWith("id", marker.title).findAll().first()!!).show(fragmentManager!!, "")
+        //PreViewBottomSheetDialogFragment(journalBeanDBBeans!!.where().beginsWith("id", marker.title).findAll().first()!!).show(fragmentManager!!, "")
 
         return true
     }
@@ -331,7 +325,6 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
-        realm.close()
     }
 
     override fun getData() {

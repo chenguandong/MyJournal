@@ -14,7 +14,6 @@ import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.color.ColorTools
 import com.smart.journal.tools.eventbus.MessageEvent
-import io.realm.Realm
 import kotlinx.android.synthetic.main.calendar2_fragment.*
 import org.greenrobot.eventbus.EventBus
 import ru.cleverpumpkin.calendar.CalendarDate
@@ -25,7 +24,6 @@ class Calendar2Fragment : BaseFragment() {
         init()
     }
 
-    internal lateinit var realm: Realm
     val indicators = mutableListOf<CalendarView.DateIndicator>()
 
     override fun initView() {
@@ -33,14 +31,14 @@ class Calendar2Fragment : BaseFragment() {
 
     override fun initData() {
         indicators.clear()
-        val journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
+        val journalBeanDBBeans = JournalDBHelper.allJournals
         for (dataBean in journalBeanDBBeans)
         {
 
             indicators.add(CalendarDateIndicator(
                     date = CalendarDate(dataBean.date),
                     color = ColorTools.getRandomColor(),
-                    eventName = dataBean.content
+                    eventName = dataBean.content!!
                 )
             )
         }
@@ -103,13 +101,6 @@ class Calendar2Fragment : BaseFragment() {
         return inflater.inflate(R.layout.calendar2_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        realm = Realm.getDefaultInstance()
-
-
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(Calendar2ViewModel::class.java)
@@ -118,7 +109,6 @@ class Calendar2Fragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        realm.close()
         EventBus.getDefault().unregister(this)
     }
 

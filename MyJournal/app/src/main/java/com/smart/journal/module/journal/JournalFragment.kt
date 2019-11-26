@@ -59,22 +59,17 @@ class JournalFragment : BaseFragment{
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_journal, container, false);
+        return inflater.inflate(R.layout.fragment_journal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        var sha1 = KeyStoreTools.sHA1(activity);
-        Log.i("sha1=",sha1);
+        var sha1 = KeyStoreTools.sHA1(activity)
+        Log.i("sha1=",sha1)
     }
 
 
@@ -90,14 +85,14 @@ class JournalFragment : BaseFragment{
         journalRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
-            PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")
+            PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
         }
         journalAdapter!!.setOnItemLongClickListener { adapter, view, position ->
 
             AlertDialog.Builder(context).setItems(arrayOf<CharSequence>("查看", "删除")) { dialogInterface, i ->
                 when (i) {
                     0 -> {
-                        PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager,"")
+                        PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
                     }
                     1 -> {
                         journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
@@ -120,10 +115,6 @@ class JournalFragment : BaseFragment{
         journalViewModel!!.getLiveDataJournalBeans()
 
         swipeRefreshLayout.isRefreshing = false
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     override fun onDestroy() {

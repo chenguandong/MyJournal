@@ -14,15 +14,13 @@ import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.smart.journal.R;
 import com.smart.journal.base.BaseFragment;
-import com.smart.journal.module.write.bean.JournalBeanDBBean;
+import com.smart.journal.db.entity.JournalBeanDBBean;
 import com.smart.journal.module.write.db.JournalDBHelper;
 import com.smart.journal.tools.DateTools;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +56,6 @@ public class CalendarFragment extends BaseFragment  implements
 
     View view;
 
-    Realm realm;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -99,7 +96,6 @@ public class CalendarFragment extends BaseFragment  implements
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
-        realm = Realm.getDefaultInstance();
 
         return view;
     }
@@ -107,12 +103,12 @@ public class CalendarFragment extends BaseFragment  implements
     @Override
     protected void initView() {
        // setStatusBarDarkMode();
-        mTextMonthDay = (TextView) view.findViewById(R.id.tv_month_day);
-        mTextYear = (TextView) view.findViewById(R.id.tv_year);
-        mTextLunar = (TextView) view.findViewById(R.id.tv_lunar);
-        mRelativeTool = (RelativeLayout) view.findViewById(R.id.rl_tool);
-        mCalendarView = (CalendarView) view.findViewById(R.id.calendarView);
-        mTextCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
+        mTextMonthDay = view.findViewById(R.id.tv_month_day);
+        mTextYear = view.findViewById(R.id.tv_year);
+        mTextLunar = view.findViewById(R.id.tv_lunar);
+        mRelativeTool = view.findViewById(R.id.rl_tool);
+        mCalendarView = view.findViewById(R.id.calendarView);
+        mTextCurrentDay = view.findViewById(R.id.tv_current_day);
         mTextMonthDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,12 +136,12 @@ public class CalendarFragment extends BaseFragment  implements
     protected void initData() {
         List<Calendar> schemes = new ArrayList<>();
 
-        RealmResults<JournalBeanDBBean> journalBeanDBBeans = JournalDBHelper.getAllJournals(realm);
+        List<JournalBeanDBBean> journalBeanDBBeans = JournalDBHelper.INSTANCE.getAllJournals();
 
         for (JournalBeanDBBean dataBean:
                 journalBeanDBBeans) {
 
-            int [] dates = DateTools.getYMd(dataBean.getDate());
+            int [] dates = DateTools.getYMd(new Date(dataBean.getDate()));
 
             schemes.add(getSchemeCalendar(dates[0], dates[1], dates[2]));
             mCalendarView.setSchemeDate(schemes);
@@ -181,6 +177,5 @@ public class CalendarFragment extends BaseFragment  implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 }

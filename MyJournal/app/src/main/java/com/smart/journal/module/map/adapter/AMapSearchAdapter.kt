@@ -16,35 +16,35 @@ import com.smart.journal.module.map.bean.MjPoiItem
  */
 
 class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQuickAdapter<MjPoiItem, BaseViewHolder>(layoutResId, data) {
-    private var selPosition: Int = -1;
+    private var selPosition: Int = -1
 
     fun setSelPosition(selPosition: Int) {
-        this.selPosition = selPosition;
+        this.selPosition = selPosition
     }
 
     override fun convert(helper: BaseViewHolder?, mjPoiItem: MjPoiItem?) {
 
         var adressTitleTextView = helper!!.getView<TextView>(R.id.adressSubTitleTextView)
-        var adressSubTitleTextView = helper!!.getView<TextView>(R.id.adressSubTitleTextView)
-        var arrowImageView = helper!!.getView<ImageView>(R.id.arrowImageView)
+        var adressSubTitleTextView = helper.getView<TextView>(R.id.adressSubTitleTextView)
+        var arrowImageView = helper.getView<ImageView>(R.id.arrowImageView)
 
-        adressTitleTextView.setText(mjPoiItem!!.getSnippet())
+        adressTitleTextView.text = mjPoiItem!!.snippet
 
-        adressSubTitleTextView.setText(mjPoiItem!!.getTitle())
+        adressSubTitleTextView.text = mjPoiItem.title
 
-        if (mjPoiItem.getSnippet() == null || mjPoiItem.getSnippet() == mjPoiItem.getTitle()) {
-            adressSubTitleTextView.setVisibility(View.GONE)
+        if (mjPoiItem.snippet == null || mjPoiItem.snippet == mjPoiItem.title) {
+            adressSubTitleTextView.visibility = View.GONE
             adressTitleTextView.setSingleLine(false)
         } else {
-            adressTitleTextView.setVisibility(View.VISIBLE)
-            adressSubTitleTextView.setVisibility(View.VISIBLE)
+            adressTitleTextView.visibility = View.VISIBLE
+            adressSubTitleTextView.visibility = View.VISIBLE
             adressTitleTextView.setSingleLine(true)
             adressSubTitleTextView.setSingleLine(true)
         }
         if (selPosition==data.indexOf(mjPoiItem)) {
-            arrowImageView.setVisibility(View.VISIBLE)
+            arrowImageView.visibility = View.VISIBLE
         } else {
-            arrowImageView.setVisibility(View.GONE)
+            arrowImageView.visibility = View.GONE
         }
 
     }

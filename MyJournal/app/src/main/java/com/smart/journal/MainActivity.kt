@@ -148,7 +148,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             startActivity(Intent(this@MainActivity, WriteActivity::class.java))
         }
 
-        LocationTools.getInstance();
+        LocationTools.instance
 
     }
 

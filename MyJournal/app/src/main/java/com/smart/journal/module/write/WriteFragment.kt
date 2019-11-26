@@ -26,7 +26,6 @@ import com.smart.journal.tools.logs.LogTools
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumConfig
 import com.yanzhenjie.album.api.widget.Widget
-import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_write.*
 import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.collections4.Predicate
@@ -47,8 +46,6 @@ class WriteFragment : BaseFragment() {
     private val writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
 
-    private var realm: Realm? = null
-
     override fun getData() {
 
     }
@@ -61,17 +58,10 @@ class WriteFragment : BaseFragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_write, container, false)
-        realm = Realm.getDefaultInstance()
         initSimpleToolbar(view, "Typing...")
 
         return view
@@ -156,7 +146,7 @@ class WriteFragment : BaseFragment() {
 
 
         var predicate: Predicate<JournalBean> = Predicate { it ->
-            TextUtils.isEmpty(it.getContent()) && TextUtils.isEmpty(it.getImageURL())
+            TextUtils.isEmpty(it.content) && TextUtils.isEmpty(it.imageURL)
         }
         val result = CollectionUtils.select(writeSectionBeans, predicate) as List<JournalBean>
         writeSectionBeans.removeAll(result)
@@ -167,19 +157,19 @@ class WriteFragment : BaseFragment() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.menu_main, menu)
         menu!!.findItem(R.id.toolbar_right_action).title = "保存"
 
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item!!.itemId) {
 
             R.id.toolbar_right_action -> {
 
-                JournalDBHelper.saveJournal(realm!!, writeSectionBeans)
+                JournalDBHelper.saveJournal(writeSectionBeans)
                 EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
                 activity!!.finish()
             }
@@ -201,15 +191,6 @@ class WriteFragment : BaseFragment() {
 
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        realm!!.close()
     }
 
     companion object {

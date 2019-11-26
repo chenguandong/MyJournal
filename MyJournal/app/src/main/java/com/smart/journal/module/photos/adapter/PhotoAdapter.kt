@@ -12,11 +12,11 @@ import com.smart.journal.R
  */
 class PhotoAdapter : BaseQuickAdapter<PhotoBean, BaseViewHolder> {
 
-    constructor(layoutResId: Int, data: List<PhotoBean>?) : super(layoutResId, data) {}
+    constructor(layoutResId: Int, data: List<PhotoBean>?) : super(layoutResId, data)
 
-    constructor(data: List<PhotoBean>?) : super(data) {}
+    constructor(data: List<PhotoBean>?) : super(data)
 
-    constructor(layoutResId: Int) : super(layoutResId) {}
+    constructor(layoutResId: Int) : super(layoutResId)
 
     override fun convert(helper: BaseViewHolder, item: PhotoBean) {
         Glide.with(mContext).load(item.photoURL).into(helper.getView(R.id.photoImageView))

@@ -1,10 +1,8 @@
 package com.smart.journal.module.journal.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
-import io.realm.Realm
-import io.realm.RealmResults
 import java.util.*
 
 /**
@@ -16,18 +14,15 @@ class JournalRepositoryImpl : JournalRepository {
 
     private val journalBeans = ArrayList<JournalBeanDBBean>()
 
-    private val journalBeansLiveData = MutableLiveData<RealmResults<JournalBeanDBBean>>()
+    private val journalBeansLiveData = MutableLiveData<List<JournalBeanDBBean>>()
     /**
      * 数据库查询出来的数据集合
      */
-    private var realmResults: RealmResults<JournalBeanDBBean>? = null
-
-    private val realm = Realm.getDefaultInstance()
+    private var realmResults: List<JournalBeanDBBean>? = null
 
 
-
-    override fun getLiveDataJournalBeans(): MutableLiveData<RealmResults<JournalBeanDBBean>> {
-        realmResults = JournalDBHelper.getAllJournals(realm)
+    override fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>> {
+        realmResults = JournalDBHelper.allJournals
         journalBeans.clear()
         journalBeans.addAll(realmResults!!)
         journalBeansLiveData.value = realmResults
@@ -40,12 +35,12 @@ class JournalRepositoryImpl : JournalRepository {
 
 
     override fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
-        JournalDBHelper.deleteJournal(realm, journalBeanDBBean)
+        JournalDBHelper.deleteJournal( journalBeanDBBean)
         getLiveDataJournalBeans()
     }
 
     override fun onLiveDataCleared() {
-        realm.close()
+
     }
 
 

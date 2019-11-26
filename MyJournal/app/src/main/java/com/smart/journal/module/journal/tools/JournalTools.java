@@ -14,12 +14,12 @@ public class JournalTools {
      * @return
      */
     public static String getFistPhoto(String content){
-        String contents[] = content.split(Contancts.FILE_TYPE_SPLIT);
+        String[] contents = content.split(Contancts.FILE_TYPE_SPLIT);
         for (String mcontent:
                 contents) {
             if (mcontent.startsWith(Contancts.FILE_TYPE_TEXT)){
             }else if (mcontent.startsWith(Contancts.FILE_TYPE_IMAGE)){
-                return mcontent.substring(Contancts.FILE_TYPE_IMAGE.length(), mcontent.length());
+                return mcontent.substring(Contancts.FILE_TYPE_IMAGE.length());
 
             }
         }

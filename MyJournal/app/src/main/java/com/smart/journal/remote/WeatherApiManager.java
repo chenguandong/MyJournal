@@ -24,7 +24,7 @@ public class WeatherApiManager {
 
     public static void getWeatherData(MyCallBack<? extends TodayWeatherBean> myCallBack){
 
-        Call<TodayWeatherBean> call = AppClient.retrofit().create(WeatherService.class).getWeatherData(LocationTools.getLocationBean().getAdCode());
+        Call<TodayWeatherBean> call = AppClient.retrofit().create(WeatherService.class).getWeatherData(LocationTools.INSTANCE.getLocationBean().getAdCode());
 
         call.enqueue((Callback<TodayWeatherBean>) myCallBack);
 

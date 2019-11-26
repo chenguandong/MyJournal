@@ -623,7 +623,7 @@ public class MJFileUtils
                 }
             }
         }
-        return String.valueOf(dec.format(fileSize) + suffix);
+        return dec.format(fileSize) + suffix;
     }
 
     /**
@@ -738,6 +738,6 @@ public class MJFileUtils
         if (TextUtils.isEmpty(urlpath)){
             return "";
         }
-        return urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length());
+        return urlpath.substring(urlpath.lastIndexOf(".")+1);
     }
 }

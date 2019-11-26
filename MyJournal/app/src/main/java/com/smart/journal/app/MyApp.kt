@@ -3,8 +3,8 @@ package com.smart.journal.app
 import android.content.Context
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
-import com.baidu.mapapi.CoordType
-import com.baidu.mapapi.SDKInitializer
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -22,23 +22,22 @@ class MyApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         instance = this
+        initRoom()
         initLogger()
-        LocationTools.getInstance()
+        LocationTools.instance
         com.blankj.utilcode.util.Utils.init(this)
         Bugly.init(applicationContext, "c789e27850", false)
-        initBaiDuMao()
-        AppDatabase.instance
+
     }
 
-    fun initBaiDuMao() {
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-        SDKInitializer.initialize(this)
-        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
-        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-        SDKInitializer.setCoordType(CoordType.BD09LL)
+    fun initRoom(){
+        database = Room.databaseBuilder(this, AppDatabase::class.java, "database-name")
+                .allowMainThreadQueries()
+                //.addMigrations(MIGRATION_2_3)
+                .build()
     }
+
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
@@ -61,8 +60,9 @@ class MyApp : MultiDexApplication() {
     }
 
 
-    companion object staticParment{
+    companion object staticParment {
         var instance: MyApp? = null
+        var database: AppDatabase?=null
         const val UPDATE_APP_ID = BuildConfig.APPLICATION_ID + ".fileProvider"
 
     }

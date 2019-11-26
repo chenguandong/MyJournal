@@ -85,5 +85,5 @@ public abstract class BaseFragment extends LazyLoadFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {/* Do something */};
+    public void onMessageEvent(MessageEvent event) {/* Do something */}
 }

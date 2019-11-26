@@ -111,5 +111,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {/* Do something */};
+    public void onMessageEvent(MessageEvent event) {/* Do something */}
 }

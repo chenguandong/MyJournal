@@ -90,8 +90,8 @@ public class MJFileTools {
             int column_index = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             urlpath =cursor.getString(column_index);
-            fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
-            fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+            fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1));
+            fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1));
             fileInfo.setFilePath(urlpath);
             //如果是正常的查询到数据库。然后返回结构
             return fileInfo;
@@ -109,8 +109,8 @@ public class MJFileTools {
 
         //如果是文件。Uri.fromFile(File file)生成的uri。那么下面这个方法可以得到结果
         urlpath = contentUri.getPath();
-        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
-        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1));
+        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1));
 
         fileInfo.setFilePath(urlpath);
         return fileInfo;
@@ -119,8 +119,8 @@ public class MJFileTools {
     public static PhotoFileInfo getPhotoInfoFromAlbum(AlbumFile albumFile){
         PhotoFileInfo fileInfo = new PhotoFileInfo();
         String urlpath = albumFile.getPath();
-        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1,urlpath.length()));
-        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1,urlpath.length()));
+        fileInfo.setFileName(urlpath.substring(urlpath.lastIndexOf("/")+1));
+        fileInfo.setFileType(urlpath.substring(urlpath.lastIndexOf(".")+1));
         fileInfo.setMimeType(albumFile.getMimeType());
         fileInfo.setAddDate(albumFile.getAddDate());
         fileInfo.setLatitude(albumFile.getLatitude());

@@ -146,8 +146,8 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        val win = dialog.window
-        dialog.setCanceledOnTouchOutside(true)
+        val win = dialog!!.window
+        dialog!!.setCanceledOnTouchOutside(true)
         // 显示在底部
         win!!.setGravity(Gravity.CENTER)
         val lp = win.attributes
@@ -158,16 +158,6 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-      /*  if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }*/
-    }
 
     override fun onDetach() {
         super.onDetach()

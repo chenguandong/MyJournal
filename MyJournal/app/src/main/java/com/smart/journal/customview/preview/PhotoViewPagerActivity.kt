@@ -51,8 +51,8 @@ class PhotoViewPagerActivity : BaseActivity() {
         choosedIndex = intent.getIntExtra(URLS_CHOOSE_INDEX, 0)
 
         samplePagerAdapter = SamplePagerAdapter()
-        photoViewPage.setAdapter(samplePagerAdapter)
-        photoViewPage.setCurrentItem(choosedIndex)
+        photoViewPage.adapter = samplePagerAdapter
+        photoViewPage.currentItem = choosedIndex
         photoViewPage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 

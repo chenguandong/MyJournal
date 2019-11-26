@@ -11,9 +11,10 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.smart.journal.R
 import com.smart.journal.contants.Contancts
 import com.smart.journal.module.journal.bean.JournalItemBean
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.tools.DateTools
 import com.smart.journal.tools.StringTools
+import java.util.*
 
 /**
  * @author guandongchen
@@ -21,11 +22,11 @@ import com.smart.journal.tools.StringTools
  */
 
 class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
-    constructor(layoutResId: Int, data: List<JournalBeanDBBean>?) : super(layoutResId, data) {}
+    constructor(layoutResId: Int, data: List<JournalBeanDBBean>?) : super(layoutResId, data)
 
-    constructor(data: List<JournalBeanDBBean>?) : super(data) {}
+    constructor(data: List<JournalBeanDBBean>?) : super(data)
 
-    constructor(layoutResId: Int) : super(layoutResId) {}
+    constructor(layoutResId: Int) : super(layoutResId)
 
     override fun convert(helper: BaseViewHolder, item: JournalBeanDBBean) {
 
@@ -42,7 +43,7 @@ class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
 
             if (item.content != null) {
 
-                val contents = item.content.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val contents = item.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
                 for (content in contents) {
                     if (content.startsWith(Contancts.FILE_TYPE_TEXT)) {
@@ -62,12 +63,12 @@ class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
             }
         }
 
-        contentTextview.text = item.journalItemBean.content
-        if (item.location != null) {
-            infoTextview.text = DateTools.formatTime(item.date.time) + "." + StringTools.getNotNullString(item.location.adress)
+        contentTextview.text = item.journalItemBean!!.content
+        if (item.address != null) {
+            infoTextview.text = DateTools.formatTime(item.date) + "." + StringTools.getNotNullString(item.address)
         }
-        weekTextview.text = DateTools.getChineseWeek(item.date)
-        dayTextview.text = DateTools.getYMd(item.date)[2].toString() + ""
+        weekTextview.text = DateTools.getChineseWeek(Date(item.date))
+        dayTextview.text = DateTools.getYMd(Date(item.date))[2].toString() + ""
 
         if (!TextUtils.isEmpty(imageURL)) {
             Glide.with(mContext).load(imageURL).into(imageView)

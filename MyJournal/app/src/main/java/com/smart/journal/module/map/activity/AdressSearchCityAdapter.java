@@ -55,11 +55,11 @@ public class AdressSearchCityAdapter extends BaseAdapter {
 
             viewHodel = new ViewHodel();
 
-            viewHodel.locationTitleTextView = (TextView) convertView.findViewById(R.id.adressTitleTextView);
+            viewHodel.locationTitleTextView = convertView.findViewById(R.id.adressTitleTextView);
 
-            viewHodel.locationSubTitleTextView = (TextView) convertView.findViewById(R.id.adressSubTitleTextView);
+            viewHodel.locationSubTitleTextView = convertView.findViewById(R.id.adressSubTitleTextView);
 
-            viewHodel.arrowImageView = (ImageView) convertView.findViewById(R.id.arrowImageView);
+            viewHodel.arrowImageView = convertView.findViewById(R.id.arrowImageView);
 
             convertView.setTag(viewHodel);
 

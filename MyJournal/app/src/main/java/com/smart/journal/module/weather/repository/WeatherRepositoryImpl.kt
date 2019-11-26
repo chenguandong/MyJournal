@@ -15,13 +15,13 @@ import java.util.*
 class WeatherRepositoryImpl:WeatherRepository{
 
     override fun onError(): MutableLiveData<CallBackBean<TodayWeatherBean>> {
-        return errorData;
+        return errorData
     }
 
 
-    private var weatherLiveData = MutableLiveData<TodayWeatherBean>();
-    private var errorData = MutableLiveData<CallBackBean<TodayWeatherBean>>();
-    private var weatherData = ArrayList<TodayWeatherBean.ForecastsBean.CastsBean>();
+    private var weatherLiveData = MutableLiveData<TodayWeatherBean>()
+    private var errorData = MutableLiveData<CallBackBean<TodayWeatherBean>>()
+    private var weatherData = ArrayList<TodayWeatherBean.ForecastsBean.CastsBean>()
 
     override fun getWeatherLiveData(): MutableLiveData<TodayWeatherBean> {
 
@@ -44,11 +44,11 @@ class WeatherRepositoryImpl:WeatherRepository{
         })
 
 
-        return weatherLiveData;
+        return weatherLiveData
     }
 
     override fun getTodayWeatherData(): ArrayList<TodayWeatherBean.ForecastsBean.CastsBean> {
 
-        return weatherData;
+        return weatherData
     }
 }

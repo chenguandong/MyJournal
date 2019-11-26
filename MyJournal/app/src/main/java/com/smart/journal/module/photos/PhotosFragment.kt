@@ -3,7 +3,6 @@ package com.smart.journal.module.photos
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,11 @@ import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.journal.module.journal.tools.JournalTools
 import com.smart.journal.module.photos.adapter.PhotoAdapter
 import com.smart.journal.module.photos.adapter.PhotoBean
-import com.smart.journal.module.write.bean.JournalBeanDBBean
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.DateTools
 import com.smart.journal.tools.decorator.GridDividerItemDecoration
 import com.smart.journal.tools.eventbus.MessageEvent
-import io.realm.Realm
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_photos.*
 import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.collections4.Predicate
@@ -45,8 +42,7 @@ class PhotosFragment : BaseFragment() {
     var photoAdapter:PhotoAdapter ?= null
     var photosList:ArrayList<PhotoBean>  = ArrayList()
 
-    private val realm = Realm.getDefaultInstance()
-    private var journalBeanDBBeans: RealmResults<JournalBeanDBBean>? = null
+    private var journalBeanDBBeans: List<JournalBeanDBBean>? = null
     override fun initView() {
         photoAdapter = PhotoAdapter(R.layout.item_photo,photosList)
         recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(getContext(), 3)
@@ -55,24 +51,24 @@ class PhotosFragment : BaseFragment() {
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
              var predicate: Predicate<JournalBeanDBBean> = Predicate {
-                 it.id == photosList!![position].journalID
+                 it.id == photosList[position].journalID
              }
              var result:List<JournalBeanDBBean> = CollectionUtils.select(journalBeanDBBeans,predicate) as List<JournalBeanDBBean>
 
-            PreViewBottomSheetDialogFragment(result[0]).show(fragmentManager,"")
+            PreViewBottomSheetDialogFragment(result[0]).show(fragmentManager!!,"")
         }
     }
 
 
     override fun initData() {
-        journalBeanDBBeans = JournalDBHelper.getAllJournals(realm)
+        journalBeanDBBeans = JournalDBHelper.allJournals
         photosList.clear()
         for (dataBean in journalBeanDBBeans!!) {
 
             if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))){
                 var photoBean = PhotoBean()
                 photoBean.photoURL = JournalTools.getFistPhoto(dataBean.content)
-                photoBean.photoDate = DateTools.formatTime(dataBean.date.time)
+                photoBean.photoDate = DateTools.formatTime(dataBean.date)
                 photoBean.journalID = dataBean.id
                 photosList.add(photoBean)
             }
@@ -101,10 +97,6 @@ class PhotosFragment : BaseFragment() {
         // Inflate the layout for this fragment
         EventBus.getDefault().register(this)
         return inflater.inflate(R.layout.fragment_photos, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
 
@@ -136,7 +128,6 @@ class PhotosFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        realm.close()
         EventBus.getDefault().unregister(this)
         super.onDestroy()
     }

@@ -1,8 +1,6 @@
 package com.smart.journal.db.dao;
 
-import com.smart.journal.module.write.bean.JournalBean;
-import com.smart.journal.module.write.bean.JournalBeanDBBean;
-import com.xindun.testroom.db.entity.User;
+import com.smart.journal.db.entity.JournalBeanDBBean;
 
 import java.util.List;
 
@@ -11,7 +9,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 /**
  * @author Administrator

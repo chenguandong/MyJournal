@@ -2,9 +2,7 @@ package com.smart.journal.module.journal.repository
 
 import androidx.lifecycle.MutableLiveData
 
-import com.smart.journal.module.write.bean.JournalBeanDBBean
-
-import io.realm.RealmResults
+import com.smart.journal.db.entity.JournalBeanDBBean
 
 /**
  * @author guandongchen
@@ -13,7 +11,7 @@ import io.realm.RealmResults
 
 interface JournalRepository {
 
-    fun getLiveDataJournalBeans(): MutableLiveData<RealmResults<JournalBeanDBBean>>
+    fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>>
 
     fun getJournalBeans() :List<JournalBeanDBBean>
 
