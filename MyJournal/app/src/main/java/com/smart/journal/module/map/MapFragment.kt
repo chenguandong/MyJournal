@@ -278,7 +278,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
             if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
                 markerOption = MarkerOptions().icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                        .title(dataBean.id + "")
+                        .title("")
                         .position(LatLng(dataBean.latitude, dataBean.longitude))
                         .draggable(false)
                 aMap!!.addMarker(markerOption)

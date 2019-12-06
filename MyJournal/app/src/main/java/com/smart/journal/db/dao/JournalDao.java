@@ -24,7 +24,6 @@ public abstract class JournalDao {
    public abstract List<BaseUser> getAll();*/
 
 
-
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   public abstract void saveJournal(JournalBeanDBBean... journalBean);
 

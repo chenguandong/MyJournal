@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "journal")
  class JournalBeanDBBean {
     @PrimaryKey(autoGenerate = true)
-    var id: String? = null
+    var id: Int? = null
     @ColumnInfo(name = "content")
     var content: String? = null
     @ColumnInfo(name = "weather")

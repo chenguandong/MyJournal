@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
  * @desc
  * @email chenguandong@outlook.com
  */
-@Database(entities = arrayOf(JournalBeanDBBean::class), version = 1)
+@Database(entities = arrayOf(JournalBeanDBBean::class), version = 1,exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mJournalDao(): JournalDao
 
