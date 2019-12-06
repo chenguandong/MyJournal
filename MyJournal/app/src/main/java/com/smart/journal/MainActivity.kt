@@ -35,14 +35,14 @@ import java.util.*
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener  {
 
 
-    private var fragmentPagerAdapter: androidx.fragment.app.FragmentPagerAdapter? = null
-    private val fragmentList = ArrayList<androidx.fragment.app.Fragment>()
-    private var journalFragment: androidx.fragment.app.Fragment? = null
-    private var mapFragment: androidx.fragment.app.Fragment? = null
-    private var mineFragment: androidx.fragment.app.Fragment? = null
-    private var weatherFragment: androidx.fragment.app.Fragment? = null
-    private var calendarFragment: androidx.fragment.app.Fragment? = null
-    private var photoFragment: androidx.fragment.app.Fragment? = null
+    private var fragmentPagerAdapter: FragmentPagerAdapter? = null
+    private val fragmentList = ArrayList<Fragment>()
+    private var journalFragment: Fragment? = null
+    private var mapFragment: Fragment? = null
+    private var mineFragment: Fragment? = null
+    private var weatherFragment: Fragment? = null
+    private var calendarFragment: Fragment? = null
+    private var photoFragment: Fragment? = null
 
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
@@ -52,6 +52,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         initSimpleToolbarWithNoBack(titles[0])
         init()
         MJFileTools.createJournalPath()
+
+        supportFragmentManager.beginTransaction().replace(R.id.menuFragment,)
     }
 
 
