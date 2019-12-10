@@ -24,24 +24,14 @@ class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQ
 
     override fun convert(helper: BaseViewHolder?, mjPoiItem: MjPoiItem?) {
 
-        var adressTitleTextView = helper!!.getView<TextView>(R.id.adressSubTitleTextView)
+        var adressTitleTextView = helper!!.getView<TextView>(R.id.adressTitleTextView)
         var adressSubTitleTextView = helper.getView<TextView>(R.id.adressSubTitleTextView)
         var arrowImageView = helper.getView<ImageView>(R.id.arrowImageView)
 
         adressTitleTextView.text = mjPoiItem!!.snippet
+        adressSubTitleTextView.text = mjPoiItem!!.title
 
-        adressSubTitleTextView.text = mjPoiItem.title
-
-        if (mjPoiItem.snippet == null || mjPoiItem.snippet == mjPoiItem.title) {
-            adressSubTitleTextView.visibility = View.GONE
-            adressTitleTextView.setSingleLine(false)
-        } else {
-            adressTitleTextView.visibility = View.VISIBLE
-            adressSubTitleTextView.visibility = View.VISIBLE
-            adressTitleTextView.setSingleLine(true)
-            adressSubTitleTextView.setSingleLine(true)
-        }
-        if (selPosition==data.indexOf(mjPoiItem)) {
+        if (selPosition == data.indexOf(mjPoiItem)) {
             arrowImageView.visibility = View.VISIBLE
         } else {
             arrowImageView.visibility = View.GONE

@@ -3,18 +3,18 @@ package com.smart.journal.module.map.bean;
 /**
  * Created by guandongchen on 05/06/2017.
  */
-
 public class MjPoiItem {
-
     private String snippet;
 
-    private  double latitude;
+    private double latitude;
+
     private double longitude;
 
     private String cityName;
-    private String adName;
-    private String title;
 
+    private String adName;
+
+    private String title;
 
     //高度
     private String altitude;
@@ -38,8 +38,6 @@ public class MjPoiItem {
         this.altitude = altitude;
     }
 
-
-
     public double getLatitude() {
         return latitude;
     }
@@ -55,8 +53,6 @@ public class MjPoiItem {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-
 
     public String getSnippet() {
         return snippet;
@@ -81,5 +77,4 @@ public class MjPoiItem {
     public void setAdName(String adName) {
         this.adName = adName;
     }
-
 }

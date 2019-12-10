@@ -47,20 +47,20 @@ class SlideMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        menuRecyclerView
         initData();
     }
 
     private fun initData() {
-        menusList!!.add(SlideMenuBean(NoteBookBean("book1", Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
-        menusList!!.add(SlideMenuBean(NoteBookBean("book1", Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
-        menusList!!.add(SlideMenuBean(NoteBookBean("book1", Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
-        menusList!!.add(SlideMenuBean(NoteBookBean("book1", Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
-        menusList!!.add(SlideMenuBean(NoteBookBean("book1", Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
+        menusList!!.add(SlideMenuBean(NoteBookBean("book1"+ Random(10).nextInt(),Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
+        menusList!!.add(SlideMenuBean(NoteBookBean("book1"+Random(10).nextInt(),Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
+        menusList!!.add(SlideMenuBean(NoteBookBean("book1"+ Random(10).nextInt(),Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
+        menusList!!.add(SlideMenuBean(NoteBookBean("book1"+ Random(10).nextInt(),Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
+        menusList!!.add(SlideMenuBean(NoteBookBean("book1"+ Random(10).nextInt(),Random(10).nextInt()),ItemMenuType.MENU_NOTE_BOOK));
 
         menuAdapter = SlideMenuAdapter(menusList!!)
-        menuRecyclerView.layoutManager = LinearLayoutManager(context);
+        menuRecyclerView.layoutManager = LinearLayoutManager(context)
         menuRecyclerView.adapter = menuAdapter
+        menuAdapter!!.notifyDataSetChanged()
 
     }
     // TODO: Rename method, update argument and hook method into UI event

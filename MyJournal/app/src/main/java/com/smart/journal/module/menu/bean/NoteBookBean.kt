@@ -6,7 +6,12 @@ package com.smart.journal.module.menu.bean
  * @desc
  * @email chenguandong@outlook.com
  */
-class NoteBookBean constructor(noteName: String?, count: Int?) {
+class NoteBookBean {
     var noteName: String? = null
     var count: Int? = 0
+
+    constructor(noteName: String?, count: Int?) {
+        this.noteName = noteName
+        this.count = count
+    }
 }

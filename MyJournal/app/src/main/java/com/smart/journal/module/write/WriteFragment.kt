@@ -4,9 +4,9 @@ package com.smart.journal.module.write
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.*
+import androidx.fragment.app.Fragment
 import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
 import com.smart.journal.R
@@ -84,10 +84,10 @@ class WriteFragment : BaseFragment() {
             override fun onItemClick(toolBean: ToolBean) {
                 when (toolBean.itemType) {
 
-                    ToolBean.TOOL_LOCATION->{
+                    ToolBean.TOOL_LOCATION -> {
                         val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
                         locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
-                        startActivityForResult(locationIntent,REQUEST_LOCATION_CODE)
+                        startActivityForResult(locationIntent, REQUEST_LOCATION_CODE)
                     }
 
                     ToolBean.TOOL_IMAGE -> {
@@ -179,12 +179,12 @@ class WriteFragment : BaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode!=RESULT_OK){
+        if (resultCode != RESULT_OK) {
             return
         }
 
         when (requestCode) {
-            REQUEST_LOCATION_CODE->{
+            REQUEST_LOCATION_CODE -> {
                 val jsonStr = data!!.getStringExtra(AMapAdressSearchActivity.INTENT_LOCATION)
                         ?: return
                 val poiItem = Gson().fromJson<Any>(jsonStr, MjPoiItem::class.java) ?: return

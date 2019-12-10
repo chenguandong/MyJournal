@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
-
-import com.parfoismeng.slidebacklib.SlideBack;
 import com.smart.journal.R;
 import com.smart.journal.tools.eventbus.MessageEvent;
 
@@ -30,18 +28,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        // 在需要滑动返回的Activity中注册
-        SlideBack.register(this, () ->{
-            finish();
-        });
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // onDestroy时记得解绑
-        // 内部使用WeakHashMap，理论上不解绑也行，但最好还是手动解绑一下
-        SlideBack.unregister(this);
+
     }
 
     static {

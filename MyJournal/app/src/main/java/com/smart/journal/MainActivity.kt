@@ -16,6 +16,7 @@ import com.smart.journal.customview.dialog.PatternLockDialogFragment
 import com.smart.journal.module.calendar.Calendar2Fragment
 import com.smart.journal.module.journal.JournalFragment
 import com.smart.journal.module.map.MapFragment
+import com.smart.journal.module.menu.SlideMenuFragment
 import com.smart.journal.module.mine.MineFragment
 import com.smart.journal.module.mine.setting.SettingActivity
 import com.smart.journal.module.photos.PhotosFragment
@@ -46,14 +47,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
+    var slideMenuFragment:SlideMenuFragment ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initSimpleToolbarWithNoBack(titles[0])
         init()
         MJFileTools.createJournalPath()
-
-        supportFragmentManager.beginTransaction().replace(R.id.menuFragment,)
+        slideMenuFragment = SlideMenuFragment.newInstance("","")
+        supportFragmentManager.beginTransaction().replace(R.id.menuFragment, slideMenuFragment!!).commit()
     }
 
 
