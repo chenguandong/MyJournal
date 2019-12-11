@@ -54,6 +54,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
     private var aMapLocation: AMapLocation? = null
     private var aMapSearchAdapter: AMapSearchAdapter? = null
     private var mMjPoiItemList: MutableList<MjPoiItem> = ArrayList<MjPoiItem>()
+    var selectedPoiItem:MjPoiItem ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +73,9 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item!!.itemId) {
-
             R.id.toolbar_right_action -> {
                 var resultIntent:Intent  = Intent()
+                resultIntent.putExtra(INTENT_LOCATION,selectedPoiItem!!)
                 setResult(Activity.RESULT_OK,resultIntent)
                 finish()
             }
@@ -116,7 +117,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
             aMap!!.addMarker(MarkerOptions().position(LatLng(poiItem.latitude, poiItem.longitude)).title("xx").snippet("??"))
             aMap!!.animateCamera(CameraUpdateFactory.changeLatLng(LatLng(poiItem.latitude, poiItem.longitude)))
             aMapSearchAdapter!!.setSelPosition(position)
-
+            selectedPoiItem = poiItem
 
         }
     }

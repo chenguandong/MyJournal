@@ -1,9 +1,13 @@
 package com.smart.journal.module.map.bean;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * Created by guandongchen on 05/06/2017.
  */
-public class MjPoiItem {
+public class MjPoiItem implements Serializable {
     private String snippet;
 
     private double latitude;

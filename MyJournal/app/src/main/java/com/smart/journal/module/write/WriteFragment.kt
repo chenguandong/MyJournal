@@ -8,7 +8,6 @@ import android.text.TextUtils
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.alibaba.fastjson.JSON
-import com.google.gson.Gson
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
@@ -45,7 +44,7 @@ class WriteFragment : BaseFragment() {
 
     private val writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
-
+    var choosePoiItem:MjPoiItem? = null
     override fun getData() {
 
     }
@@ -168,7 +167,7 @@ class WriteFragment : BaseFragment() {
 
             R.id.toolbar_right_action -> {
 
-                JournalDBHelper.saveJournal(writeSectionBeans)
+                JournalDBHelper.saveJournal(writeSectionBeans, choosePoiItem)
                 EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
                 activity!!.finish()
             }
@@ -184,10 +183,8 @@ class WriteFragment : BaseFragment() {
 
         when (requestCode) {
             REQUEST_LOCATION_CODE -> {
-                val jsonStr = data!!.getStringExtra(AMapAdressSearchActivity.INTENT_LOCATION)
-                        ?: return
-                val poiItem = Gson().fromJson<Any>(jsonStr, MjPoiItem::class.java) ?: return
-
+                val poiItem:MjPoiItem = data!!.getSerializableExtra(AMapAdressSearchActivity.INTENT_LOCATION) as MjPoiItem
+                choosePoiItem  = poiItem!!;
             }
         }
     }

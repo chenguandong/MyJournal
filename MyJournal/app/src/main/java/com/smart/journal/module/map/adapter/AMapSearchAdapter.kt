@@ -20,6 +20,7 @@ class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQ
 
     fun setSelPosition(selPosition: Int) {
         this.selPosition = selPosition
+        notifyDataSetChanged()
     }
 
     override fun convert(helper: BaseViewHolder?, mjPoiItem: MjPoiItem?) {
