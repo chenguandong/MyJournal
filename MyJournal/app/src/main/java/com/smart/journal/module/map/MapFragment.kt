@@ -19,11 +19,14 @@ import com.amap.api.maps2d.model.*
 import com.blankj.utilcode.util.LogUtils
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.location.LocationTools
 import kotlinx.android.synthetic.main.fragment_map.*
+import org.apache.commons.collections4.CollectionUtils
+import org.apache.commons.collections4.Predicate
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -99,6 +102,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
         aMap!!.isMyLocationEnabled = true
+        aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude,LocationTools.locationBean!!.longitude),10f))
         setupLocationStyle()
     }
 
@@ -115,6 +119,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         myLocationStyle.strokeWidth(5f)
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(FILL_COLOR)
+
         // 将自定义的 myLocationStyle 对象添加到地图上
         aMap!!.setMyLocationStyle(myLocationStyle)
     }
@@ -197,6 +202,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
                 //aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
                 LogUtils.d(amapLocation.toStr())
 
+                aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(amapLocation.latitude,amapLocation.longitude),10f))
+
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
                 LogUtils.d(errText)
@@ -278,7 +285,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
             if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
                 markerOption = MarkerOptions().icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                        .title("")
+                        .title(dataBean.id.toString())
                         .position(LatLng(dataBean.latitude, dataBean.longitude))
                         .draggable(false)
                 aMap!!.addMarker(markerOption)
@@ -297,7 +304,10 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onMarkerClick(marker: Marker): Boolean {
         if (aMap != null) {
         }
-        //PreViewBottomSheetDialogFragment(journalBeanDBBeans!!.where().beginsWith("id", marker.title).findAll().first()!!).show(fragmentManager!!, "")
+        var result=  CollectionUtils.select(journalBeanDBBeans, Predicate {
+            it-> it.id==marker.title.toInt()
+        })
+        PreViewBottomSheetDialogFragment(result.first()).show(fragmentManager!!, "")
 
         return true
     }
