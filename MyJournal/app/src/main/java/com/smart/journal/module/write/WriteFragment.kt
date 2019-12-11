@@ -161,7 +161,6 @@ class WriteFragment : BaseFragment() {
         inflater!!.inflate(R.menu.menu_main, menu)
         menu!!.findItem(R.id.toolbar_right_action).title = "保存"
 
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

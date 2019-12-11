@@ -1,11 +1,15 @@
 package com.smart.journal.module.map.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
@@ -17,13 +21,11 @@ import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.LatLng
 import com.amap.api.maps2d.model.MarkerOptions
 import com.amap.api.maps2d.model.MyLocationStyle
-import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.geocoder.*
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
-import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
@@ -59,6 +61,25 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         mapView.onCreate(savedInstanceState)// 此方法必须重写i
         initSimpleToolbar("选择地址")
         init()
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater!!.inflate(R.menu.menu_main, menu)
+        menu!!.findItem(R.id.toolbar_right_action).title = "保存"
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item!!.itemId) {
+
+            R.id.toolbar_right_action -> {
+                var resultIntent:Intent  = Intent()
+                setResult(Activity.RESULT_OK,resultIntent)
+                finish()
+            }
+        }
+        return false
     }
 
     /**
