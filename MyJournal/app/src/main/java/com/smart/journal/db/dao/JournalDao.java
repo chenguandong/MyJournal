@@ -1,6 +1,8 @@
 package com.smart.journal.db.dao;
 
 import com.smart.journal.db.entity.JournalBeanDBBean;
+import com.smart.journal.db.entity.NoteBookDBBean;
+import com.smart.journal.module.write.bean.JournalBean;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public abstract class JournalDao {
 
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void saveJournal(JournalBeanDBBean... journalBean);
+  public abstract void saveJournal(JournalBeanDBBean... journalBeanDBBeans);
 
   @Query("SELECT * FROM journal")
   public abstract List<JournalBeanDBBean> getAllJournal();

@@ -16,11 +16,16 @@ import androidx.annotation.IntDef;
  *
  * @author Administrator
  */
-@IntDef({ ItemMenuType.MENU_NOTE_BOOK})
+@IntDef({ ItemMenuType.MENU_NOTE_BOOK,ItemMenuType.MENU_NOTE_BOOK_ADD})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ItemMenuType {
     /**
      * 日记本
      */
     int MENU_NOTE_BOOK = 0;
+
+    /**
+     * 添加按钮Item
+     */
+    int MENU_NOTE_BOOK_ADD =1;
 }

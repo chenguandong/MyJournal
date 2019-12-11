@@ -10,6 +10,5 @@
         android:layout_height="48dp"
         android:text="Journal"
         android:gravity="center"
-        android:background="@android:drawable/list_selector_background"
         />
 </LinearLayout>

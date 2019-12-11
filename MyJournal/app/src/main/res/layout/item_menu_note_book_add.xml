@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/list_selector_ex"
+    android:gravity="center"
+    >
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/addImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="新建日记本"
+        android:gravity="center"
+        android:tint="@color/black"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/black"
+        />
+</LinearLayout>

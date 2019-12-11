@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.map.activity.AMapAdressSearchActivity"></activity>
+        <activity android:name=".module.menu.CreateNoteBookActivity"></activity>
+        <activity android:name=".module.map.activity.AMapAdressSearchActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -34,7 +35,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
