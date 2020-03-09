@@ -35,7 +35,7 @@ class SlideMenuFragment : Fragment() {
     val REQUEST_CODE  = 100
 
     var menusList: ArrayList<SlideMenuBean>? = ArrayList()
-    var menuAdapter:SlideMenuAdapter?= null;
+    var menuAdapter:SlideMenuAdapter?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -52,7 +52,7 @@ class SlideMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData();
+        initData()
 
     }
 
@@ -63,16 +63,16 @@ class SlideMenuFragment : Fragment() {
         }
         allDbNoteList= MyApp.database!!.mNoteBookDao().allNoteBook
         menusList!!.clear()
-        allDbNoteList.forEach(){
-            menusList!!.add(SlideMenuBean(it,ItemMenuType.MENU_NOTE_BOOK));
+        allDbNoteList.forEach {
+            menusList!!.add(SlideMenuBean(it,ItemMenuType.MENU_NOTE_BOOK))
         }
-        menusList!!.add(SlideMenuBean(NoteBookDBBean(""),ItemMenuType.MENU_NOTE_BOOK_ADD));
+        menusList!!.add(SlideMenuBean(NoteBookDBBean(""),ItemMenuType.MENU_NOTE_BOOK_ADD))
         menuAdapter = SlideMenuAdapter(menusList!!)
         menuRecyclerView.layoutManager = LinearLayoutManager(context)
         menuRecyclerView.adapter = menuAdapter
         menuAdapter!!.notifyDataSetChanged()
 
-        menuAdapter!!.setOnItemClickListener(object :BaseQuickAdapter.OnItemClickListener{
+        menuAdapter!!.onItemClickListener = object :BaseQuickAdapter.OnItemClickListener{
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
 
                 if (menusList!!.get(position).itemType==ItemMenuType.MENU_NOTE_BOOK_ADD){
@@ -81,7 +81,7 @@ class SlideMenuFragment : Fragment() {
                 }
             }
 
-        })
+        }
 
     }
 
@@ -97,20 +97,6 @@ class SlideMenuFragment : Fragment() {
     /* fun onButtonPressed(uri: Uri) {
          listener?.onFragmentInteraction(uri)
      }*/
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        /*if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }*/
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        // listener = null
-    }
 
 
     interface OnFragmentInteractionListener {

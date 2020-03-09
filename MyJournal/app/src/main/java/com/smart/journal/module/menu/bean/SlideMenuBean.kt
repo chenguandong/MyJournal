@@ -20,11 +20,11 @@ class SlideMenuBean : MultiItemEntity {
 
     constructor(noteBook: NoteBookDBBean?, @ItemMenuType itemType: Int) {
         this.noteBook = noteBook
-        this.itemType = itemType;
+        this.itemType = itemType
     }
 
     override fun getItemType(): Int {
-        return itemType;
+        return itemType
     }
 
 

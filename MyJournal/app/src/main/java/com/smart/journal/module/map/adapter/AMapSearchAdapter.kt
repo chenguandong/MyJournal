@@ -30,7 +30,7 @@ class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQ
         var arrowImageView = helper.getView<ImageView>(R.id.arrowImageView)
 
         adressTitleTextView.text = mjPoiItem!!.snippet
-        adressSubTitleTextView.text = mjPoiItem!!.title
+        adressSubTitleTextView.text = mjPoiItem.title
 
         if (selPosition == data.indexOf(mjPoiItem)) {
             arrowImageView.visibility = View.VISIBLE

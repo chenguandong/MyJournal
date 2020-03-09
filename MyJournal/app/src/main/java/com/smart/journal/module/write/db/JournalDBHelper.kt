@@ -49,7 +49,7 @@ object JournalDBHelper {
 
         if (chooseLocation != null) {
             val locationBean = chooseLocation
-            if (!TextUtils.isEmpty(locationBean!!.title)) {
+            if (!TextUtils.isEmpty(locationBean.title)) {
                 journalBeanDBBean.address = locationBean.title
                 journalBeanDBBean.latitude = locationBean.latitude
                 journalBeanDBBean.longitude = locationBean.longitude

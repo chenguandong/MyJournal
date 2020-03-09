@@ -22,7 +22,10 @@ import com.amap.api.maps2d.model.LatLng
 import com.amap.api.maps2d.model.MarkerOptions
 import com.amap.api.maps2d.model.MyLocationStyle
 import com.amap.api.services.core.PoiItem
-import com.amap.api.services.geocoder.*
+import com.amap.api.services.geocoder.GeocodeQuery
+import com.amap.api.services.geocoder.GeocodeResult
+import com.amap.api.services.geocoder.GeocodeSearch
+import com.amap.api.services.geocoder.RegeocodeResult
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
@@ -66,13 +69,13 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater!!.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         menu!!.findItem(R.id.toolbar_right_action).title = "保存"
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
+        when (item.itemId) {
             R.id.toolbar_right_action -> {
                 var resultIntent:Intent  = Intent()
                 resultIntent.putExtra(INTENT_LOCATION,selectedPoiItem!!)
@@ -251,7 +254,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                                 poiItem.latitude = itemPoint.latLonPoint.latitude
                                 poiItem.longitude = itemPoint.latLonPoint.longitude
                                 poiItem.snippet = itemPoint!!.formatAddress
-                                poiItem.title = itemPoint!!.district
+                                poiItem.title = itemPoint.district
                                 mMjPoiItemList.add(poiItem)
                             }
                             aMapSearchAdapter!!.notifyDataSetChanged()

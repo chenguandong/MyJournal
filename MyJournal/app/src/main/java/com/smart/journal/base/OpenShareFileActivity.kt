@@ -21,7 +21,7 @@ class OpenShareFileActivity : AppCompatActivity() {
             if ("application/zip" == type) {
 
                 // Gets the first item from the clipboard data
-                val item = intent.clipData.getItemAt(0)
+                val item = intent.clipData!!.getItemAt(0)
 
                 // Tries to get the item's contents as a URI pointing to a note
                 val uri = item.uri

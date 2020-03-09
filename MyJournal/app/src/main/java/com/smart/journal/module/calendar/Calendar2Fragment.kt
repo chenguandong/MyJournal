@@ -1,14 +1,14 @@
 package com.smart.journal.module.calendar
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProviders
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.write.db.JournalDBHelper
@@ -74,7 +74,7 @@ class Calendar2Fragment : BaseFragment() {
             }
 
             val event = getItem(position)
-            view.findViewById<View>(R.id.color_view).setBackgroundColor(event.color)
+            view.findViewById<View>(R.id.color_view).setBackgroundColor(event!!.color)
             view.findViewById<TextView>(R.id.event_name_view).text = event.eventName
 
             return view

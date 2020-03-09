@@ -157,13 +157,13 @@ class WriteFragment : BaseFragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater!!.inflate(R.menu.menu_main, menu)
-        menu!!.findItem(R.id.toolbar_right_action).title = "保存"
+        inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.toolbar_right_action).title = "保存"
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
+        when (item.itemId) {
 
             R.id.toolbar_right_action -> {
 
@@ -184,7 +184,7 @@ class WriteFragment : BaseFragment() {
         when (requestCode) {
             REQUEST_LOCATION_CODE -> {
                 val poiItem:MjPoiItem = data!!.getSerializableExtra(AMapAdressSearchActivity.INTENT_LOCATION) as MjPoiItem
-                choosePoiItem  = poiItem!!;
+                choosePoiItem  = poiItem
             }
         }
     }
