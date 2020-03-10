@@ -32,10 +32,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4DYO0PsGebldhXZK8eRHF2RewuOGWoKq" />
 
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
+
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -88,9 +85,7 @@
                 <data android:mimeType="application/zip" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".module.map.activity.BaiDuAddressSearchActivity"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

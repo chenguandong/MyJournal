@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
@@ -16,6 +18,7 @@ import com.smart.journal.module.write.adapter.WriteAdapter
 import com.smart.journal.module.write.bean.JournalBean
 import com.smart.journal.module.write.bean.ToolBean
 import com.smart.journal.module.write.db.JournalDBHelper
+import com.smart.journal.module.write.viewmodel.WriteFragmentViewModel
 import com.smart.journal.module.write.views.MoreSettingBottomSheetDialogFragment
 import com.smart.journal.module.write.views.ToolView
 import com.smart.journal.tools.PermissionTools
@@ -39,7 +42,6 @@ import org.greenrobot.eventbus.EventBus
  */
 class WriteFragment : BaseFragment() {
 
-    // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
 
@@ -50,12 +52,23 @@ class WriteFragment : BaseFragment() {
 
     }
 
+    val viewModel by viewModels<WriteFragmentViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
+
+        viewModel.getJounalData().observe(this, Observer<List<JournalBean>>{ journal ->
+            // update UI
+        })
+
+        viewModel.getLocation().observe(this, Observer<MjPoiItem> {
+
+        })
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
