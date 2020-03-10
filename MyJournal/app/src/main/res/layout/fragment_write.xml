@@ -17,7 +17,7 @@
         android:background="@color/write"
         />
 
-    <com.smart.journal.module.write.Views.ToolView
+    <com.smart.journal.module.write.views.ToolView
         android:id="@+id/toolView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

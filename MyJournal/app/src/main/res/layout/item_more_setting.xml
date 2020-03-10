@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="60dp"
+    android:orientation="horizontal"
+    android:background="@drawable/list_selector_ex"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/album_ic_eye_white"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        android:tint="@android:color/holo_orange_dark"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/black"
+            tools:text="日记"
+            android:gravity="center|left"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemSubTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@android:color/holo_orange_dark"
+            tools:text="2020年03月09日"
+            android:gravity="center|left"
+            />
+    </LinearLayout>
+</LinearLayout>

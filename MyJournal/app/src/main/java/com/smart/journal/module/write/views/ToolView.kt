@@ -1,12 +1,13 @@
-package com.smart.journal.module.write.Views
+package com.smart.journal.module.write.views
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.smart.journal.R
+import com.smart.journal.module.write.bean.ToolBean
 import kotlinx.android.synthetic.main.view_toolbar.view.*
 import java.util.*
 
@@ -23,8 +24,9 @@ class ToolView : LinearLayout {
     private val toolBeans = object : ArrayList<ToolBean>() {
 
         init {
-            add(ToolBean(R.mipmap.fujian, ToolBean.TOOL_IMAGE))
-            add(ToolBean(R.drawable.ic_weizhi, ToolBean.TOOL_LOCATION))
+            add(ToolBean(R.drawable.ic_ws_image, ToolBean.ToolBeanType.TOOL_IMAGE))
+            add(ToolBean(R.drawable.ic_ws_location, ToolBean.ToolBeanType.TOOL_LOCATION))
+            add(ToolBean(R.drawable.ic_more, ToolBean.ToolBeanType.TOOL_MORE))
         }
     }
 
@@ -45,15 +47,15 @@ class ToolView : LinearLayout {
     }
 
     private fun initView(context: Context) {
-        val view = View.inflate(context, R.layout.view_toolbar, this)
+         View.inflate(context, R.layout.view_toolbar, this)
 
         toolViewAdapter = ToolViewAdapter(R.layout.item_toolview, toolBeans)
 
-        view.toolbarRecycleView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, HORIZONTAL, false)
+        toolbarRecycleView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        view.toolbarRecycleView.adapter = toolViewAdapter
+        toolbarRecycleView.adapter = toolViewAdapter
 
-        view.setBackgroundColor(ContextCompat.getColor(context, R.color.write))
+        setBackgroundColor(ContextCompat.getColor(context, R.color.write))
 
         toolViewAdapter!!.setOnItemClickListener { _, _, position ->
 

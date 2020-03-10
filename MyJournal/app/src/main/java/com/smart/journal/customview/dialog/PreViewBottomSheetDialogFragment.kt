@@ -1,23 +1,13 @@
 package com.smart.journal.customview.dialog
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.FrameLayout
-import com.blankj.utilcode.util.ScreenUtils
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.smart.journal.R
 import com.smart.journal.contants.Contancts
 import com.smart.journal.customview.preview.PhotoViewTools
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.adapter.WriteAdapter
 import com.smart.journal.module.write.bean.JournalBean
-import com.smart.journal.db.entity.JournalBeanDBBean
 import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
 import java.util.*
 
@@ -27,10 +17,8 @@ import java.util.*
  * @date 2018/9/4
  */
 @SuppressLint("ValidFragment")
-class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
+class PreViewBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
-
-    private var behavior: BottomSheetBehavior<*>? = null
     private val writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
     private var journalBeanDBBean: JournalBeanDBBean? = null
@@ -57,51 +45,22 @@ class PreViewBottomSheetDialogFragment : BottomSheetDialogFragment {
 
     constructor()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.view_dialog_preview_bottom_sheet, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = WriteAdapter(writeSectionBeans, WriteAdapter.WriteAdapterModel.WriteAdapterModel_SHOW)
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         adapter!!.notifyDataSetChanged()
         adapter!!.setOnItemClickListener { adapter, view1, position ->
             if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
                 PhotoViewTools.showPhotos(object : ArrayList<String>() {
                     init {
-                        add(writeSectionBeans[position].imageURL)
+                        writeSectionBeans[position].imageURL?.let { add(it) }
                     }
                 }, 0, context)
             }
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return if (context == null) {
-            super.onCreateDialog(savedInstanceState)
-        } else BottomSheetDialog(context!!, R.style.TransparentBottomSheetStyle)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // 设置软键盘不自动弹出
-        dialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        val dialog = dialog as BottomSheetDialog
-        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(R.id.design_bottom_sheet)
-        if (bottomSheet != null) {
-            val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
-            layoutParams.height = ScreenUtils.getScreenHeight()
-            behavior = BottomSheetBehavior.from(bottomSheet)
-            // 初始为展开状态
-            behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-    }
-
-    fun doclick(v: View) {
-        //点击任意布局关闭
-        behavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-    }
 
 }

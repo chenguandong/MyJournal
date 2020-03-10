@@ -1,6 +1,10 @@
-package com.smart.journal.module.write.Views;
+package com.smart.journal.module.write.bean;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.StringDef;
 
 /**
  * @author guandongchen
@@ -9,12 +13,20 @@ import java.io.Serializable;
 
 public class ToolBean implements Serializable{
 
-    public static final String TOOL_WEATHER = "Weather";
-    public static final String TOOL_IMAGE = "Image";
-    public static final String TOOL_LOCATION = "Location";
+    @StringDef({ToolBeanType.TOOL_IMAGE,ToolBeanType.TOOL_LOCATION})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ToolBeanType{
+        /**
+         * 图片
+         */
+        String TOOL_IMAGE = "Image";
+        String TOOL_LOCATION = "Location";
+        String TOOL_MORE = "More";
+    }
 
     private int icon;
     private boolean selected;
+    @ToolBeanType
     private String itemType;
 
     public ToolBean(int icon, boolean selected) {
@@ -22,7 +34,7 @@ public class ToolBean implements Serializable{
         this.selected = selected;
     }
 
-    public ToolBean(int icon, String itemType) {
+    public ToolBean(int icon,@ToolBeanType String itemType) {
         this.icon = icon;
         this.itemType = itemType;
     }

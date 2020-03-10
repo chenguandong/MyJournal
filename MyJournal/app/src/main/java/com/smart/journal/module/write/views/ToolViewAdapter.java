@@ -1,4 +1,4 @@
-package com.smart.journal.module.write.Views;
+package com.smart.journal.module.write.views;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.smart.journal.R;
+import com.smart.journal.module.write.bean.ToolBean;
 
 import java.util.List;
 

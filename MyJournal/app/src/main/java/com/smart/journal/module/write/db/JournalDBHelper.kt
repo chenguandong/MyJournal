@@ -37,7 +37,7 @@ object JournalDBHelper {
 
                 contentSb.append(Contancts.FILE_TYPE_IMAGE + journalBean.imageURL + Contancts.FILE_TYPE_SPLIT)
             } else {
-                if (!TextUtils.isEmpty(journalBean.content.trim { it <= ' ' })) {
+                if (!TextUtils.isEmpty(journalBean.content!!.trim { it <= ' ' })) {
                     contentSb.append(Contancts.FILE_TYPE_TEXT + journalBean.content + Contancts.FILE_TYPE_SPLIT)
                 }
 

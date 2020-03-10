@@ -62,7 +62,7 @@ public class SensorEventHelper implements SensorEventListener {
 				x -= 360.0F;
 			else if (x < -180.0F)
 				x += 360.0F;
-			
+
 			if (Math.abs(mAngle - x) < 3.0f) {
 				break;
 			}

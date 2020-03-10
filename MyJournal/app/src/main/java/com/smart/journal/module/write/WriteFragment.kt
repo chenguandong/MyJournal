@@ -12,11 +12,12 @@ import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
-import com.smart.journal.module.write.Views.ToolBean
-import com.smart.journal.module.write.Views.ToolView
 import com.smart.journal.module.write.adapter.WriteAdapter
 import com.smart.journal.module.write.bean.JournalBean
+import com.smart.journal.module.write.bean.ToolBean
 import com.smart.journal.module.write.db.JournalDBHelper
+import com.smart.journal.module.write.views.MoreSettingBottomSheetDialogFragment
+import com.smart.journal.module.write.views.ToolView
 import com.smart.journal.tools.PermissionTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.file.MJFileTools
@@ -83,13 +84,15 @@ class WriteFragment : BaseFragment() {
             override fun onItemClick(toolBean: ToolBean) {
                 when (toolBean.itemType) {
 
-                    ToolBean.TOOL_LOCATION -> {
+                    //位置
+                    ToolBean.ToolBeanType.TOOL_LOCATION -> {
                         val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
                         locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
                         startActivityForResult(locationIntent, REQUEST_LOCATION_CODE)
                     }
 
-                    ToolBean.TOOL_IMAGE -> {
+                    //图片
+                    ToolBean.ToolBeanType.TOOL_IMAGE -> {
                         PermissionTools.checkPermission(activity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
                             override fun permissionYES() {
 
@@ -129,6 +132,11 @@ class WriteFragment : BaseFragment() {
 
                             }
                         })
+                    }
+
+                    //更多按钮
+                    ToolBean.ToolBeanType.TOOL_MORE ->{
+                        MoreSettingBottomSheetDialogFragment().show(childFragmentManager,"")
                     }
                 }
             }
