@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
  * @date 2020/3/9
  */
 open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
-    private var behavior: BottomSheetBehavior<*>? = null
+    protected var behavior: BottomSheetBehavior<*>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.view_dialog_preview_bottom_sheet, container, false)
@@ -50,9 +51,15 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
             val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
             layoutParams.height = ScreenUtils.getScreenHeight()
             behavior = BottomSheetBehavior.from(bottomSheet)
-            // 初始为展开状态
-            behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+            setOpenState()
         }
+        KeyboardUtils.hideSoftInput(activity)
+    }
+
+    open fun setOpenState(){
+        // 初始为展开状态
+        behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+
     }
 
     fun doclick(v: View) {

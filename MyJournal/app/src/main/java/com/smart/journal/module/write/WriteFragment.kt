@@ -17,6 +17,7 @@ import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.adapter.WriteAdapter
 import com.smart.journal.module.write.bean.JournalBean
 import com.smart.journal.module.write.bean.ToolBean
+import com.smart.journal.module.write.bean.WriteSettingBean
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.module.write.viewmodel.WriteFragmentViewModel
 import com.smart.journal.module.write.views.MoreSettingBottomSheetDialogFragment
@@ -47,7 +48,7 @@ class WriteFragment : BaseFragment() {
 
     private val writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
-    var choosePoiItem:MjPoiItem? = null
+    private val writeSetting: WriteSettingBean? = WriteSettingBean()
     override fun getData() {
 
     }
@@ -61,7 +62,7 @@ class WriteFragment : BaseFragment() {
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
 
-        viewModel.getJounalData().observe(this, Observer<List<JournalBean>>{ journal ->
+        viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->
             // update UI
         })
 
@@ -83,6 +84,7 @@ class WriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        writeSetting!!.time = System.currentTimeMillis()
     }
 
     override fun initView() {
@@ -148,8 +150,8 @@ class WriteFragment : BaseFragment() {
                     }
 
                     //更多按钮
-                    ToolBean.ToolBeanType.TOOL_MORE ->{
-                        MoreSettingBottomSheetDialogFragment().show(childFragmentManager,"")
+                    ToolBean.ToolBeanType.TOOL_MORE -> {
+                        MoreSettingBottomSheetDialogFragment(writeSetting).show(childFragmentManager, "")
                     }
                 }
             }
@@ -188,7 +190,7 @@ class WriteFragment : BaseFragment() {
 
             R.id.toolbar_right_action -> {
 
-                JournalDBHelper.saveJournal(writeSectionBeans, choosePoiItem)
+                JournalDBHelper.saveJournal(writeSectionBeans, writeSetting!!.location)
                 EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
                 activity!!.finish()
             }
@@ -204,8 +206,8 @@ class WriteFragment : BaseFragment() {
 
         when (requestCode) {
             REQUEST_LOCATION_CODE -> {
-                val poiItem:MjPoiItem = data!!.getSerializableExtra(AMapAdressSearchActivity.INTENT_LOCATION) as MjPoiItem
-                choosePoiItem  = poiItem
+                val poiItem: MjPoiItem = data!!.getSerializableExtra(AMapAdressSearchActivity.INTENT_LOCATION) as MjPoiItem
+                writeSetting!!.location = poiItem
             }
         }
     }
