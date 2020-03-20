@@ -1,7 +1,6 @@
 package com.smart.journal.module.menu
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,15 +10,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
-import com.smart.journal.db.AppDatabase
-import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.db.entity.NoteBookDBBean
+import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
-import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,10 +30,10 @@ class SlideMenuFragment : Fragment() {
     var param1: String? = null
     var param2: String? = null
     /*private var listener: OnFragmentInteractionListener? = null*/
-    val REQUEST_CODE  = 100
+    val REQUEST_CODE = 100
 
     var menusList: ArrayList<SlideMenuBean>? = ArrayList()
-    var menuAdapter:SlideMenuAdapter?= null
+    var menuAdapter: SlideMenuAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,40 +55,40 @@ class SlideMenuFragment : Fragment() {
     }
 
     private fun initData() {
-        var allDbNoteList:List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook
-        if (allDbNoteList.isEmpty()){
+        var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook
+        if (allDbNoteList.isEmpty()) {
             MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean("默认"))
         }
-        allDbNoteList= MyApp.database!!.mNoteBookDao().allNoteBook
+        allDbNoteList = MyApp.database!!.mNoteBookDao().allNoteBook
         menusList!!.clear()
         allDbNoteList.forEach {
-            menusList!!.add(SlideMenuBean(it,ItemMenuType.MENU_NOTE_BOOK))
+            menusList!!.add(SlideMenuBean(it, ItemMenuType.MENU_NOTE_BOOK))
         }
-        menusList!!.add(SlideMenuBean(NoteBookDBBean(""),ItemMenuType.MENU_NOTE_BOOK_ADD))
+        menusList!!.add(SlideMenuBean(NoteBookDBBean(""), ItemMenuType.MENU_NOTE_BOOK_ADD))
         menuAdapter = SlideMenuAdapter(menusList!!)
         menuRecyclerView.layoutManager = LinearLayoutManager(context)
         menuRecyclerView.adapter = menuAdapter
         menuAdapter!!.notifyDataSetChanged()
 
-        menuAdapter!!.onItemClickListener = object :BaseQuickAdapter.OnItemClickListener{
-            override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
 
-                if (menusList!!.get(position).itemType==ItemMenuType.MENU_NOTE_BOOK_ADD){
+        menuAdapter!!.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                if (menusList!!.get(position)!!.itemType == ItemMenuType.MENU_NOTE_BOOK_ADD) {
                     var intent = Intent(context, CreateNoteBookActivity::class.java)
-                    startActivityForResult(intent,REQUEST_CODE)
+                    startActivityForResult(intent, REQUEST_CODE)
                 }
             }
 
-        }
+        })
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode!=RESULT_OK){
+        if (resultCode != RESULT_OK) {
             return
         }
-        if (requestCode==REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             initData()
         }
     }

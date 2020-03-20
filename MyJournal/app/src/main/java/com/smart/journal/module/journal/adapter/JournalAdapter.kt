@@ -4,14 +4,13 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.smart.journal.R
 import com.smart.journal.contants.Contancts
-import com.smart.journal.module.journal.bean.JournalItemBean
 import com.smart.journal.db.entity.JournalBeanDBBean
+import com.smart.journal.module.journal.bean.JournalItemBean
 import com.smart.journal.tools.DateTools
 import com.smart.journal.tools.StringTools
 import java.util.*
@@ -22,11 +21,7 @@ import java.util.*
  */
 
 class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
-    constructor(layoutResId: Int, data: List<JournalBeanDBBean>?) : super(layoutResId, data)
-
-    constructor(data: List<JournalBeanDBBean>?) : super(data)
-
-    constructor(layoutResId: Int) : super(layoutResId)
+    constructor(layoutResId: Int, data: List<JournalBeanDBBean>?) : super(layoutResId, data as MutableList<JournalBeanDBBean>?)
 
     override fun convert(helper: BaseViewHolder, item: JournalBeanDBBean) {
 
@@ -71,7 +66,7 @@ class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
         dayTextview.text = DateTools.getYMd(Date(item.date))[2].toString() + ""
 
         if (!TextUtils.isEmpty(imageURL)) {
-            Glide.with(mContext).load(imageURL).into(imageView)
+            Glide.with(context).load(imageURL).into(imageView)
             imageView.visibility = View.VISIBLE
         } else {
             imageView.visibility = View.GONE

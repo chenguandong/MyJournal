@@ -6,7 +6,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.smart.journal.R
 import com.smart.journal.customview.imageview.AspectRatioRoundedImageView
 import com.smart.journal.module.write.bean.JournalBean
@@ -15,13 +15,20 @@ import com.smart.journal.module.write.bean.JournalBean
  * @author guandongchen
  * @date 2018/1/18
  */
-class WriteAdapter(data: List<JournalBean?>?, private val writeAdapterModel: WriteAdapterModel) : BaseMultiItemQuickAdapter<JournalBean?, BaseViewHolder?>(data) {
+class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
     enum class WriteAdapterModel {
         WriteAdapterModel_SHOW, WriteAdapterModel_EDIT
     }
 
-    override fun convert(helper: BaseViewHolder?, item: JournalBean?) {
-        when (item!!.getItemType()) {
+    var writeAdapterModel: WriteAdapterModel? = null
+
+    constructor(data: MutableList<JournalBean>?, writeAdapterModel: WriteAdapterModel) : super(data) {
+        this.writeAdapterModel = writeAdapterModel
+    }
+
+
+    override fun convert(helper: BaseViewHolder, item: JournalBean) {
+        when (item!!.itemType) {
             JournalBean.WRITE_TAG_TEXT -> {
                 val editText = helper!!.getView<EditText>(R.id.write_edit_text)
                 if (data.indexOf(item) == 0) {
@@ -41,10 +48,11 @@ class WriteAdapter(data: List<JournalBean?>?, private val writeAdapterModel: Wri
                 if (writeAdapterModel == WriteAdapterModel.WriteAdapterModel_SHOW) {
                     editText.isEnabled = false
                 }
+
             }
             JournalBean.WRITE_TAG_IMAGE -> {
                 val imageView = helper!!.getView<AspectRatioRoundedImageView>(R.id.write_imageview)
-                Glide.with(mContext).load(item.imageURL).into(imageView)
+                Glide.with(context).load(item.imageURL).into(imageView)
             }
             else -> {
             }

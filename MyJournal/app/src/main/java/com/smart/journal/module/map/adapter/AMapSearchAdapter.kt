@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.smart.journal.R
 import com.smart.journal.module.map.bean.MjPoiItem
 
@@ -23,21 +23,21 @@ class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQ
         notifyDataSetChanged()
     }
 
-    override fun convert(helper: BaseViewHolder?, mjPoiItem: MjPoiItem?) {
 
+
+    override fun convert(helper: BaseViewHolder, item: MjPoiItem) {
         var adressTitleTextView = helper!!.getView<TextView>(R.id.adressTitleTextView)
         var adressSubTitleTextView = helper.getView<TextView>(R.id.adressSubTitleTextView)
         var arrowImageView = helper.getView<ImageView>(R.id.arrowImageView)
 
-        adressTitleTextView.text = mjPoiItem!!.snippet
-        adressSubTitleTextView.text = mjPoiItem.title
+        adressTitleTextView.text = item!!.snippet
+        adressSubTitleTextView.text = item.title
 
-        if (selPosition == data.indexOf(mjPoiItem)) {
+        if (selPosition == data.indexOf(item)) {
             arrowImageView.visibility = View.VISIBLE
         } else {
             arrowImageView.visibility = View.GONE
         }
-
     }
 
 }

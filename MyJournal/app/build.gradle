@@ -50,11 +50,8 @@ android {
             }
         }
 
-        release_debug {
+        debug {
             debuggable true
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk {
                 abiFilters 'armeabi', 'armeabi-v7a', 'x86' /*, "arm64-v8a"*/
             }
@@ -121,7 +118,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.62'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.3.1'
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:${var}"
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
     implementation 'com.blankj:utilcode:1.22.2'
 
     // compile 'com.zhihu.android:matisse:0.5.1'
@@ -189,4 +186,3 @@ kapt {
 androidExtensions {
     experimental = true
 }
-

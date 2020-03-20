@@ -16,5 +16,6 @@
         android:background="#FFFFFF"
         android:textColor="@color/black"
         android:minHeight="48dp"
+        android:inputType="textMultiLine"
         />
 </LinearLayout>

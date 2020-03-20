@@ -1,39 +1,32 @@
 package com.smart.journal.module.write.views;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.AppCompatImageView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.smart.journal.R;
 import com.smart.journal.module.write.bean.ToolBean;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 
 /**
  * @author guandongchen
  * @date 2018/1/18
  */
 
-public class ToolViewAdapter extends BaseQuickAdapter<ToolBean,BaseViewHolder>{
+public class ToolViewAdapter extends BaseQuickAdapter<ToolBean, BaseViewHolder>{
 
     public ToolViewAdapter(int layoutResId, @Nullable List<ToolBean> data) {
         super(layoutResId, data);
     }
 
-    public ToolViewAdapter(@Nullable List<ToolBean> data) {
-        super(data);
-    }
-
-    public ToolViewAdapter(int layoutResId) {
-        super(layoutResId);
-    }
 
     @Override
     protected void convert(BaseViewHolder helper, ToolBean item) {
 
         AppCompatImageView imageView = helper.getView(R.id.toolImageView);
-        imageView.setImageDrawable(ContextCompat.getDrawable(mContext,item.getIcon()));
+        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(),item.getIcon()));
     }
 }

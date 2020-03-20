@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
@@ -30,6 +31,7 @@ import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.module.map.adapter.AMapSearchAdapter
@@ -114,15 +116,18 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         aMapSearchAdapter = AMapSearchAdapter(R.layout.item_select_location_subtitle, mMjPoiItemList)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = aMapSearchAdapter
-        aMapSearchAdapter!!.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
-            var poiItem: MjPoiItem = mMjPoiItemList.get(position)
-            aMap!!.clear()
-            aMap!!.addMarker(MarkerOptions().position(LatLng(poiItem.latitude, poiItem.longitude)).title("xx").snippet("??"))
-            aMap!!.animateCamera(CameraUpdateFactory.changeLatLng(LatLng(poiItem.latitude, poiItem.longitude)))
-            aMapSearchAdapter!!.setSelPosition(position)
-            selectedPoiItem = poiItem
 
-        }
+        aMapSearchAdapter!!.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                var poiItem: MjPoiItem = mMjPoiItemList.get(position)
+                aMap!!.clear()
+                aMap!!.addMarker(MarkerOptions().position(LatLng(poiItem.latitude, poiItem.longitude)).title("xx").snippet("??"))
+                aMap!!.animateCamera(CameraUpdateFactory.changeLatLng(LatLng(poiItem.latitude, poiItem.longitude)))
+                aMapSearchAdapter!!.setSelPosition(position)
+                selectedPoiItem = poiItem
+            }
+
+        })
     }
 
     private fun searchPlace() {

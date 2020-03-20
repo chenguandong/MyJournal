@@ -32,5 +32,4 @@ task clean(type: Delete) {
 
 ext {
     supportLibVersion = '28.0.0'
-    var = '2.9.46'
 }

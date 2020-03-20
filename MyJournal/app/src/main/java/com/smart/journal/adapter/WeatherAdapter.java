@@ -1,15 +1,16 @@
 package com.smart.journal.adapter;
 
-import androidx.annotation.Nullable;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.smart.journal.R;
 import com.smart.journal.bean.TodayWeatherBean;
 import com.smart.journal.tools.DateTools;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * @author guandongchen
@@ -22,13 +23,6 @@ public class WeatherAdapter extends BaseQuickAdapter<TodayWeatherBean.ForecastsB
         super(layoutResId, data);
     }
 
-    public WeatherAdapter(@Nullable List<TodayWeatherBean.ForecastsBean.CastsBean> data) {
-        super(data);
-    }
-
-    public WeatherAdapter(int layoutResId) {
-        super(layoutResId);
-    }
 
     @Override
     protected void convert(BaseViewHolder helper, TodayWeatherBean.ForecastsBean.CastsBean item) {

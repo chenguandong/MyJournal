@@ -8,35 +8,24 @@ import java.io.Serializable
  * @author guandongchen
  * @date 2018/1/18
  */
-class JournalBean : Serializable, MultiItemEntity {
-     var itemType:Int ?= 0
-     var content: String? = null
-     var imageURL: String? = null
+class JournalBean(override var itemType: Int) : Serializable, MultiItemEntity {
+    var content: String? = null
+    var imageURL: String? = null
 
-    constructor(content: String?, imageURL: String?) {
+
+    constructor(content: String, imageURL: String) : this(itemType=WRITE_TAG_TEXT) {
         this.content = content
         this.imageURL = imageURL
         if (!TextUtils.isEmpty(content)) {
-            setItemType(WRITE_TAG_TEXT)
+            itemType= WRITE_TAG_TEXT
         }
         if (!TextUtils.isEmpty(imageURL)) {
-            setItemType(WRITE_TAG_IMAGE)
+            itemType = WRITE_TAG_IMAGE
         }
     }
 
-    constructor(content: String?) {
+    constructor(content: String) : this(itemType=WRITE_TAG_TEXT) {
         this.content = content
-        setItemType(WRITE_TAG_TEXT)
-    }
-
-    constructor() {}
-
-    fun setItemType(itemType: Int) {
-        this.itemType = itemType
-    }
-
-    override fun getItemType(): Int {
-        return itemType!!
     }
 
     companion object {

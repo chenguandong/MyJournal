@@ -25,15 +25,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.menu.CreateNoteBookActivity"></activity>
+        <activity android:name=".remote.TestActivity"></activity>
+        <activity android:name=".module.menu.CreateNoteBookActivity" />
         <activity android:name=".module.map.activity.AMapAdressSearchActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4DYO0PsGebldhXZK8eRHF2RewuOGWoKq" />
-
-
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="753d54cf540b2856fc817ba3b0a8561e" />
@@ -85,7 +83,6 @@
                 <data android:mimeType="application/zip" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

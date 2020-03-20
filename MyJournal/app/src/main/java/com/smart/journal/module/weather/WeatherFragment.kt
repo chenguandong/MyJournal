@@ -72,7 +72,7 @@ class WeatherFragment : BaseFragment() {
         weatherAdapter = WeatherAdapter(R.layout.item_weather, weatherViewModel!!.getTodayWeatherData())
         recycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recycleView!!.adapter = weatherAdapter
-        weatherAdapter!!.openLoadAnimation()
+        weatherAdapter!!.animationEnable = true
 
         swipeRefreshLayout.setOnRefreshListener {
             initData()

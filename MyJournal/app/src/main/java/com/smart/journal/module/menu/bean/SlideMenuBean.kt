@@ -11,21 +11,14 @@ import com.smart.journal.module.menu.enums.ItemMenuType
  * @email chenguandong@outlook.com
  */
 
-class SlideMenuBean : MultiItemEntity {
+class SlideMenuBean(override val itemType: Int) : MultiItemEntity {
     //(var title: String, var subTitle: String, @field:ItemType4CBBDetail var itemType: Int)
     var noteBook: NoteBookDBBean? = null
 
-    @ItemMenuType
-    private var itemType: Int = 0
-
-    constructor(noteBook: NoteBookDBBean?, @ItemMenuType itemType: Int) {
+    constructor(noteBook: NoteBookDBBean?, @ItemMenuType itemType: Int) : this(itemType) {
         this.noteBook = noteBook
-        this.itemType = itemType
     }
 
-    override fun getItemType(): Int {
-        return itemType
-    }
 
 
 }

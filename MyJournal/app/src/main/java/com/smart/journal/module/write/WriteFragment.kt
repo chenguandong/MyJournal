@@ -212,6 +212,8 @@ class WriteFragment : BaseFragment() {
         }
     }
 
+
+
     companion object {
         const val REQUEST_LOCATION_CODE = 9
         // TODO: Rename parameter arguments, choose names that match

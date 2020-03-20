@@ -3,6 +3,7 @@ package com.smart.journal.module.write.views
 import android.os.Bundle
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.smart.journal.R
 import com.smart.journal.customview.dialog.BaseBottomSheetDialogFragment
@@ -56,8 +57,8 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
         adapter = MoreSettingAdapter(itemData)
         recyclerView.adapter = adapter
-        adapter!!.setOnItemClickListener(object : BaseQuickAdapter.OnItemClickListener{
-            override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        adapter!!.setOnItemClickListener(object : OnItemClickListener{
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when(position){
                     //地址
                     0->{
