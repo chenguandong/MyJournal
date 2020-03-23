@@ -14,13 +14,17 @@ import androidx.lifecycle.ViewModelProviders
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.contants.Contancts
-import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.journal.db.entity.JournalBeanDBBean
+import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
+import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.WriteFragment
 import com.smart.journal.module.write.activity.WriteActivity
 import com.smart.journal.module.write.bean.JournalBean
+import com.smart.journal.module.write.bean.MoreSettingBean
+import com.smart.journal.module.write.bean.WriteSettingBean
+import com.smart.journal.module.write.db.NoteBookDBHelper
 import com.smart.journal.tools.DividerItemDecorationTools
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
@@ -119,6 +123,27 @@ class JournalFragment : BaseFragment{
 
     fun preViewJournal(position:Int){
         var journalBeanDBBean:JournalBeanDBBean =journalViewModel!!.getJournalBeans().get(position)
+        var writeSettingBean  = WriteSettingBean()
+        journalBeanDBBean.bookId?.let {
+          var noteBooks:List<NoteBookDBBean> =   NoteBookDBHelper.queryNoteBook(it)
+            if (noteBooks.isNotEmpty()) {
+                writeSettingBean!!.journalBook = noteBooks[0]
+            }
+        }
+        writeSettingBean?.time = journalBeanDBBean.date
+        writeSettingBean?.location?.let {
+             MjPoiItem()
+        }
+        journalBeanDBBean?.address?.let {
+            var locationBean:MjPoiItem = MjPoiItem()
+            locationBean.title = it
+            locationBean.snippet = it
+            locationBean.longitude =journalBeanDBBean.longitude
+            locationBean.latitude =journalBeanDBBean.latitude
+            writeSettingBean!!.location = locationBean
+        }
+
+
         val writeSectionBeans = ArrayList<JournalBean>()
         if (journalBeanDBBean.content != null) {
 
@@ -138,7 +163,7 @@ class JournalFragment : BaseFragment{
 
         startActivity(Intent(activity, WriteActivity::class.java).putExtra(
                 WriteFragment.SHOW_DATA,writeSectionBeans
-        ))
+        ).putExtra(WriteFragment.SHOW_DATA_SETTING,writeSettingBean))
     }
 
     override fun initData() {

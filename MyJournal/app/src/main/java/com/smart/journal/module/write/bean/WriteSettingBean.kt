@@ -2,13 +2,14 @@ package com.smart.journal.module.write.bean
 
 import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.map.bean.MjPoiItem
+import java.io.Serializable
 
 /**
  *
  * @author guandongchen
  * @date 2020/3/12
  */
- class WriteSettingBean{
+ class WriteSettingBean() : Serializable {
     /**
      * 地理位置
      */
@@ -25,4 +26,7 @@ import com.smart.journal.module.map.bean.MjPoiItem
      * 时间
      */
     var time: Long ?=null
+
+
+
 }

@@ -48,7 +48,7 @@ class WriteFragment : BaseFragment() {
 
     private var writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
-    private val writeSetting: WriteSettingBean? = WriteSettingBean()
+    private var writeSetting: WriteSettingBean? = WriteSettingBean()
 
     private var isShowDataModel = false
     override fun getData() {
@@ -68,8 +68,13 @@ class WriteFragment : BaseFragment() {
         if (showData!=null){
             isShowDataModel = true
             writeSectionBeans = showData as ArrayList<JournalBean>
+            activity!!.intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
+                writeSetting = it as WriteSettingBean
+            }
+            
         }else{
             writeSectionBeans.add(JournalBean(""))
+            writeSetting!!.time = System.currentTimeMillis()
         }
 
         viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->
@@ -94,7 +99,7 @@ class WriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        writeSetting!!.time = System.currentTimeMillis()
+
     }
 
     override fun initView() {
@@ -205,7 +210,7 @@ class WriteFragment : BaseFragment() {
 
             R.id.toolbar_right_action -> {
 
-                JournalDBHelper.saveJournal(writeSectionBeans, writeSetting!!.location)
+                JournalDBHelper.saveJournal(writeSectionBeans, settingBean = writeSetting)
                 EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
                 activity!!.finish()
             }
@@ -231,7 +236,10 @@ class WriteFragment : BaseFragment() {
 
     companion object {
         const val REQUEST_LOCATION_CODE = 9
+        //日记内容
         const val SHOW_DATA = "showData"
+        //日记的设置的内容
+        const val SHOW_DATA_SETTING = "showDataSetting"
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"

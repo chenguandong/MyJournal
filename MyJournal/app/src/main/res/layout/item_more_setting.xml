@@ -32,6 +32,8 @@
             android:textColor="@color/black"
             tools:text="日记"
             android:gravity="center|left"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,6 +45,8 @@
             android:textColor="@android:color/holo_orange_dark"
             tools:text="2020年03月09日"
             android:gravity="center|left"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
     </LinearLayout>
 </LinearLayout>

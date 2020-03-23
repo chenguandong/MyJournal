@@ -1,15 +1,10 @@
 package com.smart.journal.db.entity
 
-import android.os.Parcel
-import android.os.Parcelable
-import com.smart.journal.module.journal.bean.JournalItemBean
-
-import java.util.Date
-
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.smart.journal.module.journal.bean.JournalItemBean
 
 
 /**
@@ -35,6 +30,8 @@ import androidx.room.PrimaryKey
     var longitude: Double = 0.toDouble()
     @ColumnInfo(name = "address")
     var address: String? = null
+    @ColumnInfo(name = "book")
+    var bookId:Int?= null
 
     @Ignore
     var journalItemBean: JournalItemBean? = null

@@ -13,7 +13,7 @@ import java.io.Serializable
  * @email chenguandong@outlook.com
  */
 @Entity(tableName = "notebook")
-class NoteBookDBBean constructor() {
+class NoteBookDBBean constructor():Serializable {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     var id = 0

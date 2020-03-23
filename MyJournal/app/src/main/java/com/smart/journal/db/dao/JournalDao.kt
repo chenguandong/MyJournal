@@ -1,14 +1,7 @@
-package com.smart.journal.db.dao;
+package com.smart.journal.db.dao
 
-import com.smart.journal.db.entity.JournalBeanDBBean;
-
-import java.util.List;
-
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
+import androidx.room.*
+import com.smart.journal.db.entity.JournalBeanDBBean
 
 /**
  * @author Administrator
@@ -19,21 +12,17 @@ import androidx.room.Query;
  * 支持boole 注解  取值的时候用 1, 0 代表true  false
  */
 @Dao
-public abstract class JournalDao {
-/*  @Query("SELECT count(*)as b1,SUM(age) as b2,MAX(score) sentTime,* FROM user")
+abstract class JournalDao {
+    /*  @Query("SELECT count(*)as b1,SUM(age) as b2,MAX(score) sentTime,* FROM user")
    public abstract List<BaseUser> getAll();*/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun saveJournal(vararg journalBeanDBBeans: JournalBeanDBBean?)
 
+    @get:Query("SELECT * FROM journal ORDER BY date DESC")
+    abstract val allJournal: List<JournalBeanDBBean?>?
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  public abstract void saveJournal(JournalBeanDBBean... journalBeanDBBeans);
-
-  @Query("SELECT * FROM journal ORDER BY date DESC")
-  public abstract List<JournalBeanDBBean> getAllJournal();
-
-  @Delete
-  public abstract void deleteJournal(JournalBeanDBBean journalBeanDBBean);
-
- /* @Delete
+    @Delete
+    abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?) /* @Delete
   public abstract void delete(User user);
 
   @Update
@@ -56,5 +45,4 @@ public abstract class JournalDao {
 
   @Query("SELECT * FROM User WHERE first_name LIKE :first AND " + "last_name LIKE :last LIMIT 1")
   public abstract User findByName(String first, String last);*/
-
 }

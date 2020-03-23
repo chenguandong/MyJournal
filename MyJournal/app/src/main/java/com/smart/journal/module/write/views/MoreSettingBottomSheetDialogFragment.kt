@@ -72,7 +72,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                 /* 日记本 */
                 2->{
 
-                    var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook
+                    var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook as List<NoteBookDBBean>
                     val items: Array<String?> = arrayOfNulls(allDbNoteList.size)
 
                     var choosedItem:Int = 0

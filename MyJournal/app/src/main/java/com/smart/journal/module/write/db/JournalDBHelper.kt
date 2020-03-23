@@ -4,8 +4,8 @@ import android.text.TextUtils
 import com.smart.journal.app.MyApp
 import com.smart.journal.contants.Contancts
 import com.smart.journal.db.entity.JournalBeanDBBean
-import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.bean.JournalBean
+import com.smart.journal.module.write.bean.WriteSettingBean
 import com.smart.journal.tools.location.LocationTools
 
 
@@ -16,19 +16,18 @@ import com.smart.journal.tools.location.LocationTools
 
 object JournalDBHelper {
 
-
     /**
      * 获取所有日记
      * @return
      */
     val allJournals: List<JournalBeanDBBean>
-        get() = MyApp.database!!.mJournalDao().allJournal
+        get() = MyApp.database!!.mJournalDao().allJournal as List<JournalBeanDBBean>
 
     /**
      * 保存日记
      * @param writeSectionBeans
      */
-    fun saveJournal(writeSectionBeans: List<JournalBean>, chooseLocation: MjPoiItem?) {
+    fun saveJournal(writeSectionBeans: List<JournalBean>, settingBean: WriteSettingBean?) {
         val journalBeanDBBean = JournalBeanDBBean()
         val contentSb = StringBuilder()
         for (journalBean in writeSectionBeans) {
@@ -42,12 +41,13 @@ object JournalDBHelper {
             }
         }
         journalBeanDBBean.content = contentSb.toString()
-        journalBeanDBBean.date = System.currentTimeMillis()
-
-
-        if (chooseLocation != null) {
-            val locationBean = chooseLocation
-            if (!TextUtils.isEmpty(locationBean.title)) {
+        journalBeanDBBean.date = settingBean!!.time!!
+        if (settingBean.journalBook!=null){
+            journalBeanDBBean.bookId = settingBean!!.journalBook!!.id
+        }
+        if (settingBean!!.location != null) {
+            val locationBean = settingBean!!.location
+            if (!TextUtils.isEmpty(locationBean!!.title)) {
                 journalBeanDBBean.address = locationBean.title
                 journalBeanDBBean.latitude = locationBean.latitude
                 journalBeanDBBean.longitude = locationBean.longitude
@@ -63,8 +63,6 @@ object JournalDBHelper {
 
         journalBeanDBBean.tags = "默认"
         MyApp.database!!.mJournalDao().saveJournal(journalBeanDBBean)
-
-       // MyApp.database!!.mNoteBookDao().saveNoteBook()
     }
 
     /**
