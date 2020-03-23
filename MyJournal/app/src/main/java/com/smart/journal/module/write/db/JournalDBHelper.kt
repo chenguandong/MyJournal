@@ -63,6 +63,8 @@ object JournalDBHelper {
 
         journalBeanDBBean.tags = "默认"
         MyApp.database!!.mJournalDao().saveJournal(journalBeanDBBean)
+
+       // MyApp.database!!.mNoteBookDao().saveNoteBook()
     }
 
     /**

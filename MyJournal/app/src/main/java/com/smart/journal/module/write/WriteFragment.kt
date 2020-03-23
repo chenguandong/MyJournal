@@ -46,9 +46,11 @@ class WriteFragment : BaseFragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
 
-    private val writeSectionBeans = ArrayList<JournalBean>()
+    private var writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
     private val writeSetting: WriteSettingBean? = WriteSettingBean()
+
+    private var isShowDataModel = false
     override fun getData() {
 
     }
@@ -60,6 +62,14 @@ class WriteFragment : BaseFragment() {
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
+        }
+
+        val showData = activity!!.intent.getSerializableExtra(SHOW_DATA)
+        if (showData!=null){
+            isShowDataModel = true
+            writeSectionBeans = showData as ArrayList<JournalBean>
+        }else{
+            writeSectionBeans.add(JournalBean(""))
         }
 
         viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->
@@ -88,9 +98,14 @@ class WriteFragment : BaseFragment() {
     }
 
     override fun initView() {
-        writeSectionBeans.add(JournalBean(""))
 
-        adapter = WriteAdapter(writeSectionBeans, WriteAdapter.WriteAdapterModel.WriteAdapterModel_EDIT)
+        var model: WriteAdapter.WriteAdapterModel? = null
+        if(isShowDataModel){
+            model = WriteAdapter.WriteAdapterModel.WriteAdapterModel_SHOW
+        }else{
+            model = WriteAdapter.WriteAdapterModel.WriteAdapterModel_EDIT
+        }
+        adapter = WriteAdapter(writeSectionBeans, model!!)
         writeRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         writeRecycleView!!.adapter = adapter
         adapter!!.notifyDataSetChanged()
@@ -216,6 +231,7 @@ class WriteFragment : BaseFragment() {
 
     companion object {
         const val REQUEST_LOCATION_CODE = 9
+        const val SHOW_DATA = "showData"
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"

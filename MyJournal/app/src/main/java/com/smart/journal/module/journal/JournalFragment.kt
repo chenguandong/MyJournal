@@ -1,26 +1,32 @@
 package com.smart.journal.module.journal
 
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.contants.Contancts
 import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
+import com.smart.journal.module.write.WriteFragment
+import com.smart.journal.module.write.activity.WriteActivity
+import com.smart.journal.module.write.bean.JournalBean
 import com.smart.journal.tools.DividerItemDecorationTools
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -85,14 +91,15 @@ class JournalFragment : BaseFragment{
         journalRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
-            PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
+            preViewJournal(position)
         }
         journalAdapter!!.setOnItemLongClickListener { adapter, view, position ->
 
             AlertDialog.Builder(context).setItems(arrayOf<CharSequence>("查看", "删除")) { dialogInterface, i ->
                 when (i) {
                     0 -> {
-                        PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
+                       // PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
+                        preViewJournal(position)
                     }
                     1 -> {
                         journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
@@ -108,6 +115,30 @@ class JournalFragment : BaseFragment{
         swipeRefreshLayout.setOnRefreshListener({
             initData()
         })
+    }
+
+    fun preViewJournal(position:Int){
+        var journalBeanDBBean:JournalBeanDBBean =journalViewModel!!.getJournalBeans().get(position)
+        val writeSectionBeans = ArrayList<JournalBean>()
+        if (journalBeanDBBean.content != null) {
+
+            // val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+            for (content in contents) {
+                if (content.startsWith(Contancts.FILE_TYPE_TEXT)) {
+                    writeSectionBeans.add(JournalBean(content.replace(Contancts.FILE_TYPE_TEXT, "")))
+                } else if (content.startsWith(Contancts.FILE_TYPE_IMAGE)) {
+                    writeSectionBeans.add(JournalBean("", content.replace(Contancts.FILE_TYPE_IMAGE, "")))
+                }
+
+            }
+
+        }
+
+        startActivity(Intent(activity, WriteActivity::class.java).putExtra(
+                WriteFragment.SHOW_DATA,writeSectionBeans
+        ))
     }
 
     override fun initData() {
