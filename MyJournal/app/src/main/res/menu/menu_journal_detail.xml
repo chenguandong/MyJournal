@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.smart.journal.MainActivity">
+    <item
+        android:id="@+id/toolbar_edit"
+        android:title="编辑"
+        app:showAsAction="collapseActionView"></item>
+
+    <item
+        android:id="@+id/toolbar_delete"
+        android:title="删除"
+        app:showAsAction="collapseActionView"></item>
+</menu>

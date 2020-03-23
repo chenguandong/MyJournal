@@ -9,24 +9,29 @@ import java.io.Serializable
  * @author guandongchen
  * @date 2020/3/12
  */
- class WriteSettingBean() : Serializable {
+class WriteSettingBean() : Serializable {
+    var journalId: Int? = null
     /**
      * 地理位置
      */
-    var location: MjPoiItem ?= null
+    var location: MjPoiItem? = null
     /**
      * 标签
      */
-    var tags: List<String> ?=null
+    var tags: List<String>? = null
     /**
      * 日记本
      */
-    var journalBook: NoteBookDBBean ?=null
+    var journalBook: NoteBookDBBean? = null
     /**
      * 时间
      */
-    var time: Long ?=null
+    var time: Long? = null
 
+    /**
+     * 是否允许编辑
+     */
+    var isEditable: Boolean = false
 
 
 }

@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.smart.journal.module.write.WriteFragment">
 
@@ -11,16 +12,31 @@
         />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/writeRecycleView"
+        android:layout_above="@+id/toolView"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:background="@color/write"
+        android:padding="16dp"
         />
 
     <com.smart.journal.module.write.views.ToolView
         android:id="@+id/toolView"
         android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        />
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_margin="16dp"
+        android:tint="#FFFFFF"
+        android:backgroundTint="@android:color/holo_red_light"
+        app:borderWidth="0dp"
+        android:visibility="visible"
+        app:srcCompat="@android:drawable/ic_input_get" />
+</RelativeLayout>

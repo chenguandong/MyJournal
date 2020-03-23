@@ -22,6 +22,12 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
 
     var writeAdapterModel: WriteAdapterModel? = null
 
+    var isEditable:Boolean = false
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
+
     constructor(data: MutableList<JournalBean>?, writeAdapterModel: WriteAdapterModel) : super(data) {
         this.writeAdapterModel = writeAdapterModel
     }
@@ -45,9 +51,8 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
 
                     override fun afterTextChanged(s: Editable) {}
                 })
-                if (writeAdapterModel == WriteAdapterModel.WriteAdapterModel_SHOW) {
-                    editText.isEnabled = false
-                }
+                editText.isEnabled = isEditable
+                editText.setSelection(editText.text.length)
 
             }
             JournalBean.WRITE_TAG_IMAGE -> {

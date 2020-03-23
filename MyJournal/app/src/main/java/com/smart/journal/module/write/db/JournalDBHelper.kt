@@ -3,6 +3,7 @@ package com.smart.journal.module.write.db
 import android.text.TextUtils
 import com.smart.journal.app.MyApp
 import com.smart.journal.contants.Contancts
+import com.smart.journal.db.dao.JournalDao
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.bean.JournalBean
 import com.smart.journal.module.write.bean.WriteSettingBean
@@ -16,12 +17,14 @@ import com.smart.journal.tools.location.LocationTools
 
 object JournalDBHelper {
 
+    var journalDao: JournalDao? = MyApp.database!!.mJournalDao()
+
     /**
      * 获取所有日记
      * @return
      */
     val allJournals: List<JournalBeanDBBean>
-        get() = MyApp.database!!.mJournalDao().allJournal as List<JournalBeanDBBean>
+        get() = journalDao!!.allJournal as List<JournalBeanDBBean>
 
     /**
      * 保存日记
@@ -42,7 +45,7 @@ object JournalDBHelper {
         }
         journalBeanDBBean.content = contentSb.toString()
         journalBeanDBBean.date = settingBean!!.time!!
-        if (settingBean.journalBook!=null){
+        if (settingBean.journalBook != null) {
             journalBeanDBBean.bookId = settingBean!!.journalBook!!.id
         }
         if (settingBean!!.location != null) {
@@ -62,8 +65,12 @@ object JournalDBHelper {
         }
 
         journalBeanDBBean.tags = "默认"
-        MyApp.database!!.mJournalDao().saveJournal(journalBeanDBBean)
+        settingBean.journalId?.let {
+            journalBeanDBBean.id = it
+        }
+        journalDao!!.saveJournal(journalBeanDBBean)
     }
+
 
     /**
      * 删除日记
@@ -71,6 +78,11 @@ object JournalDBHelper {
      */
     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
 
-        MyApp.database!!.mJournalDao().deleteJournal(journalBeanDBBean)
+        journalDao!!.deleteJournal(journalBeanDBBean)
+    }
+
+    fun deleteJournalById(journalId: Int) {
+        journalDao!!.deleteJournalById(journalId)
     }
 }
+

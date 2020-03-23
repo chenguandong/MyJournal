@@ -28,7 +28,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
     constructor() : super()
 
-    constructor(writeSettingBean: WriteSettingBean?):super(){
+    constructor(writeSettingBean: WriteSettingBean?) : super() {
         this.writeSetting = writeSettingBean
     }
 
@@ -48,57 +48,62 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
     }
 
 
-    override fun setOpenState(){
+    override fun setOpenState() {
         behavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemData[0].subTitle =writeSetting?.location?.snippet?:""
-        itemData[2].subTitle =writeSetting?.journalBook?.name?:"默认"
+        itemData[0].subTitle = writeSetting?.location?.snippet ?: ""
+        itemData[2].subTitle = writeSetting?.journalBook?.name ?: "默认"
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
         adapter = MoreSettingAdapter(itemData)
         recyclerView.adapter = adapter
         adapter!!.setOnItemClickListener { _, _, position ->
-            when(position){
-                //地址
-                0->{
+            writeSetting?.isEditable.let {
 
-                }
-                //标签
-                1->{
+                if (it!!){
+                    when (position) {
+                        //地址
+                        0 -> {
 
-                }
-                /* 日记本 */
-                2->{
+                        }
+                        //标签
+                        1 -> {
 
-                    var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook as List<NoteBookDBBean>
-                    val items: Array<String?> = arrayOfNulls(allDbNoteList.size)
+                        }
+                        /* 日记本 */
+                        2 -> {
 
-                    var choosedItem:Int = 0
-                    for(i in allDbNoteList.indices){
-                        items[i] = allDbNoteList[i]!!.name.toString()
-                        if (writeSetting!!.journalBook!=null){
-                            if(writeSetting!!.journalBook!!.name!! == allDbNoteList[i]!!.name){
-                                choosedItem  = i
+                            var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook as List<NoteBookDBBean>
+                            val items: Array<String?> = arrayOfNulls(allDbNoteList.size)
+
+                            var choosedItem: Int = 0
+                            for (i in allDbNoteList.indices) {
+                                items[i] = allDbNoteList[i]!!.name.toString()
+                                if (writeSetting!!.journalBook != null) {
+                                    if (writeSetting!!.journalBook!!.name!! == allDbNoteList[i]!!.name) {
+                                        choosedItem = i
+                                    }
+                                }
                             }
+                            AlertDialog.Builder(activity!!)
+                                    .setTitle("请选择日记本")
+                                    .setSingleChoiceItems(items, choosedItem) { _, which ->
+                                        writeSetting!!.journalBook = allDbNoteList[which]
+                                    }
+                                    .setPositiveButton("OK") { _, _ ->
+                                        // do sth
+                                        itemData[2].subTitle = writeSetting?.journalBook?.name ?: ""
+                                        adapter!!.notifyDataSetChanged()
+                                    }
+                                    .setCancelable(false)
+                                    .create().show()
+                        }
+                        //时间
+                        3 -> {
                         }
                     }
-                    AlertDialog.Builder(activity!!)
-                            .setTitle("请选择日记本")
-                            .setSingleChoiceItems(items, choosedItem) { _, which ->
-                                writeSetting!!.journalBook = allDbNoteList[which]
-                            }
-                            .setPositiveButton("OK") { _, _ ->
-                                // do sth
-                                itemData[2].subTitle =writeSetting?.journalBook?.name?:""
-                                adapter!!.notifyDataSetChanged()
-                            }
-                            .setCancelable(false)
-                            .create().show()
-                }
-                //时间
-                3->{
                 }
             }
         }

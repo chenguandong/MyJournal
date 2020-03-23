@@ -16,13 +16,21 @@ abstract class JournalDao {
     /*  @Query("SELECT count(*)as b1,SUM(age) as b2,MAX(score) sentTime,* FROM user")
    public abstract List<BaseUser> getAll();*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveJournal(vararg journalBeanDBBeans: JournalBeanDBBean?)
+    abstract fun saveJournal(journalBeanDBBeans: JournalBeanDBBean?)
 
     @get:Query("SELECT * FROM journal ORDER BY date DESC")
     abstract val allJournal: List<JournalBeanDBBean?>?
 
     @Delete
-    abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?) /* @Delete
+    abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?)
+
+    @Query("DELETE FROM journal WHERE id = :journalId")
+    abstract fun deleteJournalById(journalId:Int)
+
+    /* @Delete
+
+
+
   public abstract void delete(User user);
 
   @Update

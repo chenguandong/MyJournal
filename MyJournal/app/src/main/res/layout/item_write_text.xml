@@ -17,5 +17,7 @@
         android:textColor="@color/black"
         android:minHeight="48dp"
         android:inputType="textMultiLine"
+        android:textSize="@dimen/sp_14"
+        android:lineSpacingMultiplier="1.5"
         />
 </LinearLayout>

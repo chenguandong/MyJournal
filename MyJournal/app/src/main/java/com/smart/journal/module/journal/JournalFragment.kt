@@ -160,6 +160,9 @@ class JournalFragment : BaseFragment{
             }
 
         }
+        journalBeanDBBean.id?.let {
+            writeSettingBean.journalId = it
+        }
 
         startActivity(Intent(activity, WriteActivity::class.java).putExtra(
                 WriteFragment.SHOW_DATA,writeSectionBeans

@@ -34,6 +34,8 @@ import kotlinx.android.synthetic.main.fragment_write.*
 import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.collections4.Predicate
 import org.greenrobot.eventbus.EventBus
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -50,6 +52,8 @@ class WriteFragment : BaseFragment() {
     private var adapter: WriteAdapter? = null
     private var writeSetting: WriteSettingBean? = WriteSettingBean()
 
+    private var isEditable: Boolean = false
+
     private var isShowDataModel = false
     override fun getData() {
 
@@ -65,16 +69,17 @@ class WriteFragment : BaseFragment() {
         }
 
         val showData = activity!!.intent.getSerializableExtra(SHOW_DATA)
-        if (showData!=null){
+        if (showData != null) {
             isShowDataModel = true
             writeSectionBeans = showData as ArrayList<JournalBean>
             activity!!.intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
                 writeSetting = it as WriteSettingBean
             }
-            
-        }else{
+
+        } else {
             writeSectionBeans.add(JournalBean(""))
             writeSetting!!.time = System.currentTimeMillis()
+            isEditable = true
         }
 
         viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->
@@ -91,7 +96,7 @@ class WriteFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_write, container, false)
-        initSimpleToolbar(view, "Typing...")
+        initSimpleToolbar(view, writeSetting?.time?.let { Date(it).toLocaleString() })
 
         return view
     }
@@ -105,18 +110,27 @@ class WriteFragment : BaseFragment() {
     override fun initView() {
 
         var model: WriteAdapter.WriteAdapterModel? = null
-        if(isShowDataModel){
+        if (isShowDataModel) {
             model = WriteAdapter.WriteAdapterModel.WriteAdapterModel_SHOW
-        }else{
+        } else {
             model = WriteAdapter.WriteAdapterModel.WriteAdapterModel_EDIT
         }
         adapter = WriteAdapter(writeSectionBeans, model!!)
         writeRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         writeRecycleView!!.adapter = adapter
+        adapter!!.isEditable = isEditable
+        writeSetting!!.isEditable = isEditable
         adapter!!.notifyDataSetChanged()
+
+        fab.setOnClickListener {
+            saveJournal()
+        }
 
         toolView!!.setDelegate(object : ToolView.ToolViewDelegate {
             override fun onItemClick(toolBean: ToolBean) {
+                if (!isEditable){
+                    return
+                }
                 when (toolBean.itemType) {
 
                     //位置
@@ -200,8 +214,10 @@ class WriteFragment : BaseFragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
-        menu.findItem(R.id.toolbar_right_action).title = "保存"
+
+        if (isShowDataModel) {
+            inflater.inflate(R.menu.menu_journal_detail, menu)
+        }
 
     }
 
@@ -209,14 +225,36 @@ class WriteFragment : BaseFragment() {
         when (item.itemId) {
 
             R.id.toolbar_right_action -> {
-
-                JournalDBHelper.saveJournal(writeSectionBeans, settingBean = writeSetting)
-                EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
-                activity!!.finish()
             }
+            R.id.toolbar_edit -> { //编辑
+                adapter!!.isEditable = true
+                writeSetting!!.isEditable = true
+            }
+
+            R.id.toolbar_delete -> {//删除
+
+                writeSetting!!.journalId?.let {
+                    JournalDBHelper!!.deleteJournalById(it)
+                    finish()
+                }
+            }
+
         }
+
+
         return false
     }
+
+    private fun  saveJournal(){
+        JournalDBHelper.saveJournal(writeSectionBeans, settingBean = writeSetting)
+        finish()
+    }
+
+    private fun finish(){
+        EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
+        activity!!.finish()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -231,7 +269,6 @@ class WriteFragment : BaseFragment() {
             }
         }
     }
-
 
 
     companion object {
