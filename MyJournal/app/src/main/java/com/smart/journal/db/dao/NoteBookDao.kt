@@ -14,8 +14,8 @@ import com.smart.journal.db.entity.NoteBookDBBean
  */
 @Dao
 abstract class NoteBookDao {
-    @get:Query("SELECT * FROM notebook")
-    abstract val allNoteBook: List<NoteBookDBBean?>?
+    @Query("SELECT * FROM notebook")
+    abstract fun allNoteBook(): List<NoteBookDBBean?>?
 
     @Query("SELECT * FROM notebook where id = :bookId")
     abstract fun getNoteBookById(bookId:Int): List<NoteBookDBBean>

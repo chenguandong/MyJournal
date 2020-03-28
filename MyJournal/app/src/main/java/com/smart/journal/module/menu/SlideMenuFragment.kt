@@ -55,11 +55,11 @@ class SlideMenuFragment : Fragment() {
     }
 
     private fun initData() {
-        var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook as List<NoteBookDBBean>
+        var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
         if (allDbNoteList.isEmpty()) {
             MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean("默认"))
         }
-        allDbNoteList = MyApp.database!!.mNoteBookDao().allNoteBook as List<NoteBookDBBean>
+        allDbNoteList = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
         menusList!!.clear()
         allDbNoteList.forEach {
             menusList!!.add(SlideMenuBean(it, ItemMenuType.MENU_NOTE_BOOK))

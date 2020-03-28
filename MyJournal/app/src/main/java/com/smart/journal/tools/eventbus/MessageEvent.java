@@ -9,6 +9,11 @@ import java.io.Serializable;
 public class MessageEvent implements Serializable {
     //内容有更新
     public static final  int NOTE_CHANGE =  0X000000001;
+    public static final  int NOTE_LOCATION_CHANGE =  0X000000002;
+    /**
+     * 标签内容更细
+     */
+    public static final  int NOTE_TAG_CHANGE =  0X000000003;
 
     private String message;
     private int tag;

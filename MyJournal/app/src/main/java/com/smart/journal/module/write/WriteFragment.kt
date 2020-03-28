@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -137,7 +138,7 @@ class WriteFragment : BaseFragment() {
                     ToolBean.ToolBeanType.TOOL_LOCATION -> {
                         val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
                         locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
-                        startActivityForResult(locationIntent, REQUEST_LOCATION_CODE)
+                        startActivity(locationIntent)
                     }
 
                     //图片
@@ -229,6 +230,7 @@ class WriteFragment : BaseFragment() {
             R.id.toolbar_edit -> { //编辑
                 adapter!!.isEditable = true
                 writeSetting!!.isEditable = true
+                isEditable = true
             }
 
             R.id.toolbar_delete -> {//删除
@@ -256,6 +258,18 @@ class WriteFragment : BaseFragment() {
     }
 
 
+    @MainThread
+    override fun onMessageEvent(event: MessageEvent?) {
+        super.onMessageEvent(event)
+        if (event!!.tag==MessageEvent.NOTE_LOCATION_CHANGE){
+            val poiItem: MjPoiItem = JSON.parseObject(event.message,MjPoiItem::class.java)
+            poiItem?.let {
+                writeSetting!!.location = it
+            }
+
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != RESULT_OK) {
@@ -264,8 +278,7 @@ class WriteFragment : BaseFragment() {
 
         when (requestCode) {
             REQUEST_LOCATION_CODE -> {
-                val poiItem: MjPoiItem = data!!.getSerializableExtra(AMapAdressSearchActivity.INTENT_LOCATION) as MjPoiItem
-                writeSetting!!.location = poiItem
+
             }
         }
     }

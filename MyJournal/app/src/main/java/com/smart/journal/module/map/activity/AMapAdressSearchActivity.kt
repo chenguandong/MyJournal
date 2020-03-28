@@ -1,7 +1,5 @@
 package com.smart.journal.module.map.activity
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.fastjson.JSON
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
@@ -36,8 +35,10 @@ import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.module.map.adapter.AMapSearchAdapter
 import com.smart.journal.module.map.bean.MjPoiItem
+import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.logs.LogTools
 import kotlinx.android.synthetic.main.activity_amap_adress_search.*
+import org.greenrobot.eventbus.EventBus
 
 
 class AMapAdressSearchActivity : BaseActivity(), LocationSource,
@@ -79,10 +80,10 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.toolbar_right_action -> {
-                var resultIntent:Intent  = Intent()
-                resultIntent.putExtra(INTENT_LOCATION,selectedPoiItem!!)
-                setResult(Activity.RESULT_OK,resultIntent)
+
+                EventBus.getDefault().post(MessageEvent(JSON.toJSONString(selectedPoiItem),MessageEvent.NOTE_LOCATION_CHANGE))
                 finish()
+
             }
         }
         return false

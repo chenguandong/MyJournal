@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/write"
-        android:padding="16dp"
+        android:padding="12dp"
         />
 
     <com.smart.journal.module.write.views.ToolView
@@ -38,5 +38,5 @@
         android:backgroundTint="@android:color/holo_red_light"
         app:borderWidth="0dp"
         android:visibility="visible"
-        app:srcCompat="@android:drawable/ic_input_get" />
+        app:srcCompat="@android:drawable/ic_menu_send" />
 </RelativeLayout>

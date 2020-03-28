@@ -5,6 +5,7 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -28,7 +29,7 @@ class MyApp : MultiDexApplication() {
         LocationTools.instance
         com.blankj.utilcode.util.Utils.init(this)
         Bugly.init(applicationContext, "c789e27850", false)
-
+        Stetho.initializeWithDefaults(this);
     }
 
     fun initRoom(){

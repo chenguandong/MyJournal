@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -197,6 +198,7 @@ class JournalFragment : BaseFragment{
         }
     }
 
+    @MainThread
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
         if (event!!.tag==MessageEvent.NOTE_CHANGE){
