@@ -42,7 +42,7 @@
         app:borderWidth="0dp"
         android:visibility="visible"
         android:layout_above="@+id/navigationView"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 

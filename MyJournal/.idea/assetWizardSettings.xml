@@ -16,8 +16,8 @@
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="05a412" />
-                            <entry key="outputName" value="ic_ws_tag" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../../../../MyJournal/Images/tag.svg" />
+                            <entry key="outputName" value="ic_journal_save" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../../../../MyJournal/Images/journal_save.svg" />
                           </map>
                         </option>
                       </PersistentState>

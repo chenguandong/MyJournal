@@ -38,5 +38,5 @@
         android:backgroundTint="@android:color/holo_red_light"
         app:borderWidth="0dp"
         android:visibility="visible"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@drawable/ic_journal_save" />
 </RelativeLayout>

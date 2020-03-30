@@ -64,7 +64,9 @@ object JournalDBHelper {
             }
         }
 
-        journalBeanDBBean.tags = "默认"
+        settingBean.tags?.let {
+            journalBeanDBBean.tags =it.toString().replace("[","").replace("]","")
+        }
         settingBean.journalId?.let {
             journalBeanDBBean.id = it
         }

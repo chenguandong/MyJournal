@@ -164,6 +164,9 @@ class JournalFragment : BaseFragment{
         journalBeanDBBean.id?.let {
             writeSettingBean.journalId = it
         }
+        journalBeanDBBean.tags?.let {
+            writeSettingBean.tags = it.split(",")
+        }
 
         startActivity(Intent(activity, WriteActivity::class.java).putExtra(
                 WriteFragment.SHOW_DATA,writeSectionBeans

@@ -15,7 +15,6 @@ import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.tags.activity.TagActivity
-import com.smart.journal.module.tags.bean.TagsDbBean
 import com.smart.journal.module.write.adapter.MoreSettingAdapter
 import com.smart.journal.module.write.bean.MoreSettingBean
 import com.smart.journal.module.write.bean.ToolBean
@@ -67,9 +66,9 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent?) {
 
-        when(event!!.tag){
+        when (event!!.tag) {
             //地理位置变化
-            MessageEvent.NOTE_LOCATION_CHANGE->{
+            MessageEvent.NOTE_LOCATION_CHANGE -> {
                 val poiItem: MjPoiItem = JSON.parseObject(event.message, MjPoiItem::class.java)
                 poiItem?.let {
                     writeSetting!!.location = it
@@ -77,12 +76,12 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                 itemData[0].subTitle = writeSetting?.location?.snippet ?: ""
                 adapter!!.notifyDataSetChanged()
             }
-            MessageEvent.NOTE_TAG_CHANGE->{
-                var selectedTag:List<String> = Gson().fromJson(event.message, object : TypeToken<List<String>>() {}.type)
+            MessageEvent.NOTE_TAG_CHANGE -> {
+                var selectedTag: List<String> = Gson().fromJson(event.message, object : TypeToken<List<String>>() {}.type)
                 selectedTag?.let { it ->
                     writeSetting!!.tags = it as List<String>
                     writeSetting?.tags?.let {
-                        itemData[1].subTitle = it.toString().replace("[","").replace("]","")
+                        itemData[1].subTitle = it.toString().replace("[", "").replace("]", "")
                         adapter!!.notifyDataSetChanged()
                     }
                 }
@@ -96,7 +95,8 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         EventBus.getDefault().register(this)
         itemData[0].subTitle = writeSetting?.location?.snippet ?: ""
         writeSetting?.tags?.let {
-            itemData[1].subTitle = it.toString()
+            itemData[1].subTitle = it.toString().replace("[", "").replace("]", "")
+
         }
         itemData[2].subTitle = writeSetting?.journalBook?.name ?: "默认"
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
@@ -105,7 +105,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         adapter!!.setOnItemClickListener { _, _, position ->
             writeSetting?.isEditable.let {
 
-                if (it!!){
+                if (it!!) {
                     when (position) {
                         //地址
                         0 -> {
@@ -115,7 +115,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //标签
                         1 -> {
-                            startActivityForResult(Intent(context, TagActivity::class.java),100)
+                            startActivityForResult(Intent(context, TagActivity::class.java), 100)
                         }
                         /* 日记本 */
                         2 -> {

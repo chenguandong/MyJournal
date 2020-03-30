@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
@@ -54,6 +56,12 @@ class WriteFragment : BaseFragment() {
     private var writeSetting: WriteSettingBean? = WriteSettingBean()
 
     private var isEditable: Boolean = false
+        set(value) {
+            field = value
+            writeSetting!!.isEditable = true
+            adapter?.isEditable = field
+
+        }
 
     private var isShowDataModel = false
     override fun getData() {
@@ -67,20 +75,6 @@ class WriteFragment : BaseFragment() {
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
-        }
-
-        val showData = activity!!.intent.getSerializableExtra(SHOW_DATA)
-        if (showData != null) {
-            isShowDataModel = true
-            writeSectionBeans = showData as ArrayList<JournalBean>
-            activity!!.intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
-                writeSetting = it as WriteSettingBean
-            }
-
-        } else {
-            writeSectionBeans.add(JournalBean(""))
-            writeSetting!!.time = System.currentTimeMillis()
-            isEditable = true
         }
 
         viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->
@@ -104,6 +98,22 @@ class WriteFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val showData = activity!!.intent.getSerializableExtra(SHOW_DATA)
+        if (showData != null) {
+            isShowDataModel = true
+            writeSectionBeans = showData as ArrayList<JournalBean>
+            activity!!.intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
+                writeSetting = it as WriteSettingBean
+            }
+            fab.setImageResource(R.drawable.ic_journal_edit)
+        } else {
+            writeSectionBeans.add(JournalBean(""))
+            writeSetting!!.time = System.currentTimeMillis()
+            isEditable = true
+
+        }
+
         init()
 
     }
@@ -124,71 +134,79 @@ class WriteFragment : BaseFragment() {
         adapter!!.notifyDataSetChanged()
 
         fab.setOnClickListener {
-            saveJournal()
+            if (isEditable) {
+                saveJournal()
+                fab.setImageResource(R.drawable.ic_journal_save)
+            } else {
+                isEditable = true
+                fab.setImageResource(R.drawable.ic_journal_save)
+            }
+
         }
 
         toolView!!.setDelegate(object : ToolView.ToolViewDelegate {
             override fun onItemClick(toolBean: ToolBean) {
-                if (!isEditable){
-                    return
-                }
-                when (toolBean.itemType) {
+                if (isEditable) {
+                    when (toolBean.itemType) {
 
-                    //位置
-                    ToolBean.ToolBeanType.TOOL_LOCATION -> {
-                        val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
-                        locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
-                        startActivity(locationIntent)
-                    }
+                        //位置
+                        ToolBean.ToolBeanType.TOOL_LOCATION -> {
+                            val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
+                            locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
+                            startActivity(locationIntent)
+                        }
 
-                    //图片
-                    ToolBean.ToolBeanType.TOOL_IMAGE -> {
-                        PermissionTools.checkPermission(activity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
-                            override fun permissionYES() {
+                        //图片
+                        ToolBean.ToolBeanType.TOOL_IMAGE -> {
+                            PermissionTools.checkPermission(activity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
+                                override fun permissionYES() {
 
 
-                                activity?.let { it ->
+                                    activity?.let { it ->
 
-                                    Album.initialize(
-                                            AlbumConfig.newBuilder(it)
-                                                    .setAlbumLoader(ImageLoader())
-                                                    .build()
-                                    )
+                                        Album.initialize(
+                                                AlbumConfig.newBuilder(it)
+                                                        .setAlbumLoader(ImageLoader())
+                                                        .build()
+                                        )
 
 
-                                    Album.image(it) // Image selection.
-                                            .multipleChoice()
-                                            .camera(true)
-                                            .columnCount(4)
-                                            .widget(Widget.newDarkBuilder(it).title("选择文件")
-                                                    .build())
-                                            .onResult {
-                                                LogTools.json(JSON.toJSONString(it))
-                                                val mSelected: ArrayList<String> = ArrayList()
-                                                for (album in it) {
+                                        Album.image(it) // Image selection.
+                                                .multipleChoice()
+                                                .camera(true)
+                                                .columnCount(4)
+                                                .widget(Widget.newDarkBuilder(it).title("选择文件")
+                                                        .build())
+                                                .onResult {
+                                                    LogTools.json(JSON.toJSONString(it))
+                                                    val mSelected: ArrayList<String> = ArrayList()
+                                                    for (album in it) {
 
-                                                    writeSectionBeans.add(JournalBean("", MJFileTools.saveJournalImageFile2Local(album)))
-                                                    filterJournalItem()
+                                                        writeSectionBeans.add(JournalBean("", MJFileTools.saveJournalImageFile2Local(album)))
+                                                        filterJournalItem()
+                                                    }
                                                 }
-                                            }
-                                            .start()
+                                                .start()
+
+                                    }
+
 
                                 }
 
+                                override fun permissionNO() {
 
-                            }
+                                }
+                            })
+                        }
 
-                            override fun permissionNO() {
 
-                            }
-                        })
-                    }
-
-                    //更多按钮
-                    ToolBean.ToolBeanType.TOOL_MORE -> {
-                        MoreSettingBottomSheetDialogFragment(writeSetting).show(childFragmentManager, "")
                     }
                 }
+
+                if (toolBean.itemType == ToolBean.ToolBeanType.TOOL_MORE) {
+                    MoreSettingBottomSheetDialogFragment(writeSetting).show(childFragmentManager, "")
+                }
+
             }
         })
 
@@ -228,9 +246,8 @@ class WriteFragment : BaseFragment() {
             R.id.toolbar_right_action -> {
             }
             R.id.toolbar_edit -> { //编辑
-                adapter!!.isEditable = true
-                writeSetting!!.isEditable = true
                 isEditable = true
+
             }
 
             R.id.toolbar_delete -> {//删除
@@ -247,12 +264,12 @@ class WriteFragment : BaseFragment() {
         return false
     }
 
-    private fun  saveJournal(){
+    private fun saveJournal() {
         JournalDBHelper.saveJournal(writeSectionBeans, settingBean = writeSetting)
         finish()
     }
 
-    private fun finish(){
+    private fun finish() {
         EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
         activity!!.finish()
     }
@@ -261,12 +278,20 @@ class WriteFragment : BaseFragment() {
     @MainThread
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
-        if (event!!.tag==MessageEvent.NOTE_LOCATION_CHANGE){
-            val poiItem: MjPoiItem = JSON.parseObject(event.message,MjPoiItem::class.java)
-            poiItem?.let {
-                writeSetting!!.location = it
-            }
 
+        when (event!!.tag) {
+            MessageEvent.NOTE_LOCATION_CHANGE -> {
+                val poiItem: MjPoiItem = JSON.parseObject(event.message, MjPoiItem::class.java)
+                poiItem?.let {
+                    writeSetting!!.location = it
+                }
+            }
+            MessageEvent.NOTE_TAG_CHANGE -> {
+                var selectedTag: List<String> = Gson().fromJson(event.message, object : TypeToken<List<String>>() {}.type)
+                selectedTag?.let { it ->
+                    writeSetting!!.tags = it as List<String>
+                }
+            }
         }
     }
 
@@ -286,10 +311,13 @@ class WriteFragment : BaseFragment() {
 
     companion object {
         const val REQUEST_LOCATION_CODE = 9
+
         //日记内容
         const val SHOW_DATA = "showData"
+
         //日记的设置的内容
         const val SHOW_DATA_SETTING = "showDataSetting"
+
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"
