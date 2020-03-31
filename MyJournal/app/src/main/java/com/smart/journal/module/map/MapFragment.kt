@@ -42,12 +42,13 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     private var mLocMarker: Marker? = null
     private var mSensorHelper: SensorEventHelper? = null
     private var mCircle: Circle? = null
+
     //mark
     private var markerOption: MarkerOptions? = null
 
 
     private var journalBeanDBBeans: List<JournalBeanDBBean>? = null
-    private var amapLocation:AMapLocation? = null
+    private var amapLocation: AMapLocation? = null
 
     internal var mFirstFix = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +66,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
 
     override fun onStart() {
         super.onStart()
-        if (aMap!=null&&amapLocation!=null) {
+        if (aMap != null && amapLocation != null) {
             aMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(
                     LatLng(amapLocation!!.latitude, amapLocation!!.longitude), 18f, 30f, 30f)))
         }
@@ -102,7 +103,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
         aMap!!.isMyLocationEnabled = true
-        aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude,LocationTools.locationBean!!.longitude),10f))
+        aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude), 10f))
         setupLocationStyle()
     }
 
@@ -176,7 +177,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     /**
      * 定位成功后回调函数
      */
-    @Override override fun onLocationChanged(amapLocation: AMapLocation?) {
+    @Override
+    override fun onLocationChanged(amapLocation: AMapLocation?) {
 
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null && amapLocation.errorCode == 0) {
@@ -202,7 +204,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
                 //aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
                 LogUtils.d(amapLocation.toStr())
 
-                aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(amapLocation.latitude,amapLocation.longitude),10f))
+                aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(amapLocation.latitude, amapLocation.longitude), 10f))
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
@@ -304,8 +306,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onMarkerClick(marker: Marker): Boolean {
         if (aMap != null) {
         }
-        var result=  CollectionUtils.select(journalBeanDBBeans, Predicate {
-            it-> it.id==marker.title.toInt()
+        var result = CollectionUtils.select(journalBeanDBBeans, Predicate { it ->
+            it.id == marker.title.toInt()
         })
         PreViewBottomSheetDialogFragment(result.first()).show(fragmentManager!!, "")
 

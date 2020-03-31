@@ -178,7 +178,6 @@ dependencies {
 
     implementation 'com.yalantis:phoenix:1.2.3'
     implementation 'com.facebook.stetho:stetho:1.5.1'
-
 }
 repositories {
     mavenCentral()
