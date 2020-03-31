@@ -21,6 +21,7 @@ import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
 import com.smart.journal.db.entity.JournalBeanDBBean
+import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.location.LocationTools
@@ -309,8 +310,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         var result = CollectionUtils.select(journalBeanDBBeans, Predicate { it ->
             it.id == marker.title.toInt()
         })
-        PreViewBottomSheetDialogFragment(result.first()).show(fragmentManager!!, "")
-
+       // PreViewBottomSheetDialogFragment(result.first()).show(fragmentManager!!, "")
+        JournalManager.preViewJournal(context,result.first())
         return true
     }
 

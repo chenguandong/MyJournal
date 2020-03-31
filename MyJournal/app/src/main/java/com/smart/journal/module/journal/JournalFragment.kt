@@ -18,6 +18,7 @@ import com.smart.journal.contants.Contancts
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
+import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
 import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.WriteFragment
@@ -96,7 +97,7 @@ class JournalFragment : BaseFragment{
         journalRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
-            preViewJournal(position)
+            JournalManager.preViewJournal(context,journalViewModel!!.getJournalBeans()[position])
         }
         journalAdapter!!.setOnItemLongClickListener { adapter, view, position ->
 
@@ -104,7 +105,7 @@ class JournalFragment : BaseFragment{
                 when (i) {
                     0 -> {
                        // PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
-                        preViewJournal(position)
+                        JournalManager.preViewJournal(context,journalViewModel!!.getJournalBeans()[position])
                     }
                     1 -> {
                         journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
@@ -122,56 +123,7 @@ class JournalFragment : BaseFragment{
         })
     }
 
-    fun preViewJournal(position:Int){
-        var journalBeanDBBean:JournalBeanDBBean =journalViewModel!!.getJournalBeans().get(position)
-        var writeSettingBean  = WriteSettingBean()
-        journalBeanDBBean.bookId?.let {
-          var noteBooks:List<NoteBookDBBean> =   NoteBookDBHelper.queryNoteBook(it)
-            if (noteBooks.isNotEmpty()) {
-                writeSettingBean!!.journalBook = noteBooks[0]
-            }
-        }
-        writeSettingBean?.time = journalBeanDBBean.date
-        writeSettingBean?.location?.let {
-             MjPoiItem()
-        }
-        journalBeanDBBean?.address?.let {
-            var locationBean:MjPoiItem = MjPoiItem()
-            locationBean.title = it
-            locationBean.snippet = it
-            locationBean.longitude =journalBeanDBBean.longitude
-            locationBean.latitude =journalBeanDBBean.latitude
-            writeSettingBean!!.location = locationBean
-        }
 
-
-        val writeSectionBeans = ArrayList<JournalBean>()
-        if (journalBeanDBBean.content != null) {
-
-            // val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-
-            for (content in contents) {
-                if (content.startsWith(Contancts.FILE_TYPE_TEXT)) {
-                    writeSectionBeans.add(JournalBean(content.replace(Contancts.FILE_TYPE_TEXT, "")))
-                } else if (content.startsWith(Contancts.FILE_TYPE_IMAGE)) {
-                    writeSectionBeans.add(JournalBean("", content.replace(Contancts.FILE_TYPE_IMAGE, "")))
-                }
-
-            }
-
-        }
-        journalBeanDBBean.id?.let {
-            writeSettingBean.journalId = it
-        }
-        journalBeanDBBean.tags?.let {
-            writeSettingBean.tags = it.split(",")
-        }
-
-        startActivity(Intent(activity, WriteActivity::class.java).putExtra(
-                WriteFragment.SHOW_DATA,writeSectionBeans
-        ).putExtra(WriteFragment.SHOW_DATA_SETTING,writeSettingBean))
-    }
 
     override fun initData() {
 
