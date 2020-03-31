@@ -21,10 +21,11 @@ import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.LatLng
 import com.amap.api.maps2d.model.MarkerOptions
 import com.amap.api.maps2d.model.MyLocationStyle
+import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
-import com.amap.api.services.geocoder.GeocodeQuery
 import com.amap.api.services.geocoder.GeocodeResult
 import com.amap.api.services.geocoder.GeocodeSearch
+import com.amap.api.services.geocoder.RegeocodeQuery
 import com.amap.api.services.geocoder.RegeocodeResult
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
@@ -60,7 +61,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
     private var aMapLocation: AMapLocation? = null
     private var aMapSearchAdapter: AMapSearchAdapter? = null
     private var mMjPoiItemList: MutableList<MjPoiItem> = ArrayList<MjPoiItem>()
-    var selectedPoiItem:MjPoiItem ?= null
+    var selectedPoiItem: MjPoiItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +82,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         when (item.itemId) {
             R.id.toolbar_right_action -> {
 
-                EventBus.getDefault().post(MessageEvent(JSON.toJSONString(selectedPoiItem),MessageEvent.NOTE_LOCATION_CHANGE))
+                EventBus.getDefault().post(MessageEvent(JSON.toJSONString(selectedPoiItem), MessageEvent.NOTE_LOCATION_CHANGE))
                 finish()
 
             }
@@ -111,7 +112,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
             }
 
             override fun afterTextChanged(s: Editable) {
-                searchPlace()
+                searchPlace(searchEditText.text.toString())
             }
         })
         aMapSearchAdapter = AMapSearchAdapter(R.layout.item_select_location_subtitle, mMjPoiItemList)
@@ -131,51 +132,6 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         })
     }
 
-    private fun searchPlace() {
-
-        var keyWord: String = searchEditText.text.toString()
-        if (TextUtils.isEmpty(keyWord)) {
-            keyWord = aMapLocation!!.address
-        }
-        var query = PoiSearch.Query(keyWord, "", aMapLocation!!.cityCode)
-//keyWord表示搜索字符串，
-//第二个参数表示POI搜索类型，二者选填其一，选用POI搜索类型时建议填写类型代码，码表可以参考下方（而非文字）
-//cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
-        query.pageSize = 10// 设置每页最多返回多少条poiitem
-        query.pageNum = 1//设置查询页码
-        progressBar.show()
-        var poiSearch: PoiSearch = PoiSearch(this, query).also {
-            it.run {
-                setOnPoiSearchListener(object : OnPoiSearchListener {
-                    override fun onPoiItemSearched(p0: PoiItem?, p1: Int) {
-                        LogTools.d("p1=" + p1 + "," + p0)
-
-                    }
-
-                    override fun onPoiSearched(p0: PoiResult?, p1: Int) {
-                        LogTools.d("p1=" + p1 + "," + p0)
-                        mMjPoiItemList.clear()
-                        if (p0!!.pois.size != 0) {
-                            for (itemPoint in p0.pois) {
-                                var poiItem: MjPoiItem = MjPoiItem()
-                                poiItem.snippet = itemPoint.snippet
-                                poiItem.title = itemPoint.title
-                                poiItem.latitude = itemPoint.latLonPoint.latitude
-                                poiItem.longitude = itemPoint.latLonPoint.longitude
-                                mMjPoiItemList.add(poiItem)
-                            }
-                        }
-
-                        aMapSearchAdapter!!.notifyDataSetChanged()
-                        progressBar.hide()
-                    }
-
-                })
-            }
-        }
-        poiSearch.searchPOIAsyn()
-
-    }
 
     /**
      * 设置一些amap的属性
@@ -238,37 +194,8 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
             val any = if (amapLocation != null && amapLocation.errorCode == 0) {
                 aMapLocation = amapLocation
                 mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
-                //searchPlace()
+                searchPlace(LatLonPoint(amapLocation.latitude, amapLocation.longitude))
 
-                var search: GeocodeSearch = GeocodeSearch(this)
-
-               /* search.getFromLocationAsyn(
-                        RegeocodeQuery(LatLonPoint(amapLocation.latitude, amapLocation.longitude), 1000F, "")
-                )*/
-                search.getFromLocationNameAsyn(GeocodeQuery(amapLocation.address,amapLocation.city))
-                search.setOnGeocodeSearchListener(object : GeocodeSearch.OnGeocodeSearchListener {
-                    override fun onRegeocodeSearched(p0: RegeocodeResult?, p1: Int) { // 地理编码列表
-                        var ss = ""
-                    }
-
-                    override fun onGeocodeSearched(result: GeocodeResult?, code: Int) { //逆向地理地址列表
-
-                        if (code == 1000) {
-                            mMjPoiItemList.clear()
-                            for (itemPoint in result!!.geocodeAddressList) {
-                                var poiItem = MjPoiItem()
-                                poiItem.latitude = itemPoint.latLonPoint.latitude
-                                poiItem.longitude = itemPoint.latLonPoint.longitude
-                                poiItem.snippet = itemPoint!!.formatAddress
-                                poiItem.title = itemPoint.district
-                                mMjPoiItemList.add(poiItem)
-                            }
-                            aMapSearchAdapter!!.notifyDataSetChanged()
-                            progressBar.hide()
-                        }
-                    }
-
-                })
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
@@ -276,6 +203,90 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
             }
 
         }
+    }
+
+    private fun searchPlace(latlonPoint: LatLonPoint) {
+        selectedPoiItem = null
+        aMapSearchAdapter!!.setSelPosition(-1)
+
+        var search: RegeocodeQuery = RegeocodeQuery(latlonPoint, 1000F, GeocodeSearch.AMAP)
+
+        val geocoderSearch = GeocodeSearch(this)
+
+        geocoderSearch.getFromLocationAsyn(search)
+
+        geocoderSearch.setOnGeocodeSearchListener(object : GeocodeSearch.OnGeocodeSearchListener {
+            override fun onRegeocodeSearched(result: RegeocodeResult?, code: Int) {
+                if (code == 1000) {
+                    mMjPoiItemList.clear()
+                    for (itemPoint in result!!.regeocodeAddress.pois) {
+                        var poiItem = MjPoiItem()
+                        poiItem.latitude = itemPoint.latLonPoint.latitude
+                        poiItem.longitude = itemPoint.latLonPoint.longitude
+                        poiItem.snippet = itemPoint!!.title
+                        poiItem.title = itemPoint.snippet + ":" + itemPoint.distance + "M"
+                        mMjPoiItemList.add(poiItem)
+
+                    }
+                    if (!mMjPoiItemList.isNullOrEmpty()){
+                        aMapSearchAdapter!!.setSelPosition(0)
+                        selectedPoiItem = mMjPoiItemList[0]
+                    }
+                    progressBar.hide()
+                }
+            }
+
+            override fun onGeocodeSearched(result: GeocodeResult?, code: Int) {
+
+            }
+
+        })
+    }
+
+    private fun searchPlace(keyWord: String) {
+        selectedPoiItem = null
+        aMapSearchAdapter!!.setSelPosition(-1)
+        if (TextUtils.isEmpty(keyWord)) {
+            searchPlace(LatLonPoint(aMapLocation!!.latitude, aMapLocation!!.longitude))
+        }
+
+        var query = PoiSearch.Query(keyWord, "", aMapLocation!!.cityCode)
+//keyWord表示搜索字符串，
+//第二个参数表示POI搜索类型，二者选填其一，选用POI搜索类型时建议填写类型代码，码表可以参考下方（而非文字）
+//cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
+        query.pageSize = 10// 设置每页最多返回多少条poiitem
+        query.pageNum = 1//设置查询页码
+        progressBar.show()
+        var poiSearch: PoiSearch = PoiSearch(this, query).also {
+            it.run {
+                setOnPoiSearchListener(object : OnPoiSearchListener {
+                    override fun onPoiItemSearched(p0: PoiItem?, p1: Int) {
+                        LogTools.d("p1=" + p1 + "," + p0)
+                    }
+
+                    override fun onPoiSearched(p0: PoiResult?, p1: Int) {
+                        LogTools.d("p1=" + p1 + "," + p0)
+                        mMjPoiItemList.clear()
+                        if (p0!!.pois.size != 0) {
+                            for (itemPoint in p0.pois) {
+                                var poiItem: MjPoiItem = MjPoiItem()
+                                poiItem.snippet = itemPoint.snippet
+                                poiItem.title = itemPoint.title + ":" + itemPoint.distance + "M"
+                                poiItem.latitude = itemPoint.latLonPoint.latitude
+                                poiItem.longitude = itemPoint.latLonPoint.longitude
+                                mMjPoiItemList.add(poiItem)
+                            }
+                        }
+
+                        aMapSearchAdapter!!.notifyDataSetChanged()
+                        progressBar.hide()
+                    }
+
+                })
+            }
+        }
+        poiSearch.searchPOIAsyn()
+
     }
 
     /**
