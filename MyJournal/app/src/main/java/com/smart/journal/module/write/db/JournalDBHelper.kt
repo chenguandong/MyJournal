@@ -17,14 +17,14 @@ import com.smart.journal.tools.location.LocationTools
 
 object JournalDBHelper {
 
-    var journalDao: JournalDao? = MyApp.database!!.mJournalDao()
+    private var journalDao: JournalDao? = MyApp.database!!.mJournalDao()
 
     /**
      * 获取所有日记
      * @return
      */
     val allJournals: List<JournalBeanDBBean>
-        get() = journalDao!!.allJournal as List<JournalBeanDBBean>
+        get() = journalDao!!.allJournal() as List<JournalBeanDBBean>
 
     /**
      * 保存日记
@@ -85,6 +85,14 @@ object JournalDBHelper {
 
     fun deleteJournalById(journalId: Int) {
         journalDao!!.deleteJournalById(journalId)
+    }
+
+    fun queryJournalByDate(date:Long):List<JournalBeanDBBean> {
+       return journalDao!!.queryJournalByDate(date)
+    }
+
+    fun queryJournalById(id:Int):List<JournalBeanDBBean> {
+        return journalDao!!.queryJournalById(id)
     }
 }
 

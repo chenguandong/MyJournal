@@ -1,23 +1,33 @@
 package com.smart.journal.module.calendar
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.contants.Contancts
+import com.smart.journal.module.journal.bean.JournalItemBean
+import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
+import com.smart.journal.tools.DateTools
+import com.smart.journal.tools.StringTools
 import com.smart.journal.tools.color.ColorTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.calendar2_fragment.*
 import org.greenrobot.eventbus.EventBus
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
+import java.util.*
 
 class Calendar2Fragment : BaseFragment() {
     override fun getData() {
@@ -32,14 +42,13 @@ class Calendar2Fragment : BaseFragment() {
     override fun initData() {
         indicators.clear()
         val journalBeanDBBeans = JournalDBHelper.allJournals
-        for (dataBean in journalBeanDBBeans)
-        {
+        for (dataBean in journalBeanDBBeans) {
 
             indicators.add(CalendarDateIndicator(
                     date = CalendarDate(dataBean.date),
                     color = ColorTools.getRandomColor(),
-                    eventName = dataBean.content!!
-                )
+                    eventName = "${dataBean.id}" //dataBean.content!!.split(Contancts.FILE_TYPE_SPLIT)[0].replace(Contancts.FILE_TYPE_TEXT, "")
+            )
             )
         }
         calendar_view2.datesIndicators = indicators
@@ -53,13 +62,20 @@ class Calendar2Fragment : BaseFragment() {
             if (dateIndicators.isNotEmpty()) {
                 val builder = AlertDialog.Builder(context!!)
                         .setTitle("$date")
-                        .setAdapter(DateIndicatorsDialogAdapter(context!!, dateIndicators), null)
+                        .setAdapter(DateIndicatorsDialogAdapter(context!!, dateIndicators), object : DialogInterface.OnClickListener {
+                            override fun onClick(p0: DialogInterface?, postion: Int) {
+                                val item = JournalDBHelper.queryJournalById(dateIndicators[postion].eventName.toInt())[0]
+                                JournalManager.preViewJournal(context, item)
+                            }
+
+                        })
 
                 val dialog = builder.create()
                 dialog.show()
             }
         }
     }
+
     class DateIndicatorsDialogAdapter(
             context: Context,
             events: Array<CalendarDateIndicator>
@@ -68,25 +84,70 @@ class Calendar2Fragment : BaseFragment() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val view = if (convertView == null) {
                 LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_dialog_date_indicator, parent, false)
+                        .inflate(R.layout.item_journal, parent, false)
             } else {
                 convertView
             }
 
             val event = getItem(position)
-            view.findViewById<View>(R.id.color_view).setBackgroundColor(event!!.color)
-            view.findViewById<TextView>(R.id.event_name_view).text = event.eventName
+            val item = JournalDBHelper.queryJournalById(event!!.eventName.toInt())[0]
+            item?.let {
+                val imageView = view.findViewById<ImageView>(R.id.imageView)
+                val contentTextview = view.findViewById<TextView>(R.id.contentView)
+                val infoTextview = view.findViewById<TextView>(R.id.infoTextView)
+                val weekTextview = view.findViewById<TextView>(R.id.weekTextView)
+                val dayTextview = view.findViewById<TextView>(R.id.dayTextView)
+                var imageURL = ""
+                if (item.journalItemBean == null) {
+                    val itemBean = JournalItemBean()
+                    val contentBuilder = StringBuilder()
 
+                    if (item.content != null) {
+
+                        val contents = item.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+                        for (content in contents) {
+                            if (content.startsWith(Contancts.FILE_TYPE_TEXT)) {
+                                contentBuilder.append(content.substring(Contancts.FILE_TYPE_TEXT.length, content.length))
+                            } else if (content.startsWith(Contancts.FILE_TYPE_IMAGE)) {
+                                if (TextUtils.isEmpty(imageURL)) {
+                                    imageURL = content.substring(Contancts.FILE_TYPE_IMAGE.length, content.length)
+                                }
+
+                            }
+
+                        }
+
+
+                        itemBean.content = contentBuilder.toString()
+                        item.journalItemBean = itemBean
+                    }
+                }
+
+                contentTextview.text = item.journalItemBean!!.content
+                if (item.address != null) {
+                    infoTextview.text = DateTools.formatTime(item.date) + "." + StringTools.getNotNullString(item.address)
+                }
+                weekTextview.text = DateTools.getChineseWeek(Date(item.date))
+                dayTextview.text = DateTools.getYMd(Date(item.date))[2].toString() + ""
+
+                if (!TextUtils.isEmpty(imageURL)) {
+                    Glide.with(context).load(imageURL).into(imageView)
+                    imageView.visibility = View.VISIBLE
+                } else {
+                    imageView.visibility = View.GONE
+                }
+            }
             return view
         }
     }
+
     class CalendarDateIndicator(
             override val date: CalendarDate,
             override val color: Int,
             val eventName: String
 
     ) : CalendarView.DateIndicator
-
 
 
     companion object {
@@ -114,7 +175,7 @@ class Calendar2Fragment : BaseFragment() {
 
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
-        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+        if (event!!.tag == MessageEvent.NOTE_CHANGE) {
             initData()
         }
     }

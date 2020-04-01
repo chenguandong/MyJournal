@@ -18,8 +18,14 @@ abstract class JournalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveJournal(journalBeanDBBeans: JournalBeanDBBean?)
 
-    @get:Query("SELECT * FROM journal ORDER BY date DESC")
-    abstract val allJournal: List<JournalBeanDBBean?>?
+    @Query("SELECT * FROM journal ORDER BY date DESC")
+    abstract fun allJournal():List<JournalBeanDBBean>
+
+    @Query("SELECT * FROM journal where date = :date ORDER BY date DESC")
+    abstract fun queryJournalByDate(date:Long):List<JournalBeanDBBean>
+
+    @Query("SELECT * FROM journal where id = :id ORDER BY date DESC")
+    abstract fun queryJournalById(id:Int):List<JournalBeanDBBean>
 
     @Delete
     abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?)
