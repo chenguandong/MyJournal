@@ -2,17 +2,19 @@ package com.smart.journal.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.smart.journal.R;
 import com.smart.journal.tools.eventbus.MessageEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 public abstract class BaseFragment extends LazyLoadFragment {
@@ -49,6 +51,7 @@ public abstract class BaseFragment extends LazyLoadFragment {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
+                KeyboardUtils.hideSoftInput(getActivity());
             }
         });
     }
