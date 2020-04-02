@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
+import com.blankj.utilcode.util.KeyboardUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.smart.journal.R
@@ -138,6 +139,7 @@ class WriteFragment : BaseFragment() {
             if (isEditable) {
                 saveJournal()
                 fab.setImageResource(R.drawable.ic_journal_save)
+                KeyboardUtils.hideSoftInput(activity)
             } else {
                 isEditable = true
                 fab.setImageResource(R.drawable.ic_journal_save)

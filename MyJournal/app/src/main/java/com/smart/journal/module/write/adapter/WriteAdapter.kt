@@ -1,9 +1,11 @@
 package com.smart.journal.module.write.adapter
 
+import android.app.Activity
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.EditText
+import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -53,6 +55,8 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
                 })
                 editText.isEnabled = isEditable
                 editText.setSelection(editText.text.length)
+                editText.requestFocus()
+                KeyboardUtils.showSoftInput(context as Activity)
 
             }
             JournalBean.WRITE_TAG_IMAGE -> {
