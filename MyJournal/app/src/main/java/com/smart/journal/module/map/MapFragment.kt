@@ -42,7 +42,6 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
 
     private var mLocMarker: Marker? = null
     private var mSensorHelper: SensorEventHelper? = null
-    private var mCircle: Circle? = null
 
     //mark
     private var markerOption: MarkerOptions? = null
@@ -104,7 +103,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
         aMap!!.isMyLocationEnabled = true
-        aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude), 10f))
+        aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude), 18f))
         setupLocationStyle()
     }
 
@@ -118,7 +117,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         // 自定义精度范围的圆形边框颜色
         myLocationStyle.strokeColor(STROKE_COLOR)
         //自定义精度范围的圆形边框宽度
-        myLocationStyle.strokeWidth(5f)
+        myLocationStyle.strokeWidth(0f)
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(FILL_COLOR)
 
@@ -186,12 +185,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
                 val location = LatLng(amapLocation.latitude, amapLocation.longitude)
                 if (!mFirstFix) {
                     mFirstFix = true
-                    addCircle(location, amapLocation.accuracy.toDouble())//添加定位精度圆
-
                     mSensorHelper!!.setCurrentMarker(mLocMarker)//定位图标旋转
                 } else {
-                    mCircle!!.center = location
-                    mCircle!!.radius = amapLocation.accuracy.toDouble()
                     mLocMarker!!.position = location
                 }
 
@@ -205,7 +200,7 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
                 //aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
                 LogUtils.d(amapLocation.toStr())
 
-                aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(amapLocation.latitude, amapLocation.longitude), 10f))
+                aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(amapLocation.latitude, amapLocation.longitude), 18f))
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
@@ -233,15 +228,6 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         mSensorHelper!!.setCurrentMarker(mLocMarker)//定位图标旋转
     }
 
-    private fun addCircle(latlng: LatLng, radius: Double) {
-        val options = CircleOptions()
-        options.strokeWidth(1f)
-        options.fillColor(FILL_COLOR)
-        options.strokeColor(STROKE_COLOR)
-        options.center(latlng)
-        options.radius(radius)
-        mCircle = aMap!!.addCircle(options)
-    }
 
     /**
      * 激活定位
