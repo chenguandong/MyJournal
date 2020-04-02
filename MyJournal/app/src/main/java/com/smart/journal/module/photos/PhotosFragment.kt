@@ -14,6 +14,7 @@ import com.smart.journal.module.journal.tools.JournalTools
 import com.smart.journal.module.photos.adapter.PhotoAdapter
 import com.smart.journal.module.photos.adapter.PhotoBean
 import com.smart.journal.db.entity.JournalBeanDBBean
+import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.DateTools
 import com.smart.journal.tools.decorator.GridDividerItemDecoration
@@ -55,7 +56,8 @@ class PhotosFragment : BaseFragment() {
              }
              var result:List<JournalBeanDBBean> = CollectionUtils.select(journalBeanDBBeans,predicate) as List<JournalBeanDBBean>
 
-            PreViewBottomSheetDialogFragment(result[0]).show(fragmentManager!!,"")
+            //PreViewBottomSheetDialogFragment(result[0]).show(fragmentManager!!,"")
+            JournalManager.preViewJournal(context,result[0])
         }
     }
 
