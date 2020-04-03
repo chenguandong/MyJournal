@@ -1,7 +1,6 @@
 package com.smart.journal.module.journal
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,30 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.blankj.utilcode.util.SizeUtils
+import com.gavin.com.library.StickyDecoration
+import com.gavin.com.library.listener.GroupListener
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.contants.Contancts
-import com.smart.journal.db.entity.JournalBeanDBBean
-import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
-import com.smart.journal.module.map.bean.MjPoiItem
-import com.smart.journal.module.write.WriteFragment
-import com.smart.journal.module.write.activity.WriteActivity
-import com.smart.journal.module.write.bean.JournalBean
-import com.smart.journal.module.write.bean.MoreSettingBean
-import com.smart.journal.module.write.bean.WriteSettingBean
-import com.smart.journal.module.write.db.NoteBookDBHelper
 import com.smart.journal.tools.DividerItemDecorationTools
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
 import org.greenrobot.eventbus.EventBus
-import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -94,8 +87,23 @@ class JournalFragment : BaseFragment{
                 })
 
         journalAdapter = JournalAdapter(R.layout.item_journal, journalViewModel!!.getJournalBeans())
+
+        val groupListener = GroupListener {postion->
+            journalViewModel!!.getJournalBeans()[postion].address
+        }
+        val decoration = StickyDecoration.Builder
+                .init(groupListener) //重置span（使用GridLayoutManager时必须调用）
+                .setGroupHeight(SizeUtils.dp2px(30F))
+                .setGroupTextSize(SizeUtils.sp2px(12F))
+                .setGroupTextColor(ContextCompat.getColor(context,R.color.black))
+                .setGroupBackground(ContextCompat.getColor(context,R.color.gray_bg_light))
+                .setDivideColor(ContextCompat.getColor(context,R.color.divider))
+                .setDivideHeight(1)
+                .build()
+
         journalRecycleView!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
+        //journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
+        journalRecycleView!!.addItemDecoration(decoration)
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
             JournalManager.preViewJournal(context,journalViewModel!!.getJournalBeans()[position])
         }
