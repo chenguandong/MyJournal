@@ -23,6 +23,7 @@ import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import android.view.WindowManager
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.smart.journal.R
@@ -41,6 +42,8 @@ class PhotoViewPagerActivity : BaseActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.act_photo)
         photoUrl = intent.getSerializableExtra(URLS) as List<String>
 
@@ -100,7 +103,7 @@ class PhotoViewPagerActivity : BaseActivity() {
             photoView.setOnExitListener { dragPhotoView, v, v1, v2, v3 -> finish() }
             photoView.setOnTapListener { dragPhotoView -> finish() }
 
-            photoView.setBackgroundColor(ContextCompat.getColor(container.context, R.color.black))
+            photoView.setBackgroundColor(ContextCompat.getColor(container.context, android.R.color.transparent))
 
             Glide.with(container.context).load(photoUrl!![position]).into(photoView)
 

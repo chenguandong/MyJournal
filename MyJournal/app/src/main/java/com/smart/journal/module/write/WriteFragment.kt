@@ -12,10 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
 import com.blankj.utilcode.util.KeyboardUtils
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.customview.preview.PhotoViewTools
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.adapter.WriteAdapter
@@ -134,6 +137,19 @@ class WriteFragment : BaseFragment() {
         adapter!!.isEditable = isEditable
         writeSetting!!.isEditable = isEditable
         adapter!!.notifyDataSetChanged()
+
+        adapter!!.setOnItemClickListener(object :OnItemClickListener{
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
+                    PhotoViewTools.showPhotos(object : java.util.ArrayList<String>() {
+                        init {
+                            writeSectionBeans[position].imageURL?.let { add(it) }
+                        }
+                    }, 0, context)
+                }
+            }
+
+        })
 
         fab.setOnClickListener {
             if (isEditable) {
