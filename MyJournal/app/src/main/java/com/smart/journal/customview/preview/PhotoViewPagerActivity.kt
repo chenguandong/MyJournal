@@ -98,8 +98,6 @@ class PhotoViewPagerActivity : BaseActivity() {
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
-            photoView.setBackgroundColor(android.R.color.transparent)
-
             photoView.setOnExitListener { dragPhotoView, v, v1, v2, v3 -> finish() }
             photoView.setOnTapListener { dragPhotoView -> finish() }
 

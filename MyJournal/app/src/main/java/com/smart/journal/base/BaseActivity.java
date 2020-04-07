@@ -2,16 +2,18 @@ package com.smart.journal.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+
 import com.smart.journal.R;
 import com.smart.journal.tools.eventbus.MessageEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * @author guandongchen
@@ -20,7 +22,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private Context context;
+    protected Context context;
     protected Toolbar toolbar;
     private androidx.appcompat.app.ActionBar actionBar;
 

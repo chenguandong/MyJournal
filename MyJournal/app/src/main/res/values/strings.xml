@@ -20,4 +20,5 @@
     <string name="tag">标签</string>
     <string name="journal_note">日记本</string>
     <string name="date">时间</string>
+    <string name="setting">设置</string>
 </resources>

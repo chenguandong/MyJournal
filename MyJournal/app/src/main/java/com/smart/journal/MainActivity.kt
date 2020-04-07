@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
 import com.smart.journal.module.calendar.Calendar2Fragment
@@ -155,6 +156,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         LocationTools.instance
 
+        settingButton.setOnClickListener { startActivity(Intent(context,SettingActivity::class.java)) }
     }
 
     override fun initData() {
@@ -201,9 +203,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_share -> {// 导入导出数据
 
-
             }
-            R.id.nav_send -> startActivity(Intent(this,SettingActivity::class.java))
+
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
