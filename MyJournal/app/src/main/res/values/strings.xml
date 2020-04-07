@@ -21,4 +21,5 @@
     <string name="journal_note">日记本</string>
     <string name="date">时间</string>
     <string name="setting">设置</string>
+    <string name="on_this_day">那年今日</string>
 </resources>

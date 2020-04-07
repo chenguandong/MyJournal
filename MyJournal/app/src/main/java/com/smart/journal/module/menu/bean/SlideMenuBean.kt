@@ -19,6 +19,4 @@ class SlideMenuBean(override val itemType: Int) : MultiItemEntity {
         this.noteBook = noteBook
     }
 
-
-
 }

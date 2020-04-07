@@ -30,7 +30,6 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
-    // TODO: Rename and change types of parameters
 
     /**
      * changelock 修改手势密码
@@ -131,16 +130,15 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         Handler().postDelayed({
             lockView.clearPattern()
             dismiss()
-        },2000)
+        },1000)
     }
 
     private fun clearLockCode(){
         Handler().postDelayed({
             lockView.clearPattern()
-        },2000)
+        },1000)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }

@@ -19,6 +19,7 @@ import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
+import com.smart.journal.module.menu.view.SlideMenuHeaderView
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,6 +37,9 @@ class SlideMenuFragment : Fragment() {
 
     var menusList: ArrayList<SlideMenuBean>? = ArrayList()
     var menuAdapter: SlideMenuAdapter? = null
+
+    private var headerView: SlideMenuHeaderView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -58,7 +62,7 @@ class SlideMenuFragment : Fragment() {
     }
 
     private fun initView() {
-
+        headerView = SlideMenuHeaderView(context)
     }
 
     private fun initData() {
@@ -73,10 +77,12 @@ class SlideMenuFragment : Fragment() {
         }
         menusList!!.add(SlideMenuBean(NoteBookDBBean(""), ItemMenuType.MENU_NOTE_BOOK_ADD))
         menuAdapter = SlideMenuAdapter(menusList!!)
+
+
         menuRecyclerView.layoutManager = LinearLayoutManager(context)
+        headerView?.let { menuAdapter!!.addHeaderView(it) }
         menuRecyclerView.adapter = menuAdapter
         menuAdapter!!.notifyDataSetChanged()
-
 
         menuAdapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {

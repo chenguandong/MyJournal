@@ -7,20 +7,15 @@
     >
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/addImageButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="新建日记本"
-        android:gravity="center"
+        android:gravity="center|left"
         android:tint="@color/black"
         android:textSize="14sp"
         android:textColor="@color/black"
+        android:paddingLeft="66dp"
         />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@android:drawable/ic_input_add"
-        android:tint="@color/black"
-        android:visibility="gone"
-        />
+
 </LinearLayout>

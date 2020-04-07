@@ -58,6 +58,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         MJFileTools.createJournalPath()
         slideMenuFragment = SlideMenuFragment.newInstance("","")
         supportFragmentManager.beginTransaction().replace(R.id.menuFragment, slideMenuFragment!!).commit()
+
+        if (!TextUtils.isEmpty(UserTools.lockCode)){
+            PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
+        }
     }
 
 
@@ -144,11 +148,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
 
-
-
-        if (!TextUtils.isEmpty(UserTools.lockCode)){
-            PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
-        }
 
         fab.setOnClickListener {
             startActivity(Intent(this@MainActivity, WriteActivity::class.java))
