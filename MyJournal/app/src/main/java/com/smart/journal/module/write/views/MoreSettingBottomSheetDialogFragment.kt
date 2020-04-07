@@ -38,12 +38,12 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
     val delegate: MoreSettingBottomSheetDialogFragmentDelegate? = null
 
-    var writeSetting: WriteSettingBean? = null
+    private var writeSetting: WriteSettingBean? = null
 
     constructor() : super()
 
-    constructor(writeSettingBean: WriteSettingBean?) : super() {
-        this.writeSetting = writeSettingBean
+    constructor(writeSetting: WriteSettingBean) : super() {
+        this.writeSetting = writeSetting
     }
 
 
@@ -53,6 +53,8 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
     private var adapter: MoreSettingAdapter? = null
     private var itemData =  ArrayList<MoreSettingBean>()
+
+    private var isFavourite = false
 
 
     override fun setOpenState() {
@@ -110,12 +112,11 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         }
         itemData[2].subTitle = writeSetting?.journalBook?.name ?: default
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
-        writeSetting!!.isFavourite?.let {
-            if (it){
-                itemData[4].subTitle =resources.getString(R.string.favourite)
-            }else{
-                itemData[4].subTitle =resources.getString(R.string.un_favourite)
-            }
+        isFavourite  = writeSetting!!.isFavourite
+        if (isFavourite){
+            itemData[4].subTitle =resources.getString(R.string.favourite)
+        }else{
+            itemData[4].subTitle =resources.getString(R.string.un_favourite)
         }
         adapter = MoreSettingAdapter(itemData)
         recyclerView.adapter = adapter
@@ -167,8 +168,8 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //收藏
                         4 -> {
-                            writeSetting!!.isFavourite = !(writeSetting!!.isFavourite)
-                            if (writeSetting!!.isFavourite) {
+                            isFavourite = !isFavourite
+                            if (isFavourite) {
                                 itemData[4].subTitle= resources.getString(R.string.favourite)
                             } else {
                                 itemData[4].subTitle= resources.getString(R.string.un_favourite)

@@ -223,7 +223,7 @@ class WriteFragment : BaseFragment() {
                 }
 
                 if (toolBean.itemType == ToolBean.ToolBeanType.TOOL_MORE) {
-                    MoreSettingBottomSheetDialogFragment(writeSetting).show(childFragmentManager, "")
+                    MoreSettingBottomSheetDialogFragment(writeSetting!!).show(childFragmentManager, "")
                 }
 
             }
