@@ -15,6 +15,11 @@ public class MessageEvent implements Serializable {
      */
     public static final  int NOTE_TAG_CHANGE =  0X000000003;
 
+    /**
+     * 收藏状态更改
+     */
+    public static final  int NOTE_FAVOURITE_CHANGE =  0X000000004;
+
     private String message;
     private int tag;
 

@@ -311,6 +311,9 @@ class WriteFragment : BaseFragment() {
                     writeSetting!!.tags = it as List<String>
                 }
             }
+            MessageEvent.NOTE_FAVOURITE_CHANGE->{
+                writeSetting!!.favourite = event.message.toInt()==1
+            }
         }
     }
 

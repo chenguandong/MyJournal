@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.alibaba.fastjson.JSON
+import com.blankj.utilcode.util.KeyboardUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,6 +22,7 @@ import com.smart.journal.module.write.bean.MoreSettingBean
 import com.smart.journal.module.write.bean.ToolBean
 import com.smart.journal.module.write.bean.WriteSettingBean
 import com.smart.journal.tools.eventbus.MessageEvent
+import com.smart.journal.tools.eventbus.MessageEvent.NOTE_FAVOURITE_CHANGE
 import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -49,14 +52,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
     }
 
     private var adapter: MoreSettingAdapter? = null
-    private var itemData = object : ArrayList<MoreSettingBean>() {
-        init {
-            add(MoreSettingBean("位置", "", R.drawable.ic_ws_location))
-            add(MoreSettingBean("标签", "默认", R.drawable.ic_ws_tag))
-            add(MoreSettingBean("日记本", "默认", R.drawable.ic_ws_journal))
-            add(MoreSettingBean("时间", "", R.drawable.ic_ws_date))
-        }
-    }
+    private var itemData =  ArrayList<MoreSettingBean>()
 
 
     override fun setOpenState() {
@@ -93,6 +89,18 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         EventBus.getDefault().register(this)
+
+        KeyboardUtils.hideSoftInput(activity)
+
+        itemData.apply {
+            add(MoreSettingBean("位置", "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_location)))
+            add(MoreSettingBean("标签", "默认",ContextCompat.getDrawable(context!!,R.drawable.ic_ws_tag)))
+            add(MoreSettingBean("日记本", "默认", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_journal)))
+            add(MoreSettingBean("时间", "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_date)))
+            add(MoreSettingBean("收藏", "未收藏",ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)))
+        }
+
+
         itemData[0].subTitle = writeSetting?.location?.snippet ?: ""
         writeSetting?.tags?.let {
             itemData[1].subTitle = it.toString().replace("[", "").replace("]", "")
@@ -100,6 +108,13 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         }
         itemData[2].subTitle = writeSetting?.journalBook?.name ?: "默认"
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
+        writeSetting!!.favourite?.let {
+            if (it){
+                itemData[4].subTitle ="已收藏"
+            }else{
+                itemData[4].subTitle ="未收藏"
+            }
+        }
         adapter = MoreSettingAdapter(itemData)
         recyclerView.adapter = adapter
         adapter!!.setOnItemClickListener { _, _, position ->
@@ -147,6 +162,22 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //时间
                         3 -> {
+                        }
+                        //收藏
+                        4 -> {
+                            writeSetting!!.favourite = !(writeSetting!!.favourite)
+                            if (writeSetting!!.favourite) {
+                                itemData[4].logoImage = ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite_red2)
+                                itemData[4].subTitle= "已收藏"
+                                EventBus.getDefault().post(MessageEvent("1",NOTE_FAVOURITE_CHANGE))
+                            } else {
+                                itemData[4].logoImage = ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)
+                                itemData[4].subTitle= "未收藏"
+                                EventBus.getDefault().post(MessageEvent("0",NOTE_FAVOURITE_CHANGE))
+                            }
+                            adapter!!.notifyDataSetChanged()
+
+
                         }
                     }
                 }

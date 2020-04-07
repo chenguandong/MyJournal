@@ -20,6 +20,7 @@ class WelcomeActivity : BaseActivity() {
 
         Handler().postDelayed(Runnable {
             startActivity(Intent(this,MainActivity::class.java))
+            finish()
         },2000)
 
     }

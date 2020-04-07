@@ -19,7 +19,7 @@ class MoreSettingItemView : LinearLayout {
             field = value
             itemTitleTextView.text = itemBean!!.title
             itemSubTitleTextView.text = itemBean!!.subTitle
-            itemBean!!.logoImage?.let { logoImageView.setImageResource(it) }
+            itemBean!!.logoImage?.let { logoImageView.setImageDrawable(it) }
         }
 
     constructor(context: Context?) : super(context) {

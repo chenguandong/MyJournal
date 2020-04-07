@@ -65,6 +65,8 @@ object JournalManager {
             writeSettingBean.tags = it.split(",")
         }
 
+        writeSettingBean.favourite = journalBeanDBBean!!.favourite!!
+
         context.startActivity(Intent(context, WriteActivity::class.java).putExtra(
                 WriteFragment.SHOW_DATA,writeSectionBeans
         ).putExtra(WriteFragment.SHOW_DATA_SETTING,writeSettingBean))

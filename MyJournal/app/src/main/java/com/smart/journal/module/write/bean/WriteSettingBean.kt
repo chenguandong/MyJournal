@@ -33,5 +33,10 @@ class WriteSettingBean() : Serializable {
      */
     var isEditable: Boolean = false
 
+    /**
+     * 是否收藏
+     */
+    var favourite:Boolean = false
+
 
 }
