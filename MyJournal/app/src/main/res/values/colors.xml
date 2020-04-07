@@ -10,4 +10,6 @@
 
     <color name="gray_bg_light">#fafaf7</color>
     <color name="white_bg">#FFFFFF</color>
+    <color name="default_yellow">#ffff8800</color>
+    <color name="default_red">#FF5722</color>
 </resources>

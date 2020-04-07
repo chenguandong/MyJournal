@@ -92,12 +92,14 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
         KeyboardUtils.hideSoftInput(activity)
 
+        val default = resources.getString(R.string.m_default)
+
         itemData.apply {
-            add(MoreSettingBean("位置", "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_location)))
-            add(MoreSettingBean("标签", "默认",ContextCompat.getDrawable(context!!,R.drawable.ic_ws_tag)))
-            add(MoreSettingBean("日记本", "默认", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_journal)))
-            add(MoreSettingBean("时间", "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_date)))
-            add(MoreSettingBean("收藏", "未收藏",ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)))
+            add(MoreSettingBean(resources.getString(R.string.location), "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_location)))
+            add(MoreSettingBean(resources.getString(R.string.tag), default,ContextCompat.getDrawable(context!!,R.drawable.ic_ws_tag)))
+            add(MoreSettingBean(resources.getString(R.string.journal_note), default, ContextCompat.getDrawable(context!!,R.drawable.ic_ws_journal)))
+            add(MoreSettingBean(resources.getString(R.string.date), "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_date)))
+            add(MoreSettingBean(resources.getString(R.string.m_favourite), resources.getString(R.string.un_favourite),ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)))
         }
 
 
@@ -106,13 +108,13 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
             itemData[1].subTitle = it.toString().replace("[", "").replace("]", "")
 
         }
-        itemData[2].subTitle = writeSetting?.journalBook?.name ?: "默认"
+        itemData[2].subTitle = writeSetting?.journalBook?.name ?: default
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
-        writeSetting!!.favourite?.let {
+        writeSetting!!.isFavourite?.let {
             if (it){
-                itemData[4].subTitle ="已收藏"
+                itemData[4].subTitle =resources.getString(R.string.favourite)
             }else{
-                itemData[4].subTitle ="未收藏"
+                itemData[4].subTitle =resources.getString(R.string.un_favourite)
             }
         }
         adapter = MoreSettingAdapter(itemData)
@@ -125,7 +127,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         //地址
                         0 -> {
                             val locationIntent = Intent(context, AMapAdressSearchActivity::class.java)
-                            locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, "位置")
+                            locationIntent.putExtra(AMapAdressSearchActivity.INTENT_TITLE, resources.getString(R.string.location))
                             startActivity(locationIntent)
                         }
                         //标签
@@ -148,11 +150,11 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                                 }
                             }
                             AlertDialog.Builder(activity!!)
-                                    .setTitle("请选择日记本")
+                                    .setTitle(resources.getString(R.string.choose_default_note))
                                     .setSingleChoiceItems(items, choosedItem) { _, which ->
                                         writeSetting!!.journalBook = allDbNoteList[which]
                                     }
-                                    .setPositiveButton("OK") { _, _ ->
+                                    .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                                         // do sth
                                         itemData[2].subTitle = writeSetting?.journalBook?.name ?: ""
                                         adapter!!.notifyDataSetChanged()
@@ -165,18 +167,14 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //收藏
                         4 -> {
-                            writeSetting!!.favourite = !(writeSetting!!.favourite)
-                            if (writeSetting!!.favourite) {
-                                itemData[4].logoImage = ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite_red2)
-                                itemData[4].subTitle= "已收藏"
-                                EventBus.getDefault().post(MessageEvent("1",NOTE_FAVOURITE_CHANGE))
+                            writeSetting!!.isFavourite = !(writeSetting!!.isFavourite)
+                            if (writeSetting!!.isFavourite) {
+                                itemData[4].subTitle= resources.getString(R.string.favourite)
                             } else {
-                                itemData[4].logoImage = ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)
-                                itemData[4].subTitle= "未收藏"
-                                EventBus.getDefault().post(MessageEvent("0",NOTE_FAVOURITE_CHANGE))
+                                itemData[4].subTitle= resources.getString(R.string.un_favourite)
                             }
                             adapter!!.notifyDataSetChanged()
-
+                            EventBus.getDefault().post(MessageEvent("0",NOTE_FAVOURITE_CHANGE))
 
                         }
                     }

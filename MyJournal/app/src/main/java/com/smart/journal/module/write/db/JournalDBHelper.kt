@@ -70,7 +70,7 @@ object JournalDBHelper {
         settingBean.journalId?.let {
             journalBeanDBBean.id = it
         }
-        journalBeanDBBean.favourite = settingBean.favourite
+        journalBeanDBBean.favourite = settingBean.isFavourite
         journalDao!!.saveJournal(journalBeanDBBean)
     }
 

@@ -10,4 +10,14 @@
     <string name="nav_header_title">Journal Tips</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="favourite">已收藏</string>
+    <string name="un_favourite">未收藏</string>
+    <string name="choose_default_note">请选择日记本</string>
+    <string name="ok">确定</string>
+    <string name="location">位置</string>
+    <string name="m_default">默认</string>
+    <string name="m_favourite">收藏</string>
+    <string name="tag">标签</string>
+    <string name="journal_note">日记本</string>
+    <string name="date">时间</string>
 </resources>

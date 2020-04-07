@@ -312,7 +312,7 @@ class WriteFragment : BaseFragment() {
                 }
             }
             MessageEvent.NOTE_FAVOURITE_CHANGE->{
-                writeSetting!!.favourite = event.message.toInt()==1
+                writeSetting!!.isFavourite = event.message.toInt()==1
             }
         }
     }

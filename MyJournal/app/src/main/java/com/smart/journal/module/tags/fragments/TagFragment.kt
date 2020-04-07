@@ -77,7 +77,7 @@ class TagFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this).get(TagViewModel::class.java)
 
         initView()
-        initSimpleToolbar(view, "标签")
+        initSimpleToolbar(view, resources.getString(R.string.tag))
 
         viewModel!!.getTags().observe(viewLifecycleOwner, Observer {
             it?.let {

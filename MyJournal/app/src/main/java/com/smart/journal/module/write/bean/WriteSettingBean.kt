@@ -9,7 +9,7 @@ import java.io.Serializable
  * @author guandongchen
  * @date 2020/3/12
  */
-class WriteSettingBean() : Serializable {
+class WriteSettingBean : Serializable {
     var journalId: Int? = null
     /**
      * 地理位置
@@ -36,7 +36,7 @@ class WriteSettingBean() : Serializable {
     /**
      * 是否收藏
      */
-    var favourite:Boolean = false
+    var isFavourite:Boolean = false
 
 
 }

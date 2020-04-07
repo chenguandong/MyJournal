@@ -1,9 +1,12 @@
 package com.smart.journal.module.write.views
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.smart.journal.R
 import com.smart.journal.module.write.bean.MoreSettingBean
 import kotlinx.android.synthetic.main.item_more_setting.view.*
@@ -19,11 +22,22 @@ class MoreSettingItemView : LinearLayout {
             field = value
             itemTitleTextView.text = itemBean!!.title
             itemSubTitleTextView.text = itemBean!!.subTitle
-            itemBean!!.logoImage?.let { logoImageView.setImageDrawable(it) }
+            itemBean!!.logoImage?.let {
+                logoImageView.setImageDrawable(it)
+            }
+            refreshColor()
+
         }
 
     constructor(context: Context?) : super(context) {
 
+    }
+    private fun refreshColor(){
+
+        when(itemBean!!.subTitle){
+            resources.getString(R.string.favourite)->  DrawableCompat.setTint(logoImageView.drawable,ContextCompat.getColor(context,R.color.default_red))//logoImageView.setColorFilter(R.color.default_red, PorterDuff.Mode.SRC_ATOP)
+            resources.getString(R.string.un_favourite)->logoImageView.setColorFilter(ContextCompat.getColor(context,R.color.default_yellow),PorterDuff.Mode.SRC_ATOP)
+        }
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
