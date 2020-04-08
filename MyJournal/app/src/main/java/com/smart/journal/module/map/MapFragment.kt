@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
@@ -267,21 +268,24 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
             }
         }
 
-        journalBeanDBBeans = JournalDBHelper.allJournals
+       JournalDBHelper.allJournals().observe(viewLifecycleOwner, Observer {
 
-        for (dataBean in journalBeanDBBeans!!) {
+           for (dataBean in it) {
 
-            if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
-                markerOption = MarkerOptions().icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                        .title(dataBean.id.toString())
-                        .position(LatLng(dataBean.latitude, dataBean.longitude))
-                        .draggable(false)
-                aMap!!.addMarker(markerOption)
-            }
+               if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
+                   markerOption = MarkerOptions().icon(BitmapDescriptorFactory
+                           .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                           .title(dataBean.id.toString())
+                           .position(LatLng(dataBean.latitude, dataBean.longitude))
+                           .draggable(false)
+                   aMap!!.addMarker(markerOption)
+               }
 
 
-        }
+           }
+
+
+        })
 
         mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
         aMap!!.isMyLocationEnabled = true

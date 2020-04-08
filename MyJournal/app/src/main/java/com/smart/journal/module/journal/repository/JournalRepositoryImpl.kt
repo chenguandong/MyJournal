@@ -1,5 +1,6 @@
 package com.smart.journal.module.journal.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
@@ -12,35 +13,27 @@ import java.util.*
 
 class JournalRepositoryImpl : JournalRepository {
 
-    private val journalBeans = ArrayList<JournalBeanDBBean>()
-
-    private val journalBeansLiveData = MutableLiveData<List<JournalBeanDBBean>>()
-    /**
-     * 数据库查询出来的数据集合
-     */
-    private var realmResults: List<JournalBeanDBBean>? = null
 
 
-    override fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>> {
-        realmResults = JournalDBHelper.allJournals
-        journalBeans.clear()
-        journalBeans.addAll(realmResults!!)
-        journalBeansLiveData.value = realmResults
-        return journalBeansLiveData
-    }
-
-    override fun getJournalBeans(): List<JournalBeanDBBean> {
-        return journalBeans
+    override fun getJournalBeans(): LiveData<List<JournalBeanDBBean> >{
+        return JournalDBHelper.allJournals()
     }
 
 
     override fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
         JournalDBHelper.deleteJournal( journalBeanDBBean)
-        getLiveDataJournalBeans()
     }
 
     override fun onLiveDataCleared() {
 
+    }
+
+    override fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+        return JournalDBHelper.searchJournalByKeyWord(keyWord)
+    }
+
+    override fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>> {
+        return JournalDBHelper.searchJournalByTag(tagName)
     }
 
 

@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
@@ -43,7 +44,6 @@ class PhotosFragment : BaseFragment() {
     var photoAdapter:PhotoAdapter ?= null
     var photosList:ArrayList<PhotoBean>  = ArrayList()
 
-    private var journalBeanDBBeans: List<JournalBeanDBBean>? = null
     override fun initView() {
         photoAdapter = PhotoAdapter(R.layout.item_photo,photosList)
         recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(getContext(), 3)
@@ -51,34 +51,34 @@ class PhotosFragment : BaseFragment() {
         recyclerView.adapter = photoAdapter
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
-             var predicate: Predicate<JournalBeanDBBean> = Predicate {
-                 it.id == photosList[position].journalID
-             }
-             var result:List<JournalBeanDBBean> = CollectionUtils.select(journalBeanDBBeans,predicate) as List<JournalBeanDBBean>
+             var result:List<JournalBeanDBBean> = CollectionUtils.select(adapter.data) {
+                 (it as JournalBeanDBBean).id == photosList[position].journalID
+             } as List<JournalBeanDBBean>
 
-            //PreViewBottomSheetDialogFragment(result[0]).show(fragmentManager!!,"")
             JournalManager.preViewJournal(context,result[0])
         }
     }
 
 
     override fun initData() {
-        journalBeanDBBeans = JournalDBHelper.allJournals
-        photosList.clear()
-        for (dataBean in journalBeanDBBeans!!) {
+        JournalDBHelper.allJournals().observe(viewLifecycleOwner, Observer {
+            photosList.clear()
+            for (dataBean in it) {
 
-            if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))){
-                var photoBean = PhotoBean()
-                photoBean.photoURL = JournalTools.getFistPhoto(dataBean.content)
-                photoBean.photoDate = DateTools.formatTime(dataBean.date)
-                photoBean.journalID = dataBean.id
-                photosList.add(photoBean)
+                if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))){
+                    var photoBean = PhotoBean()
+                    photoBean.photoURL = JournalTools.getFistPhoto(dataBean.content)
+                    photoBean.photoDate = DateTools.formatTime(dataBean.date)
+                    photoBean.journalID = dataBean.id
+                    photosList.add(photoBean)
+                }
+
+
             }
 
+            photoAdapter!!.notifyDataSetChanged()
+        })
 
-        }
-
-        photoAdapter!!.notifyDataSetChanged()
     }
 
     // TODO: Rename and change types of parameters

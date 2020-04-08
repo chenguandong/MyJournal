@@ -20,6 +20,7 @@ import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
 import com.smart.journal.module.menu.view.SlideMenuHeaderView
+import com.smart.journal.module.tags.activity.TagActivity
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -62,7 +63,21 @@ class SlideMenuFragment : Fragment() {
     }
 
     private fun initView() {
-        headerView = SlideMenuHeaderView(context)
+        headerView = SlideMenuHeaderView(context = context, delegate = object :SlideMenuHeaderView.SlideMenuHeaderViewDelegate{
+            override fun onTagItemClick() {
+                startActivity(Intent(context,TagActivity::class.java).putExtra(TagActivity.ACTIVITY_TYPE,TagActivity.TagActivityType.SEARCH))
+            }
+
+            override fun onLocationItemClick() {
+            }
+
+            override fun onFavouriteItemClick() {
+            }
+
+            override fun onThisDayItemClick() {
+            }
+
+        })
     }
 
     private fun initData() {

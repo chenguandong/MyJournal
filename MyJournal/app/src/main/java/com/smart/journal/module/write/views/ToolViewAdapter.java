@@ -27,6 +27,6 @@ public class ToolViewAdapter extends BaseQuickAdapter<ToolBean, BaseViewHolder>{
     protected void convert(BaseViewHolder helper, ToolBean item) {
 
         AppCompatImageView imageView = helper.getView(R.id.toolImageView);
-        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(),item.getIcon()));
+        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), item.getIcon()));
     }
 }

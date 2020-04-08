@@ -41,39 +41,41 @@ class Calendar2Fragment : BaseFragment() {
 
     override fun initData() {
         indicators.clear()
-        val journalBeanDBBeans = JournalDBHelper.allJournals
-        for (dataBean in journalBeanDBBeans) {
+        JournalDBHelper.allJournals().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            for (dataBean in it) {
 
-            indicators.add(CalendarDateIndicator(
-                    date = CalendarDate(dataBean.date),
-                    color = ColorTools.getRandomColor(),
-                    eventName = "${dataBean.id}" //dataBean.content!!.split(Contancts.FILE_TYPE_SPLIT)[0].replace(Contancts.FILE_TYPE_TEXT, "")
-            )
-            )
-        }
-        calendar_view2.datesIndicators = indicators
-        calendar_view2.setupCalendar(selectionMode = CalendarView.SelectionMode.NON)
-
-        calendar_view2.onDateClickListener = { date ->
-            val dateIndicators = calendar_view2.getDateIndicators(date)
-                    .filterIsInstance<CalendarDateIndicator>()
-                    .toTypedArray()
-
-            if (dateIndicators.isNotEmpty()) {
-                val builder = AlertDialog.Builder(context!!)
-                        .setTitle("$date")
-                        .setAdapter(DateIndicatorsDialogAdapter(context!!, dateIndicators), object : DialogInterface.OnClickListener {
-                            override fun onClick(p0: DialogInterface?, postion: Int) {
-                                val item = JournalDBHelper.queryJournalById(dateIndicators[postion].eventName.toInt())[0]
-                                JournalManager.preViewJournal(context, item)
-                            }
-
-                        })
-
-                val dialog = builder.create()
-                dialog.show()
+                indicators.add(CalendarDateIndicator(
+                        date = CalendarDate(dataBean.date),
+                        color = ColorTools.getRandomColor(),
+                        eventName = "${dataBean.id}" //dataBean.content!!.split(Contancts.FILE_TYPE_SPLIT)[0].replace(Contancts.FILE_TYPE_TEXT, "")
+                )
+                )
             }
-        }
+            calendar_view2.datesIndicators = indicators
+            calendar_view2.setupCalendar(selectionMode = CalendarView.SelectionMode.NON)
+
+            calendar_view2.onDateClickListener = { date ->
+                val dateIndicators = calendar_view2.getDateIndicators(date)
+                        .filterIsInstance<CalendarDateIndicator>()
+                        .toTypedArray()
+
+                if (dateIndicators.isNotEmpty()) {
+                    val builder = AlertDialog.Builder(context!!)
+                            .setTitle("$date")
+                            .setAdapter(DateIndicatorsDialogAdapter(context!!, dateIndicators), object : DialogInterface.OnClickListener {
+                                override fun onClick(p0: DialogInterface?, postion: Int) {
+                                    val item = JournalDBHelper.queryJournalById(dateIndicators[postion].eventName.toInt())[0]
+                                    JournalManager.preViewJournal(context, item)
+                                }
+
+                            })
+
+                    val dialog = builder.create()
+                    dialog.show()
+                }
+            }
+        })
+
     }
 
     class DateIndicatorsDialogAdapter(

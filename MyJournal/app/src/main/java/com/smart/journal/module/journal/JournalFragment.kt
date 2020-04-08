@@ -10,17 +10,17 @@ import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.blankj.utilcode.util.SizeUtils
 import com.gavin.com.library.StickyDecoration
 import com.gavin.com.library.listener.GroupListener
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
-import com.smart.journal.tools.DividerItemDecorationTools
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
@@ -32,13 +32,16 @@ import org.greenrobot.eventbus.EventBus
  * Use the [JournalFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class JournalFragment : BaseFragment{
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
-    private var isLoaded:Boolean?=false
+class JournalFragment : BaseFragment {
+
+    private var isLoaded: Boolean? = false
     override fun getData() {
-        if (!isLoaded!!){
+        if (!isLoaded!!) {
             initData()
-            isLoaded  = true
+            isLoaded = true
         }
 
     }
@@ -48,19 +51,19 @@ class JournalFragment : BaseFragment{
 
 
     // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
+    private var fragmentType: String? = null
+    private var param2: String? = null
 
-    private var journalViewModel: JournalViewModel? = null
+    private val journalViewModel by viewModels<JournalViewModel>()
 
     constructor() : super()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
-        if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
+        arguments?.let {
+            fragmentType = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -72,32 +75,26 @@ class JournalFragment : BaseFragment{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        init()
         var sha1 = KeyStoreTools.sHA1(activity)
-        Log.i("sha1=",sha1)
+        Log.i("sha1=", sha1)
     }
 
 
     override fun initView() {
-        journalViewModel = ViewModelProviders.of(this).get(JournalViewModel::class.java)
 
-        journalViewModel!!
-                .getLiveDataJournalBeans().observe(this, Observer {
-                    journalBeanDBBeans -> journalAdapter!!.notifyDataSetChanged()
-                })
+        journalAdapter = JournalAdapter(R.layout.item_journal, arrayListOf())
 
-        journalAdapter = JournalAdapter(R.layout.item_journal, journalViewModel!!.getJournalBeans())
-
-        val groupListener = GroupListener {postion->
-            journalViewModel!!.getJournalBeans()[postion].address
+        val groupListener = GroupListener { postion ->
+            journalAdapter!!.data[postion].address
         }
         val decoration = StickyDecoration.Builder
                 .init(groupListener) //重置span（使用GridLayoutManager时必须调用）
                 .setGroupHeight(SizeUtils.dp2px(30F))
                 .setGroupTextSize(SizeUtils.sp2px(12F))
-                .setGroupTextColor(ContextCompat.getColor(context,R.color.black))
-                .setGroupBackground(ContextCompat.getColor(context,R.color.gray_bg_light))
-                .setDivideColor(ContextCompat.getColor(context,R.color.divider))
+                .setGroupTextColor(ContextCompat.getColor(context, R.color.black))
+                .setGroupBackground(ContextCompat.getColor(context, R.color.gray_bg_light))
+                .setDivideColor(ContextCompat.getColor(context, R.color.divider))
                 .setDivideHeight(1)
                 .build()
 
@@ -105,19 +102,19 @@ class JournalFragment : BaseFragment{
         //journalRecycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         journalRecycleView!!.addItemDecoration(decoration)
         journalAdapter!!.setOnItemClickListener { adapter, view, position ->
-            JournalManager.preViewJournal(context,journalViewModel!!.getJournalBeans()[position])
+            JournalManager.preViewJournal(context, journalAdapter!!.data[position])
         }
         journalAdapter!!.setOnItemLongClickListener { adapter, view, position ->
 
             AlertDialog.Builder(context).setItems(arrayOf<CharSequence>("查看", "删除")) { dialogInterface, i ->
                 when (i) {
                     0 -> {
-                       // PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
-                        JournalManager.preViewJournal(context,journalViewModel!!.getJournalBeans()[position])
+                        // PreViewBottomSheetDialogFragment(journalViewModel!!.getJournalBeans().get(position)).show(fragmentManager!!,"")
+                        JournalManager.preViewJournal(context, journalAdapter!!.data[position])
                     }
                     1 -> {
-                        journalViewModel!!.deleteJournal(journalViewModel!!.getJournalBeans()[position])
-                        EventBus.getDefault().post(MessageEvent("",MessageEvent.NOTE_CHANGE))
+                        journalViewModel!!.deleteJournal(journalAdapter!!.data[position])
+                        EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
                     }
                 }
 
@@ -126,19 +123,46 @@ class JournalFragment : BaseFragment{
         }
         journalRecycleView!!.adapter = journalAdapter
 
-        swipeRefreshLayout.setOnRefreshListener({
+        swipeRefreshLayout.setOnRefreshListener {
             initData()
+        }
+    }
+
+    fun searchJournalByKeyWord(keyWord: String) {
+        journalViewModel!!.searchJournalByKeyWord(keyWord).observe(viewLifecycleOwner, Observer {
+
+            it?.let { datas ->
+                journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
+            }
         })
     }
 
 
-
     override fun initData() {
 
-        journalViewModel!!.getLiveDataJournalBeans()
+
+        when (fragmentType) {
+            FRAGMENT_TYPE_SEARCH -> {
+                param2?.let {
+                    journalViewModel!!.searchJournalByTag(it).observe(viewLifecycleOwner, Observer {
+
+                        it?.let { datas ->
+                            journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
+                        }
+                    })
+                }
+
+            }
+            else -> {
+                journalViewModel!!.getJournalBeans().observe(viewLifecycleOwner, Observer {
+                    journalAdapter!!.setNewData(it as MutableList<JournalBeanDBBean>?)
+                })
+            }
+        }
 
         swipeRefreshLayout.isRefreshing = false
     }
+
 
     override fun onDestroy() {
         EventBus.getDefault().unregister(this)
@@ -147,24 +171,22 @@ class JournalFragment : BaseFragment{
 
     companion object {
 
-        private val ARG_PARAM1 = "param1"
-        private val ARG_PARAM2 = "param2"
+        const val FRAGMENT_TYPE_SEARCH = "fragment_type_search"
 
-
-        fun newInstance(): JournalFragment {
-            val fragment = JournalFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, "")
-            args.putString(ARG_PARAM2, "")
-            fragment.arguments = args
-            return fragment
-        }
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                JournalFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
     }
 
     @MainThread
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
-        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+        if (event!!.tag == MessageEvent.NOTE_CHANGE) {
             initData()
         }
     }

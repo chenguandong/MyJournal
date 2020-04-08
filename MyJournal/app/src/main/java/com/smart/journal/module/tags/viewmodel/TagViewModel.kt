@@ -1,15 +1,19 @@
 package com.smart.journal.module.tags.viewmodel
 
-import androidx.lifecycle.*
-import com.smart.journal.app.MyApp
-import com.smart.journal.db.AppDatabase
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.smart.journal.R
 import com.smart.journal.module.tags.bean.TagsDbBean
 import com.smart.journal.module.tags.repository.TagsRepository
 import com.smart.journal.module.tags.repository.TagsRepositoryImpl
 import kotlinx.coroutines.launch
 
-class TagViewModel : ViewModel() {
-    private val tagsRepository:TagsRepository = TagsRepositoryImpl()
+
+class TagViewModel(application: Application) : AndroidViewModel(application) {
+    private val tagsRepository: TagsRepository = TagsRepositoryImpl()
     private val tags: MutableLiveData<List<TagsDbBean>> = MutableLiveData()
 
 
@@ -24,18 +28,27 @@ class TagViewModel : ViewModel() {
     fun inertTag(tagsDbBean: TagsDbBean){
         viewModelScope.launch {
             tagsRepository.insertOrUpdateTag(tagsDbBean)
+            loadUsers()
         }
-        loadUsers()
+
     }
 
     fun queryTagByName(tagName:String){
         viewModelScope.launch {
             var tagsData:List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
             if (tagsData.isNullOrEmpty()){
-                tags.value = listOf(TagsDbBean("添加 "+tagName,0))
+
+                tags.value = listOf(TagsDbBean(getApplication<Application>().resources.getString(R.string.add)+tagName,0))
             }else{
                 tags.value = tagsData
             }
+        }
+    }
+
+    fun queryTagByNameNoAdd(tagName:String){
+        viewModelScope.launch {
+            var tagsData:List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
+            tags.value = tagsData
         }
     }
 

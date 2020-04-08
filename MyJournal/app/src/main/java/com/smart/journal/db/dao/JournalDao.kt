@@ -1,5 +1,7 @@
 package com.smart.journal.db.dao
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.smart.journal.db.entity.JournalBeanDBBean
 
@@ -19,13 +21,20 @@ abstract class JournalDao {
     abstract fun saveJournal(journalBeanDBBeans: JournalBeanDBBean?)
 
     @Query("SELECT * FROM journal ORDER BY date DESC")
-    abstract fun allJournal():List<JournalBeanDBBean>
+    abstract fun allJournal():LiveData<List<JournalBeanDBBean>>
 
     @Query("SELECT * FROM journal where date = :date ORDER BY date DESC")
     abstract fun queryJournalByDate(date:Long):List<JournalBeanDBBean>
 
     @Query("SELECT * FROM journal where id = :id ORDER BY date DESC")
     abstract fun queryJournalById(id:Int):List<JournalBeanDBBean>
+
+    @Query("SELECT * FROM journal where content = :keyWord ORDER BY date DESC")
+    abstract fun searchJournalByKeyWord(keyWord:String):LiveData<List<JournalBeanDBBean>>
+
+    @Query("SELECT * FROM journal where tags = :tagName ORDER BY date DESC")
+    abstract fun searchJournalByTag(tagName:String):LiveData<List<JournalBeanDBBean>>
+
 
     @Delete
     abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?)

@@ -1,7 +1,9 @@
 package com.smart.journal.module.journal.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 
 import com.smart.journal.module.journal.repository.JournalRepository
 import com.smart.journal.module.journal.repository.JournalRepositoryImpl
@@ -13,40 +15,32 @@ import com.smart.journal.db.entity.JournalBeanDBBean
  * @date 26/03/2018
  */
 
-class JournalViewModel : ViewModel(), JournalRepository {
+class JournalViewModel : ViewModel() {
 
     private val journalRepository: JournalRepository
-
-    private var listMutableLiveData: MutableLiveData<List<JournalBeanDBBean>>? = null
-
 
     init {
 
         journalRepository = JournalRepositoryImpl()
 
-        if (this.listMutableLiveData == null) {
-            // ViewModel is created per Fragment so
-            // we know the userId won't change
-            listMutableLiveData = MutableLiveData()
-        }
-        listMutableLiveData = journalRepository.getLiveDataJournalBeans()
-
     }
 
-    override fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
+     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
         journalRepository.deleteJournal(journalBeanDBBean)
     }
 
-    override fun onLiveDataCleared() {
 
+     fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+       return journalRepository.searchJournalByKeyWord(keyWord)
     }
 
-    override fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>> {
-        return journalRepository.getLiveDataJournalBeans()
+     fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>> {
+        return journalRepository.searchJournalByTag(tagName)
     }
 
-    override fun getJournalBeans(): List<JournalBeanDBBean> {
-        return journalRepository.getJournalBeans()
+
+     fun getJournalBeans():LiveData<List<JournalBeanDBBean>>{
+         return journalRepository.getJournalBeans()
     }
 
     public override fun onCleared() {

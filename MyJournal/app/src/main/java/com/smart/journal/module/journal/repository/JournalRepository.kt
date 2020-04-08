@@ -1,5 +1,6 @@
 package com.smart.journal.module.journal.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 import com.smart.journal.db.entity.JournalBeanDBBean
@@ -11,11 +12,13 @@ import com.smart.journal.db.entity.JournalBeanDBBean
 
 interface JournalRepository {
 
-    fun getLiveDataJournalBeans(): MutableLiveData<List<JournalBeanDBBean>>
-
-    fun getJournalBeans() :List<JournalBeanDBBean>
+    fun getJournalBeans() :LiveData<List<JournalBeanDBBean>>
 
     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean)
 
     fun onLiveDataCleared()
+
+    fun searchJournalByKeyWord(keyWord:String): LiveData<List<JournalBeanDBBean>>
+
+    fun searchJournalByTag(tagName:String): LiveData<List<JournalBeanDBBean>>
 }

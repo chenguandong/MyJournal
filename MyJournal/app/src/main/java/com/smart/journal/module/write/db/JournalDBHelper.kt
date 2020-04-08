@@ -1,6 +1,7 @@
 package com.smart.journal.module.write.db
 
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import com.smart.journal.app.MyApp
 import com.smart.journal.contants.Contancts
 import com.smart.journal.db.dao.JournalDao
@@ -23,8 +24,9 @@ object JournalDBHelper {
      * 获取所有日记
      * @return
      */
-    val allJournals: List<JournalBeanDBBean>
-        get() = journalDao!!.allJournal() as List<JournalBeanDBBean>
+    fun allJournals():LiveData<List<JournalBeanDBBean>>{
+       return journalDao!!.allJournal()
+    }
 
     /**
      * 保存日记
@@ -65,7 +67,7 @@ object JournalDBHelper {
         }
 
         settingBean.tags?.let {
-            journalBeanDBBean.tags =it.toString().replace("[","").replace("]","")
+            journalBeanDBBean.tags = it.toString().replace("[", "").replace("]", "")
         }
         settingBean.journalId?.let {
             journalBeanDBBean.id = it
@@ -88,12 +90,21 @@ object JournalDBHelper {
         journalDao!!.deleteJournalById(journalId)
     }
 
-    fun queryJournalByDate(date:Long):List<JournalBeanDBBean> {
-       return journalDao!!.queryJournalByDate(date)
+    fun queryJournalByDate(date: Long): List<JournalBeanDBBean> {
+        return journalDao!!.queryJournalByDate(date)
     }
 
-    fun queryJournalById(id:Int):List<JournalBeanDBBean> {
+    fun queryJournalById(id: Int): List<JournalBeanDBBean> {
         return journalDao!!.queryJournalById(id)
     }
+
+    fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+        return journalDao!!.searchJournalByKeyWord(keyWord)
+    }
+
+    fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>> {
+        return journalDao!!.searchJournalByTag(tagName)
+    }
+
 }
 

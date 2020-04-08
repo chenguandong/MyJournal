@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:context=".module.tags.fragments.TagFragment">
 
-    <include layout="@layout/toolbar"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_below="@+id/toolView"

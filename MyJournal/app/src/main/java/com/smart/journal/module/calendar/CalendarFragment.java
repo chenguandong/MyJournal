@@ -2,7 +2,6 @@ package com.smart.journal.module.calendar;
 
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,8 @@ import com.smart.journal.tools.DateTools;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -136,7 +137,7 @@ public class CalendarFragment extends BaseFragment  implements
     protected void initData() {
         List<Calendar> schemes = new ArrayList<>();
 
-        List<JournalBeanDBBean> journalBeanDBBeans = JournalDBHelper.INSTANCE.getAllJournals();
+        List<JournalBeanDBBean> journalBeanDBBeans = JournalDBHelper.INSTANCE.allJournals().getValue();
 
         for (JournalBeanDBBean dataBean:
                 journalBeanDBBeans) {

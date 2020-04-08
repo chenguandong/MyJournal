@@ -19,9 +19,9 @@ import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.tags_fragment.*
 import org.greenrobot.eventbus.EventBus
 
-class TagFragment : BaseFragment() {
+open class TagFragment : BaseFragment() {
 
-    private var tagAdapter: TagAdapter? = null
+    var tagAdapter: TagAdapter? = null
 
     private var selectedTags: MutableList<String> = mutableListOf()
 
@@ -29,7 +29,7 @@ class TagFragment : BaseFragment() {
         fun newInstance() = TagFragment()
     }
 
-    private lateinit var viewModel: TagViewModel
+    lateinit var viewModel: TagViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -45,40 +45,21 @@ class TagFragment : BaseFragment() {
         initData()
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        inflater.inflate(R.menu.menu_search_view, menu)
-
-        val searchItem = menu.findItem(R.id.toolbar_search_view)
-        var mSearchView: SearchView = searchItem.actionView as SearchView
-        mSearchView.setSubmitButtonEnabled(true)
-        mSearchView.setIconifiedByDefault(true)
-        mSearchView.queryHint = "搜索"
-        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(s: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(s: String?): Boolean {
-                if (s.isNullOrBlank()) {
-                    viewModel.loadUsers()
-                } else {
-                    viewModel.queryTagByName(s)
-                }
-                return true
-            }
-        })
-
+    /**
+     * 搜索
+     */
+    open fun searchText(keyWord:String){
+        if (keyWord.isNullOrBlank()) {
+            viewModel.loadUsers()
+        } else {
+            viewModel.queryTagByName(keyWord)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(TagViewModel::class.java)
-
         initView()
-        initSimpleToolbar(view, resources.getString(R.string.tag))
-
         viewModel!!.getTags().observe(viewLifecycleOwner, Observer {
             it?.let {
                 tagAdapter!!.setNewData(it as MutableList<TagsDbBean>)
@@ -98,13 +79,17 @@ class TagFragment : BaseFragment() {
         recycleView.adapter = tagAdapter
         recycleView.layoutManager = LinearLayoutManager(activity)
         recycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
+        setOnItemClickListen()
 
+
+    }
+    open fun setOnItemClickListen(){
         tagAdapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
 
                 val tagsDbBean = adapter.data[position] as TagsDbBean
 
-                if (tagsDbBean.name!!.startsWith("添加")) {
+                if (tagsDbBean.name!!.startsWith(resources.getString(R.string.add))) {
                     var tagsDbBeanInsert = TagsDbBean(tagsDbBean.name!!.substring(3, tagsDbBean.name!!.length), 0)
                     viewModel.inertTag(tagsDbBeanInsert)
                     tagsDbBeanInsert.name?.let { selectedTags.add(it) }
@@ -123,8 +108,6 @@ class TagFragment : BaseFragment() {
             }
 
         })
-
-
     }
 
     override fun onStop() {

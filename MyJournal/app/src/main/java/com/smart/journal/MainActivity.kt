@@ -69,7 +69,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         //BottomNavigationViewHelper.disableShiftMode(navigationView)
 
-        journalFragment = JournalFragment.newInstance()
+        journalFragment = JournalFragment.newInstance("","")
 
         mapFragment = MapFragment.newInstance()
         //mapFragment = BaiduMapFragment.newInstance("","")

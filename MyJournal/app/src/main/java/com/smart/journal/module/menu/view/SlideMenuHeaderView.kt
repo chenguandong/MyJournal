@@ -13,7 +13,18 @@ import kotlinx.android.synthetic.main.header_slide_menu_view.view.*
  * @date 2020/4/7
  */
 class SlideMenuHeaderView : LinearLayout ,View.OnClickListener{
-    constructor(context: Context?) : super(context){
+
+    interface SlideMenuHeaderViewDelegate{
+        fun onTagItemClick()
+        fun onLocationItemClick()
+        fun onFavouriteItemClick()
+        fun onThisDayItemClick()
+    }
+
+    private var delegate:SlideMenuHeaderViewDelegate? =null
+
+    constructor(context: Context?,delegate: SlideMenuHeaderViewDelegate) : super(context){
+        this.delegate = delegate
         initView()
     }
 
@@ -33,6 +44,24 @@ class SlideMenuHeaderView : LinearLayout ,View.OnClickListener{
     }
 
     override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+        when(p0!!.id){
+            //标签
+            R.id.tagTextView->{delegate?.let {
+                it.onTagItemClick()
+            }}
+            //位置
+            R.id.locationTextView->{delegate?.let {
+                it.onLocationItemClick()
+            }}
+            //收藏
+            R.id.favouriteTextView->{delegate?.let {
+                it.onFavouriteItemClick()
+            }}
+            //那年今日
+            R.id.onThisDayTextView->{delegate?.let {
+                it.onThisDayItemClick()
+            }}
+
+        }
     }
 }
