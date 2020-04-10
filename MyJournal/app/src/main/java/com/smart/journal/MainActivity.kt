@@ -89,7 +89,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //fragmentList.add((weatherFragment as WeatherFragment?)!!)
 
         viewPager!!.offscreenPageLimit = fragmentList.size
-
         navigationView.setupWithViewPager(viewPager)
        // navigationView.enableShiftingMode(false)
 

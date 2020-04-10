@@ -20,15 +20,11 @@ import com.amap.api.maps2d.model.*
 import com.blankj.utilcode.util.LogUtils
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
-import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.location.LocationTools
 import kotlinx.android.synthetic.main.fragment_map.*
-import org.apache.commons.collections4.CollectionUtils
-import org.apache.commons.collections4.Predicate
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -48,7 +44,6 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     private var markerOption: MarkerOptions? = null
 
 
-    private var journalBeanDBBeans: List<JournalBeanDBBean>? = null
     private var amapLocation: AMapLocation? = null
 
     internal var mFirstFix = false
@@ -103,7 +98,6 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         aMap!!.uiSettings.isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap!!.setOnMarkerClickListener(this)
-        aMap!!.isMyLocationEnabled = true
         aMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude), 18f))
         setupLocationStyle()
     }
@@ -115,12 +109,16 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point))
         myLocationStyle.interval(2000) //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
         aMap!!.isMyLocationEnabled = true// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false
+
+        aMap!!.getUiSettings().setMyLocationButtonEnabled(true);//设置默认定位按钮是否显示，非必需设置
         // 自定义精度范围的圆形边框颜色
         myLocationStyle.strokeColor(STROKE_COLOR)
         //自定义精度范围的圆形边框宽度
         myLocationStyle.strokeWidth(0f)
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(FILL_COLOR)
+
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER);//连续定位、蓝点不会移动到地图中心点，定位点依照设备方向旋转，并且蓝点会跟随设备移动。
 
         // 将自定义的 myLocationStyle 对象添加到地图上
         aMap!!.setMyLocationStyle(myLocationStyle)
@@ -266,29 +264,30 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
             if (LocationTools.locationBean != null) {
                 addMarker(LatLng(LocationTools.locationBean!!.latitude, LocationTools.locationBean!!.longitude))
             }
+        } else {
+            return
         }
 
-       JournalDBHelper.allJournals().observe(viewLifecycleOwner, Observer {
+        JournalDBHelper.allJournals().observe(viewLifecycleOwner, Observer {
 
-           for (dataBean in it) {
+            for (dataBean in it) {
 
-               if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
-                   markerOption = MarkerOptions().icon(BitmapDescriptorFactory
-                           .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                           .title(dataBean.id.toString())
-                           .position(LatLng(dataBean.latitude, dataBean.longitude))
-                           .draggable(false)
-                   aMap!!.addMarker(markerOption)
-               }
+                if (!TextUtils.isEmpty(dataBean.latitude.toString() + "")) {
+                    markerOption = MarkerOptions().icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                            .title(dataBean.id.toString())
+                            .position(LatLng(dataBean.latitude, dataBean.longitude))
+                            .draggable(false)
+                    aMap!!.addMarker(markerOption)
+                }
 
 
-           }
+            }
 
 
         })
+        mListener!!.onLocationChanged(amapLocation)
 
-        mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
-        aMap!!.isMyLocationEnabled = true
     }
 
     /**
@@ -297,11 +296,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onMarkerClick(marker: Marker): Boolean {
         if (aMap != null) {
         }
-        var result = CollectionUtils.select(journalBeanDBBeans, Predicate { it ->
-            it.id == marker.title.toInt()
-        })
-       // PreViewBottomSheetDialogFragment(result.first()).show(fragmentManager!!, "")
-        JournalManager.preViewJournal(context,result.first())
+
+        JournalManager.preViewJournal(context, JournalDBHelper.queryJournalById(marker.title.toInt())[0])
         return true
     }
 
@@ -321,7 +317,8 @@ class MapFragment : BaseFragment(), LocationSource, AMapLocationListener, AMap.O
     override fun onMessageEvent(event: MessageEvent) {
         super.onMessageEvent(event)
         if (event.tag == MessageEvent.NOTE_CHANGE) {
-            addMarkersToMap()
+            // addMarkersToMap()
+            init()
         }
     }
 

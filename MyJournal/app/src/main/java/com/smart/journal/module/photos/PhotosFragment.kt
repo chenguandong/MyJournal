@@ -51,11 +51,10 @@ class PhotosFragment : BaseFragment() {
         recyclerView.adapter = photoAdapter
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
-             var result:List<JournalBeanDBBean> = CollectionUtils.select(adapter.data) {
-                 (it as JournalBeanDBBean).id == photosList[position].journalID
-             } as List<JournalBeanDBBean>
 
-            JournalManager.preViewJournal(context,result[0])
+            photosList[position].journalID?.let {
+                JournalManager.preViewJournal(context,JournalDBHelper.queryJournalById(it)[0])
+            }
         }
     }
 
@@ -76,7 +75,9 @@ class PhotosFragment : BaseFragment() {
 
             }
 
-            photoAdapter!!.notifyDataSetChanged()
+            photoAdapter?.let {
+                photoAdapter!!.notifyDataSetChanged()
+            }
         })
 
     }
@@ -87,6 +88,7 @@ class PhotosFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -97,7 +99,7 @@ class PhotosFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        EventBus.getDefault().register(this)
+
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
 
