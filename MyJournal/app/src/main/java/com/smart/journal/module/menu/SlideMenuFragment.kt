@@ -4,12 +4,10 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -20,7 +18,7 @@ import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
 import com.smart.journal.module.menu.view.SlideMenuHeaderView
-import com.smart.journal.module.tags.activity.TagActivity
+import com.smart.journal.module.tags.activity.SearchActivity
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -65,10 +63,11 @@ class SlideMenuFragment : Fragment() {
     private fun initView() {
         headerView = SlideMenuHeaderView(context = context, delegate = object :SlideMenuHeaderView.SlideMenuHeaderViewDelegate{
             override fun onTagItemClick() {
-                startActivity(Intent(context,TagActivity::class.java).putExtra(TagActivity.ACTIVITY_TYPE,TagActivity.TagActivityType.SEARCH))
+                SearchActivity.startActivity(context!!,SearchActivity.TagActivityType.TAG_SEARCH)
             }
 
             override fun onLocationItemClick() {
+                SearchActivity.startActivity(context!!,SearchActivity.TagActivityType.LOCATION_SEARCH)
             }
 
             override fun onFavouriteItemClick() {

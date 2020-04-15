@@ -21,4 +21,6 @@ interface JournalRepository {
     fun searchJournalByKeyWord(keyWord:String): LiveData<List<JournalBeanDBBean>>
 
     fun searchJournalByTag(tagName:String): LiveData<List<JournalBeanDBBean>>
+
+    fun searchJournalByLocationName(locationName:String): LiveData<List<JournalBeanDBBean>>
 }

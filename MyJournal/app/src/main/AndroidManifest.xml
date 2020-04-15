@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.tags.activity.TagActivity" />
+        <activity android:name=".module.tags.activity.SearchActivity" />
         <activity android:name=".module.menu.CreateNoteBookActivity" />
         <activity android:name=".module.map.activity.AMapAdressSearchActivity" />
 

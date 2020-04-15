@@ -106,5 +106,9 @@ object JournalDBHelper {
         return journalDao!!.searchJournalByTag(tagName)
     }
 
+    fun searchJournalByLocationName(locatonName: String): LiveData<List<JournalBeanDBBean>> {
+        return journalDao!!.searchJournalByTagLocationName(locatonName)
+    }
+
 }
 

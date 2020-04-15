@@ -38,6 +38,10 @@ class JournalViewModel : ViewModel() {
         return journalRepository.searchJournalByTag(tagName)
     }
 
+    fun searchJournalByLocationName(locationName: String): LiveData<List<JournalBeanDBBean>> {
+        return journalRepository.searchJournalByLocationName(locationName)
+    }
+
 
      fun getJournalBeans():LiveData<List<JournalBeanDBBean>>{
          return journalRepository.getJournalBeans()

@@ -35,6 +35,9 @@ abstract class JournalDao {
     @Query("SELECT * FROM journal where tags = :tagName ORDER BY date DESC")
     abstract fun searchJournalByTag(tagName:String):LiveData<List<JournalBeanDBBean>>
 
+    @Query("SELECT * FROM journal where address like '%'|| :locationName ||'%'  ORDER BY date DESC")
+    abstract fun searchJournalByTagLocationName(locationName:String):LiveData<List<JournalBeanDBBean>>
+
 
     @Delete
     abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?)

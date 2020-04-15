@@ -2,7 +2,6 @@ package com.smart.journal.module.tags.fragments
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,7 @@ import com.smart.journal.module.tags.bean.TagsDbBean
 import com.smart.journal.module.tags.viewmodel.TagViewModel
 import com.smart.journal.tools.DividerItemDecorationTools
 import com.smart.journal.tools.eventbus.MessageEvent
-import kotlinx.android.synthetic.main.tags_fragment.*
+import kotlinx.android.synthetic.main.base_recycler_view_fragment.*
 import org.greenrobot.eventbus.EventBus
 
 open class TagFragment : BaseFragment() {
@@ -33,7 +32,7 @@ open class TagFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.tags_fragment, container, false)
+        return inflater.inflate(R.layout.base_recycler_view_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

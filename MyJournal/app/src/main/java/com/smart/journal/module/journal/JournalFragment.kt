@@ -142,7 +142,7 @@ class JournalFragment : BaseFragment {
 
 
         when (fragmentType) {
-            FRAGMENT_TYPE_SEARCH -> {
+            FRAGMENT_TYPE_SEARCH_TAG -> {
                 param2?.let {
                     journalViewModel!!.searchJournalByTag(it).observe(viewLifecycleOwner, Observer {
 
@@ -152,6 +152,16 @@ class JournalFragment : BaseFragment {
                     })
                 }
 
+            }
+            FRAGMENT_TYPE_SEARCH_LOCATION->{
+                param2?.let {
+                    journalViewModel!!.searchJournalByLocationName(it).observe(viewLifecycleOwner, Observer {
+
+                        it?.let { datas ->
+                            journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
+                        }
+                    })
+                }
             }
             else -> {
                 journalViewModel!!.getJournalBeans().observe(viewLifecycleOwner, Observer {
@@ -171,7 +181,8 @@ class JournalFragment : BaseFragment {
 
     companion object {
 
-        const val FRAGMENT_TYPE_SEARCH = "fragment_type_search"
+        const val FRAGMENT_TYPE_SEARCH_TAG = "fragment_type_search_tag"
+        const val FRAGMENT_TYPE_SEARCH_LOCATION = "fragment_type_search_location"
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

@@ -16,7 +16,7 @@ import com.smart.journal.customview.dialog.BaseBottomSheetDialogFragment
 import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
-import com.smart.journal.module.tags.activity.TagActivity
+import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.module.write.adapter.MoreSettingAdapter
 import com.smart.journal.module.write.bean.MoreSettingBean
 import com.smart.journal.module.write.bean.ToolBean
@@ -133,7 +133,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //标签
                         1 -> {
-                            startActivityForResult(Intent(context, TagActivity::class.java), 100)
+                            startActivityForResult(Intent(context, SearchActivity::class.java), 100)
                         }
                         /* 日记本 */
                         2 -> {
@@ -150,7 +150,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                                     }
                                 }
                             }
-                            AlertDialog.Builder(activity!!)
+                            AlertDialog.Builder(requireActivity())
                                     .setTitle(resources.getString(R.string.choose_default_note))
                                     .setSingleChoiceItems(items, choosedItem) { _, which ->
                                         writeSetting!!.journalBook = allDbNoteList[which]
