@@ -110,5 +110,9 @@ object JournalDBHelper {
         return journalDao!!.searchJournalByTagLocationName(locatonName)
     }
 
+    fun searchJournalFromFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+        return journalDao!!.searchJournalFromFavourite(keyWord)
+    }
+
 }
 

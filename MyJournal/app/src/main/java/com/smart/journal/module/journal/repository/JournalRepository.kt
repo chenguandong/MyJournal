@@ -22,5 +22,9 @@ interface JournalRepository {
 
     fun searchJournalByTag(tagName:String): LiveData<List<JournalBeanDBBean>>
 
+    fun searchJournalByFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>>
+
+    fun searchJournalByLocation(addressName:String): LiveData<List<JournalBeanDBBean>>
+
     fun searchJournalByLocationName(locationName:String): LiveData<List<JournalBeanDBBean>>
 }

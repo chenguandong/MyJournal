@@ -12,15 +12,18 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
 import com.smart.journal.module.calendar.Calendar2Fragment
 import com.smart.journal.module.journal.JournalFragment
+import com.smart.journal.module.journal.activity.GlobalSearchActivity
 import com.smart.journal.module.map.MapFragment
 import com.smart.journal.module.menu.SlideMenuFragment
 import com.smart.journal.module.mine.MineFragment
 import com.smart.journal.module.mine.setting.SettingActivity
 import com.smart.journal.module.photos.PhotosFragment
+import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.module.weather.WeatherFragment
 import com.smart.journal.module.write.activity.WriteActivity
 import com.smart.journal.tools.PermissionTools
@@ -49,6 +52,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
     var slideMenuFragment:SlideMenuFragment ?= null
+    var mSearchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +68,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        val searchView = menu!!.findItem(R.id.toolbar_right_action)
+        searchView.setIcon(android.R.drawable.ic_search_category_default)
+        return super.onCreateOptionsMenu(menu)
+    }
 
     override fun initView() {
 
@@ -161,13 +172,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        menu.findItem(R.id.toolbar_right_action).setTitle("保存").setEnabled(false).isVisible = false
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -176,6 +180,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         return if (id == R.id.toolbar_right_action) {
+            GlobalSearchActivity.startActivity(this)
             true
         } else super.onOptionsItemSelected(item)
 

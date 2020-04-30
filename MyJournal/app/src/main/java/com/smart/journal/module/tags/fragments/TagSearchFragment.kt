@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.smart.journal.module.tags.bean.TagsDbBean
 
-class TagSearchFragment : TagFragment {
+class TagSearchFragment : TagFragment{
 
     interface TagSearchFragmentDelegate{
         fun onItemClickListener(tagsDbBean: TagsDbBean)

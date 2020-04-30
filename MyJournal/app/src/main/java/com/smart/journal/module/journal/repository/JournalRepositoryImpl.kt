@@ -36,6 +36,14 @@ class JournalRepositoryImpl : JournalRepository {
         return JournalDBHelper.searchJournalByTag(tagName)
     }
 
+    override fun searchJournalByFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+        return JournalDBHelper.searchJournalFromFavourite(keyWord)
+    }
+
+    override fun searchJournalByLocation(addressName: String): LiveData<List<JournalBeanDBBean>> {
+       return  JournalDBHelper.searchJournalByLocationName(addressName)
+    }
+
     override fun searchJournalByLocationName(locationName: String): LiveData<List<JournalBeanDBBean>> {
         return JournalDBHelper.searchJournalByLocationName(locationName)
     }
