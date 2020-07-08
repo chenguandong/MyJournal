@@ -124,9 +124,9 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                 var poiItem: MjPoiItem = mMjPoiItemList.get(position)
                 aMap!!.clear()
                 aMap!!.addMarker(MarkerOptions().position(LatLng(poiItem.latitude, poiItem.longitude)).title("xx").snippet("??"))
-                aMap!!.animateCamera(CameraUpdateFactory.changeLatLng(LatLng(poiItem.latitude, poiItem.longitude)))
                 aMapSearchAdapter!!.setSelPosition(position)
                 selectedPoiItem = poiItem
+                aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(poiItem.latitude, poiItem.longitude),25f))
             }
 
         })
@@ -150,6 +150,8 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         aMap!!.uiSettings.isMyLocationButtonEnabled = true// 设置默认定位按钮是否显示
         aMap!!.isMyLocationEnabled = true// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // aMap.setMyLocationType()
+        aMap!!.animateCamera(CameraUpdateFactory.zoomTo(25f))
+
     }
 
     /**
@@ -195,7 +197,6 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                 aMapLocation = amapLocation
                 mListener!!.onLocationChanged(amapLocation)// 显示系统小蓝点
                 searchPlace(LatLonPoint(amapLocation.latitude, amapLocation.longitude))
-
 
             } else {
                 val errText = "定位失败," + amapLocation.errorCode + ": " + amapLocation.errorInfo
