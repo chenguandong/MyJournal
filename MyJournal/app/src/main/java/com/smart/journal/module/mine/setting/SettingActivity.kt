@@ -1,10 +1,13 @@
 package com.smart.journal.module.mine.setting
 
 import android.os.Bundle
+import android.os.FileUtils
 import android.text.TextUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
+import com.smart.journal.tools.file.MJFileTools
 import com.smart.journal.tools.user.UserTools
 import kotlinx.android.synthetic.main.activity_setting.*
 
@@ -20,6 +23,11 @@ class SettingActivity : BaseActivity() {
                 PatternLockDialogFragment.newInstance(PatternLockDialogFragment.param1closelock,"").show(supportFragmentManager,"")
 
             }
+        }
+
+        exportLayout.setOnClickListener {
+            MJFileTools.backUpExportJournal()
+            ToastUtils.showShort("导出成功!")
         }
 
     }

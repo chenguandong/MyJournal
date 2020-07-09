@@ -44,8 +44,11 @@ class JournalBeanDBBean {
     @ColumnInfo(name = "address")
     var address: String? = null
 
-    @ColumnInfo(name = "book")
-    var bookId: Int? = null
+    /**
+     * 所属日记本
+     */
+    @ColumnInfo(name = "book_name")
+    var bookName: String? = null
 
     @ColumnInfo(name = "favourite",index = false)
     var favourite: Boolean? = false

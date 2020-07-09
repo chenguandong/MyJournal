@@ -48,7 +48,7 @@ object JournalDBHelper {
         journalBeanDBBean.content = contentSb.toString()
         journalBeanDBBean.date = settingBean!!.time!!
         if (settingBean.journalBook != null) {
-            journalBeanDBBean.bookId = settingBean!!.journalBook!!.id
+            journalBeanDBBean.bookName = settingBean!!.journalBook!!.name
         }
         if (settingBean!!.location != null) {
             val locationBean = settingBean!!.location

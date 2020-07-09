@@ -104,11 +104,11 @@ class WriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val showData = activity!!.intent.getSerializableExtra(SHOW_DATA)
+        val showData = requireActivity().intent.getSerializableExtra(SHOW_DATA)
         if (showData != null) {
             isShowDataModel = true
             writeSectionBeans = showData as ArrayList<JournalBean>
-            activity!!.intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
+            requireActivity().intent.getSerializableExtra(SHOW_DATA_SETTING)?.let { it ->
                 writeSetting = it as WriteSettingBean
             }
             fab.setImageResource(R.drawable.ic_journal_edit)
@@ -290,7 +290,7 @@ class WriteFragment : BaseFragment() {
 
     private fun finish() {
         EventBus.getDefault().post(MessageEvent("", MessageEvent.NOTE_CHANGE))
-        activity!!.finish()
+        requireActivity().finish()
     }
 
 

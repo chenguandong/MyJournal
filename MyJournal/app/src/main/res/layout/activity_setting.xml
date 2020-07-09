@@ -36,5 +36,47 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/exportLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:showDividers="beginning"
+        app:divider="@drawable/line"
+        android:background="@drawable/bar_selector_white"
+        >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="导出"
+            android:gravity="center|left"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/inportLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:showDividers="beginning"
+        app:divider="@drawable/line"
+        android:background="@drawable/bar_selector_white"
+        >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="导入"
+            android:gravity="center|left"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 </LinearLayout>

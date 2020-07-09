@@ -46,6 +46,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Sink;
+
 /**
  * @author Peli
  * @author paulburke (ipaulpro)
@@ -739,5 +743,13 @@ public class MJFileUtils
             return "";
         }
         return urlpath.substring(urlpath.lastIndexOf(".")+1);
+    }
+
+    public static void writeEnv(File file,String string) throws IOException {
+        try (Sink fileSink = Okio.sink(file);
+             BufferedSink bufferedSink = Okio.buffer(fileSink)) {
+             bufferedSink.writeUtf8(string);
+
+        }
     }
 }

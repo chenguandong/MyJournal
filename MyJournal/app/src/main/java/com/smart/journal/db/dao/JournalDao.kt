@@ -23,6 +23,9 @@ abstract class JournalDao {
     @Query("SELECT * FROM journal ORDER BY date DESC")
     abstract fun allJournal():LiveData<List<JournalBeanDBBean>>
 
+    @Query("SELECT * FROM journal ORDER BY date DESC")
+    abstract fun allJournalNoLiveData():List<JournalBeanDBBean>
+
     @Query("SELECT * FROM journal where date = :date ORDER BY date DESC")
     abstract fun queryJournalByDate(date:Long):List<JournalBeanDBBean>
 

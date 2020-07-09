@@ -4,11 +4,18 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.loader.content.CursorLoader
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.ZipUtils
+import com.google.gson.Gson
 import com.smart.journal.app.MyApp
 import com.smart.journal.bean.PhotoFileInfo
+import com.smart.journal.db.dao.JournalDao
+import com.smart.journal.db.entity.JournalBeanDBBean
+import com.smart.journal.module.journal.manager.JournalManager
+import com.smart.journal.module.write.db.JournalDBHelper
 import com.yanzhenjie.album.AlbumFile
 import java.io.File
 import java.io.IOException
@@ -25,6 +32,7 @@ object MJFileTools {
     var JOURNALDIR_EXPORT = File(Environment.getExternalStorageDirectory().absolutePath + "/MyJournal/export").absolutePath
     //备份导出路径
     var JOURNALDIR_BACK_UP_EXPORT = File(Environment.getExternalStorageDirectory().absolutePath + "/JournalBackUp").absolutePath
+
     fun saveJournalImageFile2Local(albumFile: AlbumFile): String {
         val fileInfo = getPhotoInfoFromAlbum(albumFile)
         val fileName = UUID.randomUUID().toString() + "." + fileInfo.fileType
@@ -122,5 +130,7 @@ object MJFileTools {
      */
     fun backUpExportJournal(){
         FileUtils.copyDir(JOURNALDIR,JOURNALDIR_BACK_UP_EXPORT)
+        Log.i("backUpExportJournal", Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
+        MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT+File.separator+"journal.json"),Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
     }
 }

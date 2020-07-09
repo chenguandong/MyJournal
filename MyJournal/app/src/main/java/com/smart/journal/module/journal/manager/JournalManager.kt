@@ -22,8 +22,8 @@ object JournalManager {
 
     fun preViewJournal(context: Context,journalBeanDBBean: JournalBeanDBBean){
         var writeSettingBean  = WriteSettingBean()
-        journalBeanDBBean.bookId?.let {
-            var noteBooks:List<NoteBookDBBean> =   NoteBookDBHelper.queryNoteBook(it)
+        journalBeanDBBean.bookName?.let {
+            var noteBooks:List<NoteBookDBBean> =   NoteBookDBHelper.queryNoteBookByName(it)
             if (noteBooks.isNotEmpty()) {
                 writeSettingBean!!.journalBook = noteBooks[0]
             }
