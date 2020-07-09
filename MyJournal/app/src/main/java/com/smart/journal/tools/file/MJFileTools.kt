@@ -33,6 +33,13 @@ object MJFileTools {
     //备份导出路径
     var JOURNALDIR_BACK_UP_EXPORT = File(Environment.getExternalStorageDirectory().absolutePath + "/JournalBackUp").absolutePath
 
+    var JOURNALDIR_BACK_UP_EXPORT_TEXT = JOURNALDIR_BACK_UP_EXPORT +File.separator+"journal.json"
+
+    /**
+     * 图片导出路径
+     */
+    var JOURNALDIR_BACK_UP_EXPORT_IMAGES = File(Environment.getExternalStorageDirectory().absolutePath + "/JournalBackUp/images").absolutePath
+
     fun saveJournalImageFile2Local(albumFile: AlbumFile): String {
         val fileInfo = getPhotoInfoFromAlbum(albumFile)
         val fileName = UUID.randomUUID().toString() + "." + fileInfo.fileType
@@ -129,8 +136,20 @@ object MJFileTools {
      * 备份所有日记到SDCard
      */
     fun backUpExportJournal(){
-        FileUtils.copyDir(JOURNALDIR,JOURNALDIR_BACK_UP_EXPORT)
+
+        FileUtils.copyDir(JOURNALDIR,JOURNALDIR_BACK_UP_EXPORT_IMAGES)
         Log.i("backUpExportJournal", Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
-        MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT+File.separator+"journal.json"),Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
+        MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT_TEXT),Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
+
+        var paths = mutableListOf<String>()
+        paths.add(JOURNALDIR_BACK_UP_EXPORT_TEXT)
+        paths.add(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
+
+        ZipUtils.zipFiles(paths,JOURNALDIR_BACK_UP_EXPORT+File.separator+"back.zip")
+
+        FileUtils.deleteDir(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
+        FileUtils.delete(File(JOURNALDIR_BACK_UP_EXPORT_TEXT))
+
     }
+
 }
