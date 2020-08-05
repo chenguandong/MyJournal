@@ -31,6 +31,7 @@ class SlideMenuFragment : Fragment() {
     // TODO: Rename and change types of parameters
     var param1: String? = null
     var param2: String? = null
+
     /*private var listener: OnFragmentInteractionListener? = null*/
     val REQUEST_CODE = 100
 
@@ -61,13 +62,13 @@ class SlideMenuFragment : Fragment() {
     }
 
     private fun initView() {
-        headerView = SlideMenuHeaderView(context = context, delegate = object :SlideMenuHeaderView.SlideMenuHeaderViewDelegate{
+        headerView = SlideMenuHeaderView(context = context, delegate = object : SlideMenuHeaderView.SlideMenuHeaderViewDelegate {
             override fun onTagItemClick() {
-                SearchActivity.startActivity(context!!,SearchActivity.TagActivityType.TAG_SEARCH)
+                SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.TAG_SEARCH)
             }
 
             override fun onLocationItemClick() {
-                SearchActivity.startActivity(context!!,SearchActivity.TagActivityType.LOCATION_SEARCH)
+                SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.LOCATION_SEARCH)
             }
 
             override fun onFavouriteItemClick() {

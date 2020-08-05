@@ -6,6 +6,7 @@ package com.smart.journal.module.menu.enums;
  * @desc
  * @email chenguandong@outlook.com
  */
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -16,7 +17,7 @@ import androidx.annotation.IntDef;
  *
  * @author Administrator
  */
-@IntDef({ ItemMenuType.MENU_NOTE_BOOK,ItemMenuType.MENU_NOTE_BOOK_ADD})
+@IntDef({ ItemMenuType.MENU_NOTE_BOOK, ItemMenuType.MENU_NOTE_BOOK_ADD })
 @Retention(RetentionPolicy.SOURCE)
 public @interface ItemMenuType {
     /**
@@ -27,5 +28,5 @@ public @interface ItemMenuType {
     /**
      * 添加按钮Item
      */
-    int MENU_NOTE_BOOK_ADD =1;
+    int MENU_NOTE_BOOK_ADD = 1;
 }

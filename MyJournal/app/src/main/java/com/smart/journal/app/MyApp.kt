@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -32,7 +31,7 @@ class MyApp : MultiDexApplication() {
         Stetho.initializeWithDefaults(this);
     }
 
-    fun initRoom(){
+    fun initRoom() {
         database = Room.databaseBuilder(this, AppDatabase::class.java, "database-name")
                 .allowMainThreadQueries()
                 //.addMigrations(MIGRATION_2_3)
@@ -63,7 +62,7 @@ class MyApp : MultiDexApplication() {
 
     companion object staticParment {
         var instance: MyApp? = null
-        var database: AppDatabase?=null
+        var database: AppDatabase? = null
         const val UPDATE_APP_ID = BuildConfig.APPLICATION_ID + ".fileProvider"
 
     }

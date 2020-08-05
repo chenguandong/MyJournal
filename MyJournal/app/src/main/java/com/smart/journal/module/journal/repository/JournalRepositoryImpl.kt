@@ -1,10 +1,8 @@
 package com.smart.journal.module.journal.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.write.db.JournalDBHelper
-import java.util.*
 
 /**
  * @author guandongchen
@@ -14,14 +12,13 @@ import java.util.*
 class JournalRepositoryImpl : JournalRepository {
 
 
-
-    override fun getJournalBeans(): LiveData<List<JournalBeanDBBean> >{
+    override fun getJournalBeans(): LiveData<List<JournalBeanDBBean>> {
         return JournalDBHelper.allJournals()
     }
 
 
     override fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
-        JournalDBHelper.deleteJournal( journalBeanDBBean)
+        JournalDBHelper.deleteJournal(journalBeanDBBean)
     }
 
     override fun onLiveDataCleared() {
@@ -41,7 +38,7 @@ class JournalRepositoryImpl : JournalRepository {
     }
 
     override fun searchJournalByLocation(addressName: String): LiveData<List<JournalBeanDBBean>> {
-       return  JournalDBHelper.searchJournalByLocationName(addressName)
+        return JournalDBHelper.searchJournalByLocationName(addressName)
     }
 
     override fun searchJournalByLocationName(locationName: String): LiveData<List<JournalBeanDBBean>> {

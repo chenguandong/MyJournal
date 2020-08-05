@@ -6,7 +6,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
     <ImageView
         android:id="@+id/emptyImageView"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="暂无数据"
-        />
+        android:text="暂无数据" />
 
 </LinearLayout>

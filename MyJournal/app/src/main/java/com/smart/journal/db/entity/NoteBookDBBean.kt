@@ -13,14 +13,17 @@ import java.io.Serializable
  * @email chenguandong@outlook.com
  */
 @Entity(tableName = "notebook")
-class NoteBookDBBean constructor():Serializable {
+class NoteBookDBBean constructor() : Serializable {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     var id = 0
+
     @ColumnInfo(name = "name")
     var name: String? = null
-    @ColumnInfo(name = "num",defaultValue = "0")
+
+    @ColumnInfo(name = "num", defaultValue = "0")
     var num: Int? = null
+
     @ColumnInfo(name = "create_time")
     var createTime: Long? = null
 

@@ -1,9 +1,10 @@
 package com.smart.journal.customview.preview;
 
 import android.content.Context;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Hacky fix for Issue #4 and
@@ -19,7 +20,6 @@ import android.view.MotionEvent;
  * @author Chris Banes
  */
 public class HackyViewPager extends ViewPager {
-
     public HackyViewPager(Context context) {
         super(context);
     }
@@ -30,10 +30,10 @@ public class HackyViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-		try {
-			return super.onInterceptTouchEvent(ev);
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
+        try {
+            return super.onInterceptTouchEvent(ev);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }

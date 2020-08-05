@@ -50,7 +50,7 @@ class JournalBeanDBBean {
     @ColumnInfo(name = "book_name")
     var bookName: String? = null
 
-    @ColumnInfo(name = "favourite",index = false)
+    @ColumnInfo(name = "favourite", index = false)
     var favourite: Boolean? = false
 
     @Ignore

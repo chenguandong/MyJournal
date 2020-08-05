@@ -6,6 +6,6 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:elevation="@dimen/dp_10"
-    app:titleTextColor="#000000"
+    app:popupTheme="@style/AppTheme.PopupOverlay"
     app:title=""
-    app:popupTheme="@style/AppTheme.PopupOverlay" />
+    app:titleTextColor="#000000" />

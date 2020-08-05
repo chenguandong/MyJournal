@@ -29,7 +29,7 @@ class PreViewBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
 
         if (journalBeanDBBean.content != null) {
 
-           // val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val contents = journalBeanDBBean.content!!.split(Contancts.FILE_TYPE_SPLIT.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
             for (content in contents) {

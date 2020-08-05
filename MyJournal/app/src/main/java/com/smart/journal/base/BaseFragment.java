@@ -16,12 +16,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 public abstract class BaseFragment extends LazyLoadFragment {
-
     protected Context context;
+
     protected androidx.appcompat.app.ActionBar actionBar;
+
     protected Toolbar toolbar;
+
     public BaseFragment() {
         // Required empty public constructor
     }
@@ -29,21 +30,20 @@ public abstract class BaseFragment extends LazyLoadFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
 
     /**
      * 设置普通带back 的导航栏
+     *
      * @param titleString 名称
      */
-    protected void initSimpleToolbar(View view,String titleString){
+    protected void initSimpleToolbar(View view, String titleString) {
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle(titleString);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (actionBar != null){
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -56,9 +56,9 @@ public abstract class BaseFragment extends LazyLoadFragment {
         });
     }
 
-    protected void hiddenToolbarBackButton(){
+    protected void hiddenToolbarBackButton() {
 
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
@@ -75,8 +75,10 @@ public abstract class BaseFragment extends LazyLoadFragment {
     }
 
     protected abstract void initView();
+
     protected abstract void initData();
-    protected void init(){
+
+    protected void init() {
         initView();
         initData();
     }
@@ -84,7 +86,7 @@ public abstract class BaseFragment extends LazyLoadFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //inflater.inflate(R.menu.pictrue_list, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

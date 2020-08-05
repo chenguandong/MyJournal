@@ -11,8 +11,8 @@ import com.smart.journal.module.write.WriteFragment;
  * @author guandongchen
  */
 public class WriteActivity extends BaseActivity {
-
     private WriteFragment writeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class WriteActivity extends BaseActivity {
 
         writeFragment = WriteFragment.Companion.newInstance();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentView,writeFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentView, writeFragment).commit();
     }
 
     @Override

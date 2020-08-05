@@ -1,7 +1,6 @@
 package com.smart.journal.module.mine.setting
 
 import android.os.Bundle
-import android.os.FileUtils
 import android.text.TextUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.smart.journal.R
@@ -17,10 +16,10 @@ class SettingActivity : BaseActivity() {
         switchView.isChecked = !TextUtils.isEmpty(UserTools.lockCode)
 
         switchView.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked){
-                PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
-            }else{
-                PatternLockDialogFragment.newInstance(PatternLockDialogFragment.param1closelock,"").show(supportFragmentManager,"")
+            if (isChecked) {
+                PatternLockDialogFragment.newInstance("", "").show(supportFragmentManager, "")
+            } else {
+                PatternLockDialogFragment.newInstance(PatternLockDialogFragment.param1closelock, "").show(supportFragmentManager, "")
 
             }
         }
@@ -29,6 +28,11 @@ class SettingActivity : BaseActivity() {
             MJFileTools.backUpExportJournal()
             ToastUtils.showShort("导出成功!")
         }
+
+        inportLayout.setOnClickListener{
+            MJFileTools.importExportJournal();
+        }
+
 
     }
 

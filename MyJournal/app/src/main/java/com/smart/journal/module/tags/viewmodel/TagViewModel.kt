@@ -25,7 +25,7 @@ class TagViewModel(application: Application) : AndroidViewModel(application) {
         return tags
     }
 
-    fun inertTag(tagsDbBean: TagsDbBean){
+    fun inertTag(tagsDbBean: TagsDbBean) {
         viewModelScope.launch {
             tagsRepository.insertOrUpdateTag(tagsDbBean)
             loadUsers()
@@ -33,28 +33,28 @@ class TagViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    fun queryTagByName(tagName:String){
+    fun queryTagByName(tagName: String) {
         viewModelScope.launch {
-            var tagsData:List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
-            if (tagsData.isNullOrEmpty()){
+            var tagsData: List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
+            if (tagsData.isNullOrEmpty()) {
 
-                tags.value = listOf(TagsDbBean(getApplication<Application>().resources.getString(R.string.add)+tagName,0))
-            }else{
+                tags.value = listOf(TagsDbBean(getApplication<Application>().resources.getString(R.string.add) + tagName, 0))
+            } else {
                 tags.value = tagsData
             }
         }
     }
 
-    fun queryTagByNameNoAdd(tagName:String){
+    fun queryTagByNameNoAdd(tagName: String) {
         viewModelScope.launch {
-            var tagsData:List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
+            var tagsData: List<TagsDbBean> = tagsRepository.getTagsByName(tagName)
             tags.value = tagsData
         }
     }
 
-     fun loadUsers() {
-        viewModelScope.launch  {
-            val data:List<TagsDbBean> = tagsRepository.getAllTags() // loadUser is a suspend function.
+    fun loadUsers() {
+        viewModelScope.launch {
+            val data: List<TagsDbBean> = tagsRepository.getAllTags() // loadUser is a suspend function.
             tags.value = data
         }
     }

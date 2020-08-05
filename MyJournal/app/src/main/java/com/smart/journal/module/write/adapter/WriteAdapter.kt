@@ -4,7 +4,6 @@ import android.app.Activity
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.text.method.KeyListener
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnKeyListener
@@ -28,11 +27,11 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
 
     var writeAdapterModel: WriteAdapterModel? = null
 
-    var isEditable:Boolean = false
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+    var isEditable: Boolean = false
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     constructor(data: MutableList<JournalBean>?, writeAdapterModel: WriteAdapterModel) : super(data) {
         this.writeAdapterModel = writeAdapterModel
@@ -62,19 +61,19 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
                 editText.requestFocus()
                 KeyboardUtils.showSoftInput(context as Activity)
 
-                editText.setOnKeyListener(object :OnKeyListener{
+                editText.setOnKeyListener(object : OnKeyListener {
 
                     override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
-                        if (p1== KeyEvent.KEYCODE_DEL&&editText.text.isNullOrEmpty()){
-                            if (helper.adapterPosition>=1){
-                                val preItem = data[helper.adapterPosition-1]
-                                when(preItem.itemType){
-                                    JournalBean.WRITE_TAG_IMAGE->{
+                        if (p1 == KeyEvent.KEYCODE_DEL && editText.text.isNullOrEmpty()) {
+                            if (helper.adapterPosition >= 1) {
+                                val preItem = data[helper.adapterPosition - 1]
+                                when (preItem.itemType) {
+                                    JournalBean.WRITE_TAG_IMAGE -> {
                                         data.remove(preItem)
                                         notifyDataSetChanged()
                                         return true
                                     }
-                                    JournalBean.WRITE_TAG_TEXT->{
+                                    JournalBean.WRITE_TAG_TEXT -> {
                                         data.remove(item)
                                         notifyDataSetChanged()
                                         return true
@@ -85,7 +84,6 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
                         return false
                     }
                 })
-
 
 
             }

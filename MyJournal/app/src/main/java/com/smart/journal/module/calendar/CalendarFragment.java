@@ -1,6 +1,5 @@
 package com.smart.journal.module.calendar;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,18 +27,13 @@ import androidx.fragment.app.Fragment;
  * Use the {@link CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends BaseFragment  implements
-        CalendarView.OnDateSelectedListener,
-        CalendarView.OnYearChangeListener{
+public class CalendarFragment extends BaseFragment
+    implements CalendarView.OnDateSelectedListener, CalendarView.OnYearChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     TextView mTextMonthDay;
 
@@ -52,19 +46,20 @@ public class CalendarFragment extends BaseFragment  implements
     CalendarView mCalendarView;
 
     RelativeLayout mRelativeTool;
-    private int mYear;
+
     CalendarLayout mCalendarLayout;
 
     View view;
 
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+
+    private String mParam2;
+
+    private int mYear;
 
     public CalendarFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    protected void getData() {
-        init();
     }
 
     /**
@@ -84,6 +79,11 @@ public class CalendarFragment extends BaseFragment  implements
     }
 
     @Override
+    protected void getData() {
+        init();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -93,9 +93,8 @@ public class CalendarFragment extends BaseFragment  implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_calendar, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_calendar, container, false);
         // Inflate the layout for this fragment
 
         return view;
@@ -103,7 +102,7 @@ public class CalendarFragment extends BaseFragment  implements
 
     @Override
     protected void initView() {
-       // setStatusBarDarkMode();
+        // setStatusBarDarkMode();
         mTextMonthDay = view.findViewById(R.id.tv_month_day);
         mTextYear = view.findViewById(R.id.tv_year);
         mTextLunar = view.findViewById(R.id.tv_lunar);
@@ -124,7 +123,7 @@ public class CalendarFragment extends BaseFragment  implements
             }
         });
         view.findViewById(R.id.fl_current).setOnClickListener(v -> mCalendarView.scrollToCurrent());
-        mCalendarLayout =  view.findViewById(R.id.calendarLayout);
+        mCalendarLayout = view.findViewById(R.id.calendarLayout);
         mCalendarView.setOnDateSelectedListener(this);
         mTextYear.setText(String.valueOf(mCalendarView.getCurYear()));
         mYear = mCalendarView.getCurYear();
@@ -139,17 +138,16 @@ public class CalendarFragment extends BaseFragment  implements
 
         List<JournalBeanDBBean> journalBeanDBBeans = JournalDBHelper.INSTANCE.allJournals().getValue();
 
-        for (JournalBeanDBBean dataBean:
-                journalBeanDBBeans) {
+        for (JournalBeanDBBean dataBean : journalBeanDBBeans) {
 
-            int [] dates = DateTools.getYMd(new Date(dataBean.getDate()));
+            int[] dates = DateTools.getYMd(new Date(dataBean.getDate()));
 
             schemes.add(getSchemeCalendar(dates[0], dates[1], dates[2]));
             mCalendarView.setSchemeDate(schemes);
         }
     }
 
-    private Calendar getSchemeCalendar(int year, int month, int day ) {
+    private Calendar getSchemeCalendar(int year, int month, int day) {
         Calendar calendar = new Calendar();
         calendar.setYear(year);
         calendar.setMonth(month);
@@ -168,7 +166,6 @@ public class CalendarFragment extends BaseFragment  implements
         mTextLunar.setText(calendar.getLunar());
         mYear = calendar.getYear();
     }
-
 
     @Override
     public void onYearChange(int year) {

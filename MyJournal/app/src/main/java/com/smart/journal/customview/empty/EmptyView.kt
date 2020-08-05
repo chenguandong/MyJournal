@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.view_empty_no_data.view.*
 
 class EmptyView : LinearLayout {
 
-    private var view:View? = null
+    private var view: View? = null
+
     // 空内容提醒
     fun setTitle(title: String) {
 
@@ -33,6 +34,6 @@ class EmptyView : LinearLayout {
     }
 
     private fun initView(context: Context) {
-         view = View.inflate(context, R.layout.view_empty_no_data, this)
+        view = View.inflate(context, R.layout.view_empty_no_data, this)
     }
 }

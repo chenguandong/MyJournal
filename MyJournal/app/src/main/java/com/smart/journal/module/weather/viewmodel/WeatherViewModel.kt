@@ -13,14 +13,13 @@ import java.util.*
  * @author guandongchen
  * @date 2018/3/30
  */
-class WeatherViewModel: ViewModel(), WeatherRepository {
+class WeatherViewModel : ViewModel(), WeatherRepository {
 
 
-
-    var repository:WeatherRepository? = null
+    var repository: WeatherRepository? = null
 
     init {
-        if (repository==null){
+        if (repository == null) {
             repository = WeatherRepositoryImpl()
         }
     }

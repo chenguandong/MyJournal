@@ -138,7 +138,7 @@ class WriteFragment : BaseFragment() {
         writeSetting!!.isEditable = isEditable
         adapter!!.notifyDataSetChanged()
 
-        adapter!!.setOnItemClickListener(object :OnItemClickListener{
+        adapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
                     PhotoViewTools.showPhotos(object : java.util.ArrayList<String>() {
@@ -311,8 +311,8 @@ class WriteFragment : BaseFragment() {
                     writeSetting!!.tags = it as List<String>
                 }
             }
-            MessageEvent.NOTE_FAVOURITE_CHANGE->{
-                writeSetting!!.isFavourite = event.message.toInt()==1
+            MessageEvent.NOTE_FAVOURITE_CHANGE -> {
+                writeSetting!!.isFavourite = event.message.toInt() == 1
             }
         }
     }

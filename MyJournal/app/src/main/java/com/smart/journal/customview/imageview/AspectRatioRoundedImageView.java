@@ -14,10 +14,10 @@ import static android.view.View.MeasureSpec.EXACTLY;
  * @author guandongchen
  * @date 2018/9/29
  */
-public class AspectRatioRoundedImageView extends RoundedImageView{
+public class AspectRatioRoundedImageView extends RoundedImageView {
+    private int widthRatio;
 
-    private  int widthRatio;
-    private  int heightRatio;
+    private int heightRatio;
 
     public AspectRatioRoundedImageView(Context context) {
         super(context);
@@ -25,15 +25,16 @@ public class AspectRatioRoundedImageView extends RoundedImageView{
 
     public AspectRatioRoundedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAttr(context,attrs);
+        initAttr(context, attrs);
     }
 
     public AspectRatioRoundedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAttr(context,attrs);
+        initAttr(context, attrs);
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
@@ -55,7 +56,7 @@ public class AspectRatioRoundedImageView extends RoundedImageView{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    private void initAttr(Context context, AttributeSet attrs){
+    private void initAttr(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AspectRatioViewPager);
         widthRatio = a.getInteger(R.styleable.AspectRatioViewPager_widthRatio, 1);
         heightRatio = a.getInteger(R.styleable.AspectRatioViewPager_heightRatio, 1);

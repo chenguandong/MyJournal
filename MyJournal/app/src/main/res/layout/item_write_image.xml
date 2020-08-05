@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <com.smart.journal.customview.imageview.AspectRatioRoundedImageView
         android:id="@+id/write_imageview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_10"
-        app:riv_corner_radius="10dip"
         android:scaleType="centerCrop"
-        app:widthRatio = "16"
-        app:heightRatio = "9"
-        />
+        app:heightRatio="9"
+        app:riv_corner_radius="10dip"
+        app:widthRatio="16" />
 </LinearLayout>

@@ -2,17 +2,15 @@ package com.smart.journal
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.core.view.GravityCompat
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import com.google.android.material.navigation.NavigationView
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
 import com.smart.journal.module.calendar.Calendar2Fragment
@@ -23,7 +21,6 @@ import com.smart.journal.module.menu.SlideMenuFragment
 import com.smart.journal.module.mine.MineFragment
 import com.smart.journal.module.mine.setting.SettingActivity
 import com.smart.journal.module.photos.PhotosFragment
-import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.module.weather.WeatherFragment
 import com.smart.journal.module.write.activity.WriteActivity
 import com.smart.journal.tools.PermissionTools
@@ -37,7 +34,7 @@ import java.util.*
 /**
  * @author guandongchen
  */
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener  {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private var fragmentPagerAdapter: FragmentPagerAdapter? = null
@@ -51,7 +48,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
-    var slideMenuFragment:SlideMenuFragment ?= null
+    var slideMenuFragment: SlideMenuFragment? = null
     var mSearchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +57,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         initSimpleToolbarWithNoBack(titles[0])
         init()
         MJFileTools.createJournalPath()
-        slideMenuFragment = SlideMenuFragment.newInstance("","")
+        slideMenuFragment = SlideMenuFragment.newInstance("", "")
         supportFragmentManager.beginTransaction().replace(R.id.menuFragment, slideMenuFragment!!).commit()
 
-        if (!TextUtils.isEmpty(UserTools.lockCode)){
-            PatternLockDialogFragment.newInstance("","").show(supportFragmentManager,"")
+        if (!TextUtils.isEmpty(UserTools.lockCode)) {
+            PatternLockDialogFragment.newInstance("", "").show(supportFragmentManager, "")
         }
     }
 
@@ -80,7 +77,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         //BottomNavigationViewHelper.disableShiftMode(navigationView)
 
-        journalFragment = JournalFragment.newInstance("","")
+        journalFragment = JournalFragment.newInstance("", "")
 
         mapFragment = MapFragment.newInstance()
         //mapFragment = BaiduMapFragment.newInstance("","")
@@ -91,7 +88,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         calendarFragment = Calendar2Fragment.newInstance()
 
-        photoFragment = PhotosFragment.newInstance("","")
+        photoFragment = PhotosFragment.newInstance("", "")
 
         fragmentList.add(journalFragment as JournalFragment)
         fragmentList.add((photoFragment as PhotosFragment?)!!)
@@ -101,7 +98,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         viewPager!!.offscreenPageLimit = fragmentList.size
         navigationView.setupWithViewPager(viewPager)
-       // navigationView.enableShiftingMode(false)
+        // navigationView.enableShiftingMode(false)
 
         fragmentPagerAdapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): androidx.fragment.app.Fragment {
@@ -165,7 +162,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         LocationTools.instance
 
-        settingButton.setOnClickListener { startActivity(Intent(context,SettingActivity::class.java)) }
+        settingButton.setOnClickListener { startActivity(Intent(context, SettingActivity::class.java)) }
     }
 
     override fun initData() {
@@ -189,7 +186,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val id:Int = item.itemId
+        val id: Int = item.itemId
 
         when (id) {
             R.id.nav_camera -> {

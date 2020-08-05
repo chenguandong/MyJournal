@@ -1,7 +1,9 @@
 package com.smart.journal.module.tags.fragments
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +49,7 @@ open class TagFragment : BaseFragment() {
     /**
      * 搜索
      */
-    open fun searchText(keyWord:String){
+    open fun searchText(keyWord: String) {
         if (keyWord.isNullOrBlank()) {
             viewModel.loadUsers()
         } else {
@@ -82,7 +84,8 @@ open class TagFragment : BaseFragment() {
 
 
     }
-    open fun setOnItemClickListen(){
+
+    open fun setOnItemClickListen() {
         tagAdapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
 

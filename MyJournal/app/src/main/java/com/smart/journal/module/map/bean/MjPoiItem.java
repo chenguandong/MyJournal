@@ -1,7 +1,5 @@
 package com.smart.journal.module.map.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -23,15 +21,15 @@ public class MjPoiItem implements Serializable {
     //高度
     private String altitude;
 
+    public MjPoiItem() {
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public MjPoiItem() {
     }
 
     public String getAltitude() {

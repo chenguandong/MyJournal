@@ -5,9 +5,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 /**
  * Created by guandongchen on 2017/9/11.
  */
-
 public class BottomNavigationViewHelper {
-
     public static void disableShiftMode(BottomNavigationView navigationView) {
 
         /*BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigationView.getChildAt(0);

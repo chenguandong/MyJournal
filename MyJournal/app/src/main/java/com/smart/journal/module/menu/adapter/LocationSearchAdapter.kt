@@ -11,7 +11,7 @@ import com.smart.journal.db.entity.JournalBeanDBBean
  * @author guandongchen
  * @date 2020/4/14
  */
-class LocationSearchAdapter :BaseQuickAdapter<Map<String,MutableList<JournalBeanDBBean>>, BaseViewHolder>{
+class LocationSearchAdapter : BaseQuickAdapter<Map<String, MutableList<JournalBeanDBBean>>, BaseViewHolder> {
     constructor(data: MutableList<Map<String, MutableList<JournalBeanDBBean>>>?) : super(R.layout.item_location_search, data)
 
     override fun convert(helper: BaseViewHolder, item: Map<String, MutableList<JournalBeanDBBean>>) {

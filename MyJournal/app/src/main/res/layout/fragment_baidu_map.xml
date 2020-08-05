@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".module.map.BaiduMapFragment">
 
-        <com.baidu.mapapi.map.MapView
-            android:id="@+id/baiduMapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/baiduMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

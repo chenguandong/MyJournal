@@ -5,20 +5,22 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 /**
  * @author cginechen
  * @date 2016-10-21
  */
-
 public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
-    private static final int[] ATTRS = new int[]{
-            android.R.attr.listDivider
+    private static final int[] ATTRS = new int[] {
+        android.R.attr.listDivider
     };
+
     private Drawable mDivider;
+
     private int mSpanCount;
 
     public GridDividerItemDecoration(Context context, int spanCount) {
@@ -36,35 +38,30 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
             final View child = parent.getChildAt(i);
             int position = parent.getChildLayoutPosition(child);
             int column = (position + 1) % 3;
-            column  = column == 0 ? mSpanCount : column;
+            column = column == 0 ? mSpanCount : column;
 
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                    .getLayoutParams();
-            final int top = child.getBottom() + params.bottomMargin +
-                    Math.round(ViewCompat.getTranslationY(child));
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int top = child.getBottom() + params.bottomMargin + Math.round(ViewCompat.getTranslationY(child));
             final int bottom = top + mDivider.getIntrinsicHeight();
-            final int left = child.getRight() + params.rightMargin +
-                    Math.round(ViewCompat.getTranslationX(child));
+            final int left = child.getRight() + params.rightMargin + Math.round(ViewCompat.getTranslationX(child));
             final int right = left + mDivider.getIntrinsicHeight();
 
             mDivider.setBounds(child.getLeft(), top, right, bottom);
             mDivider.draw(c);
 
-            if(column < mSpanCount) {
+            if (column < mSpanCount) {
                 mDivider.setBounds(left, child.getTop(), right, bottom);
                 mDivider.draw(c);
             }
-
         }
     }
-
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildLayoutPosition(view);
-        if((position+1) % mSpanCount > 0) {
+        if ((position + 1) % mSpanCount > 0) {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), mDivider.getIntrinsicHeight());
-        }else{
+        } else {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         }
     }

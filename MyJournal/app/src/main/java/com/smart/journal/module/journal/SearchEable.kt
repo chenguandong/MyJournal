@@ -1,4 +1,5 @@
 package com.smart.journal.module.journal
+
 import androidx.annotation.StringDef
 import com.smart.journal.module.journal.SearchEableType.Companion.ALL
 import com.smart.journal.module.journal.SearchEableType.Companion.FAVOURITE
@@ -11,11 +12,11 @@ import com.smart.journal.module.journal.SearchEableType.Companion.TAG
  * @date 2020/4/27
  */
 interface SearchEable {
-    fun doSerarch (serarchKey:String, @SearchEableType searchType:String)
+    fun doSerarch(serarchKey: String, @SearchEableType searchType: String)
 }
 
 @Retention(AnnotationRetention.SOURCE)
-@StringDef(ALL, TAG,LOCATION,FAVOURITE)
+@StringDef(ALL, TAG, LOCATION, FAVOURITE)
 annotation class SearchEableType {
     companion object {
         /**

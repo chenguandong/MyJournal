@@ -26,8 +26,8 @@ class OpenShareFileActivity : AppCompatActivity() {
                 // Tries to get the item's contents as a URI pointing to a note
                 val uri = item.uri
 
-                if (uri!=null){
-                   var fileInfo   =  MJFileTools.saveJournalFile2Local(this,uri,true)
+                if (uri != null) {
+                    var fileInfo = MJFileTools.saveJournalFile2Local(this, uri, true)
                     var ss = ""
                 }
             }

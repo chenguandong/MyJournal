@@ -2,60 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tagTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:drawableStart="@mipmap/tag"
-        android:text="@string/tag"
-        android:gravity="center|left"
-        android:drawablePadding="30dp"
-        android:paddingLeft="16dp"
-        android:textColor="@color/black"
         android:background="@drawable/list_selector_ex"
-        />
+        android:drawableStart="@mipmap/tag"
+        android:drawablePadding="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:text="@string/tag"
+        android:textColor="@color/black" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/locationTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:drawableStart="@drawable/ic_ws_location"
-        android:text="@string/location"
-        android:gravity="center|left"
-        android:drawablePadding="30dp"
-        android:paddingLeft="16dp"
-        android:textColor="@color/black"
         android:background="@drawable/list_selector_ex"
-        />
+        android:drawableStart="@drawable/ic_ws_location"
+        android:drawablePadding="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:text="@string/location"
+        android:textColor="@color/black" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/favouriteTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:drawableStart="@drawable/ic_ws_favourite"
-        android:text="@string/m_favourite"
-        android:gravity="center|left"
-        android:drawablePadding="30dp"
-        android:paddingLeft="16dp"
-        android:textColor="@color/black"
         android:background="@drawable/list_selector_ex"
-        />
+        android:drawableStart="@drawable/ic_ws_favourite"
+        android:drawablePadding="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:text="@string/m_favourite"
+        android:textColor="@color/black" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/onThisDayTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:drawableStart="@drawable/ic_on_this_day"
-        android:text="@string/on_this_day"
-        android:gravity="center|left"
-        android:drawablePadding="30dp"
-        android:paddingLeft="16dp"
-        android:textColor="@color/black"
         android:background="@drawable/list_selector_ex"
-        />
+        android:drawableStart="@drawable/ic_on_this_day"
+        android:drawablePadding="30dp"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:text="@string/on_this_day"
+        android:textColor="@color/black" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider" />
 </LinearLayout>

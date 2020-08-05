@@ -18,8 +18,6 @@ public class ImageLoader implements AlbumLoader {
 
     @Override
     public void load(ImageView imageView, String url) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .into(imageView);
+        Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 }

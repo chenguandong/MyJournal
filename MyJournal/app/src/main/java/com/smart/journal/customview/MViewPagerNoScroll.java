@@ -1,13 +1,13 @@
 package com.smart.journal.customview;
 
 import android.content.Context;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.viewpager.widget.ViewPager;
+
 /**
  * 禁止左右滑动的Viewpager
- *
  */
 public class MViewPagerNoScroll extends ViewPager {
     private boolean noScroll = true;
@@ -34,8 +34,7 @@ public class MViewPagerNoScroll extends ViewPager {
         /* return false;//super.onTouchEvent(arg0); */
         if (noScroll) {
             return false;
-        }
-        else {
+        } else {
             return super.onTouchEvent(arg0);
         }
     }
@@ -44,8 +43,7 @@ public class MViewPagerNoScroll extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
         if (noScroll) {
             return false;
-        }
-        else {
+        } else {
             return super.onInterceptTouchEvent(arg0);
         }
     }
@@ -59,5 +57,4 @@ public class MViewPagerNoScroll extends ViewPager {
     public void setCurrentItem(int item) {
         super.setCurrentItem(item);
     }
-
 }

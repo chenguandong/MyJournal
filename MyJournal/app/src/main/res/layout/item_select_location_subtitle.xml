@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_white_bottom_line"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:minHeight="48dp"
         android:layout_weight="1"
+        android:minHeight="48dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -32,21 +31,19 @@
             android:layout_weight="1"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:singleLine="true"
-            />
+            android:singleLine="true" />
 
     </LinearLayout>
 
     <ImageView
-        android:layout_weight="0"
         android:id="@+id/arrowImageView"
         android:layout_width="20dp"
         android:layout_height="match_parent"
-        android:src="@mipmap/edit_check"
-        android:tint="@android:color/holo_orange_dark"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="10dp"
-        android:visibility="visible"
-        />
+        android:layout_weight="0"
+        android:src="@mipmap/edit_check"
+        android:tint="@android:color/holo_orange_dark"
+        android:visibility="visible" />
 
 </LinearLayout>

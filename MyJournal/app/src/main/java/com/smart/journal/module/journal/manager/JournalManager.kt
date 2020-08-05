@@ -11,7 +11,7 @@ import com.smart.journal.module.write.activity.WriteActivity
 import com.smart.journal.module.write.bean.JournalBean
 import com.smart.journal.module.write.bean.WriteSettingBean
 import com.smart.journal.module.write.db.NoteBookDBHelper
-import java.util.ArrayList
+import java.util.*
 
 /**
  *
@@ -20,10 +20,10 @@ import java.util.ArrayList
  */
 object JournalManager {
 
-    fun preViewJournal(context: Context,journalBeanDBBean: JournalBeanDBBean){
-        var writeSettingBean  = WriteSettingBean()
+    fun preViewJournal(context: Context, journalBeanDBBean: JournalBeanDBBean) {
+        var writeSettingBean = WriteSettingBean()
         journalBeanDBBean.bookName?.let {
-            var noteBooks:List<NoteBookDBBean> =   NoteBookDBHelper.queryNoteBookByName(it)
+            var noteBooks: List<NoteBookDBBean> = NoteBookDBHelper.queryNoteBookByName(it)
             if (noteBooks.isNotEmpty()) {
                 writeSettingBean!!.journalBook = noteBooks[0]
             }
@@ -36,8 +36,8 @@ object JournalManager {
             var locationBean: MjPoiItem = MjPoiItem()
             locationBean.title = it
             locationBean.snippet = it
-            locationBean.longitude =journalBeanDBBean.longitude
-            locationBean.latitude =journalBeanDBBean.latitude
+            locationBean.longitude = journalBeanDBBean.longitude
+            locationBean.latitude = journalBeanDBBean.latitude
             writeSettingBean!!.location = locationBean
         }
 
@@ -68,7 +68,7 @@ object JournalManager {
         writeSettingBean.isFavourite = journalBeanDBBean!!.favourite!!
 
         context.startActivity(Intent(context, WriteActivity::class.java).putExtra(
-                WriteFragment.SHOW_DATA,writeSectionBeans
-        ).putExtra(WriteFragment.SHOW_DATA_SETTING,writeSettingBean))
+                WriteFragment.SHOW_DATA, writeSectionBeans
+        ).putExtra(WriteFragment.SHOW_DATA_SETTING, writeSettingBean))
     }
 }

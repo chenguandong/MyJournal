@@ -21,9 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author guandongchen
  * @date 2018/1/5
  */
-
 public class AppClient {
-
     public static Retrofit retrofit = null;
 
     public static Retrofit retrofit() {
@@ -42,10 +40,8 @@ public class AppClient {
                     Request originalRequest = chain.request();
                     Request request;
                     HttpUrl modifiedUrl = originalRequest.url().newBuilder()
-                            // Provide your custom parameter here
-                            .addQueryParameter("platform", "android")
-                            .addQueryParameter("version", "1.0.0")
-                            .build();
+                        // Provide your custom parameter here
+                        .addQueryParameter("platform", "android").addQueryParameter("version", "1.0.0").build();
                     request = originalRequest.newBuilder().url(modifiedUrl).build();
                     return chain.proceed(request);
                 }
@@ -59,9 +55,9 @@ public class AppClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request originalRequest = chain.request();
                     Request.Builder requestBuilder = originalRequest.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .header("Accept", "application/json")
-                            .method(originalRequest.method(), originalRequest.body());
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
+                        .method(originalRequest.method(), originalRequest.body());
                     Request request = requestBuilder.build();
                     return chain.proceed(request);
                 }
@@ -95,13 +91,11 @@ public class AppClient {
             //错误重连
             builder.retryOnConnectionFailure(true);
 
-
             OkHttpClient okHttpClient = builder.build();
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(ApiStores.API_SERVER_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build();
+            retrofit = new Retrofit.Builder().baseUrl(ApiStores.API_SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
         }
         return retrofit;
     }

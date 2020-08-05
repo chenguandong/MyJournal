@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_more_setting.view.*
  * @date 2020/3/9
  */
 class MoreSettingItemView : LinearLayout {
-     var itemBean: MoreSettingBean? = null
+    var itemBean: MoreSettingBean? = null
         set(value) {
             field = value
             itemTitleTextView.text = itemBean!!.title
@@ -32,11 +32,12 @@ class MoreSettingItemView : LinearLayout {
     constructor(context: Context?) : super(context) {
 
     }
-    private fun refreshColor(){
 
-        when(itemBean!!.subTitle){
-            resources.getString(R.string.favourite)->  DrawableCompat.setTint(logoImageView.drawable,ContextCompat.getColor(context,R.color.default_red))//logoImageView.setColorFilter(R.color.default_red, PorterDuff.Mode.SRC_ATOP)
-            resources.getString(R.string.un_favourite)->logoImageView.setColorFilter(ContextCompat.getColor(context,R.color.default_yellow),PorterDuff.Mode.SRC_ATOP)
+    private fun refreshColor() {
+
+        when (itemBean!!.subTitle) {
+            resources.getString(R.string.favourite) -> DrawableCompat.setTint(logoImageView.drawable, ContextCompat.getColor(context, R.color.default_red))//logoImageView.setColorFilter(R.color.default_red, PorterDuff.Mode.SRC_ATOP)
+            resources.getString(R.string.un_favourite) -> logoImageView.setColorFilter(ContextCompat.getColor(context, R.color.default_yellow), PorterDuff.Mode.SRC_ATOP)
         }
     }
 

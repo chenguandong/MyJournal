@@ -2,27 +2,23 @@ package com.smart.journal.module.photos
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.customview.dialog.PreViewBottomSheetDialogFragment
+import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.journal.tools.JournalTools
 import com.smart.journal.module.photos.adapter.PhotoAdapter
 import com.smart.journal.module.photos.adapter.PhotoBean
-import com.smart.journal.db.entity.JournalBeanDBBean
-import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.smart.journal.tools.DateTools
 import com.smart.journal.tools.decorator.GridDividerItemDecoration
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_photos.*
-import org.apache.commons.collections4.CollectionUtils
-import org.apache.commons.collections4.Predicate
 import org.greenrobot.eventbus.EventBus
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,19 +37,19 @@ class PhotosFragment : BaseFragment() {
         init()
     }
 
-    var photoAdapter:PhotoAdapter ?= null
-    var photosList:ArrayList<PhotoBean>  = ArrayList()
+    var photoAdapter: PhotoAdapter? = null
+    var photosList: ArrayList<PhotoBean> = ArrayList()
 
     override fun initView() {
-        photoAdapter = PhotoAdapter(R.layout.item_photo,photosList)
+        photoAdapter = PhotoAdapter(R.layout.item_photo, photosList)
         recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(getContext(), 3)
-        recyclerView.addItemDecoration(GridDividerItemDecoration(getContext(),3))
+        recyclerView.addItemDecoration(GridDividerItemDecoration(getContext(), 3))
         recyclerView.adapter = photoAdapter
         photoAdapter!!.setOnItemClickListener { adapter, view, position ->
 
 
             photosList[position].journalID?.let {
-                JournalManager.preViewJournal(context,JournalDBHelper.queryJournalById(it)[0])
+                JournalManager.preViewJournal(context, JournalDBHelper.queryJournalById(it)[0])
             }
         }
     }
@@ -64,7 +60,7 @@ class PhotosFragment : BaseFragment() {
             photosList.clear()
             for (dataBean in it) {
 
-                if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))){
+                if (!TextUtils.isEmpty(JournalTools.getFistPhoto(dataBean.content))) {
                     var photoBean = PhotoBean()
                     photoBean.photoURL = JournalTools.getFistPhoto(dataBean.content)
                     photoBean.photoDate = DateTools.formatTime(dataBean.date)
@@ -126,7 +122,7 @@ class PhotosFragment : BaseFragment() {
 
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
-        if (event!!.tag==MessageEvent.NOTE_CHANGE){
+        if (event!!.tag == MessageEvent.NOTE_CHANGE) {
             initData()
         }
     }

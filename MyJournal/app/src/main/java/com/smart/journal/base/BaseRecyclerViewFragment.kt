@@ -1,10 +1,10 @@
 package com.smart.journal.base
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smart.journal.R
 import com.smart.journal.tools.DividerItemDecorationTools
@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.base_recycler_view_fragment.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
- const val ARG_PARAM1 = "param1"
- const val ARG_PARAM2 = "param2"
+const val ARG_PARAM1 = "param1"
+const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -54,7 +54,6 @@ open class BaseRecyclerViewFragment : BaseFragment() {
         recycleView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
         init()
     }
-
 
 
 }

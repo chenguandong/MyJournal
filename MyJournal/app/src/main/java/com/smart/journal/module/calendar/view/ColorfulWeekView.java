@@ -10,9 +10,7 @@ import com.haibin.calendarview.WeekView;
  * 多彩周视图
  * Created by huanghaibin on 2017/11/29.
  */
-
 public class ColorfulWeekView extends WeekView {
-
     private int mRadius;
 
     public ColorfulWeekView(Context context) {
@@ -41,7 +39,6 @@ public class ColorfulWeekView extends WeekView {
         return false;
     }
 
-
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x) {
         int cx = x + mItemWidth / 2;
@@ -54,21 +51,17 @@ public class ColorfulWeekView extends WeekView {
         int cx = x + mItemWidth / 2;
         int top = -mItemHeight / 8;
         if (isSelected) {
-            canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
-                    mSelectTextPaint);
+            canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top, mSelectTextPaint);
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSelectedLunarTextPaint);
         } else if (hasScheme) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
-                    calendar.isCurrentDay() ? mCurDayTextPaint :
-                            calendar.isCurrentMonth() ? mSchemeTextPaint : mSchemeTextPaint);
+                calendar.isCurrentDay() ? mCurDayTextPaint : calendar.isCurrentMonth() ? mSchemeTextPaint : mSchemeTextPaint);
 
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSchemeLunarTextPaint);
         } else {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
-                    calendar.isCurrentDay() ? mCurDayTextPaint :
-                            calendar.isCurrentMonth() ? mCurMonthTextPaint : mCurMonthTextPaint);
+                calendar.isCurrentDay() ? mCurDayTextPaint : calendar.isCurrentMonth() ? mCurMonthTextPaint : mCurMonthTextPaint);
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mCurMonthLunarTextPaint);
-
         }
     }
 }

@@ -24,7 +24,6 @@
         android:singleLine="true"
         android:textSize="14sp" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
@@ -66,6 +65,5 @@
             android:layout_height="36dp"
             android:layout_centerInParent="true" />
     </RelativeLayout>
-
 
 </LinearLayout>

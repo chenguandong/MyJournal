@@ -17,13 +17,11 @@ package com.smart.journal.customview.preview
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.smart.journal.R

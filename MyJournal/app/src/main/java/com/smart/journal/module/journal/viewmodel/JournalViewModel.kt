@@ -1,13 +1,10 @@
 package com.smart.journal.module.journal.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-
+import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.repository.JournalRepository
 import com.smart.journal.module.journal.repository.JournalRepositoryImpl
-import com.smart.journal.db.entity.JournalBeanDBBean
 
 
 /**
@@ -25,16 +22,16 @@ class JournalViewModel : ViewModel() {
 
     }
 
-     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
+    fun deleteJournal(journalBeanDBBean: JournalBeanDBBean) {
         journalRepository.deleteJournal(journalBeanDBBean)
     }
 
 
-     fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>> {
-       return journalRepository.searchJournalByKeyWord(keyWord)
+    fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>> {
+        return journalRepository.searchJournalByKeyWord(keyWord)
     }
 
-     fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>> {
+    fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>> {
         return journalRepository.searchJournalByTag(tagName)
     }
 
@@ -47,8 +44,8 @@ class JournalViewModel : ViewModel() {
     }
 
 
-     fun getJournalBeans():LiveData<List<JournalBeanDBBean>>{
-         return journalRepository.getJournalBeans()
+    fun getJournalBeans(): LiveData<List<JournalBeanDBBean>> {
+        return journalRepository.getJournalBeans()
     }
 
     public override fun onCleared() {

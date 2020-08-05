@@ -126,7 +126,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                 aMap!!.addMarker(MarkerOptions().position(LatLng(poiItem.latitude, poiItem.longitude)).title("xx").snippet("??"))
                 aMapSearchAdapter!!.setSelPosition(position)
                 selectedPoiItem = poiItem
-                aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(poiItem.latitude, poiItem.longitude),25f))
+                aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(poiItem.latitude, poiItem.longitude), 25f))
             }
 
         })
@@ -229,7 +229,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                         mMjPoiItemList.add(poiItem)
 
                     }
-                    if (!mMjPoiItemList.isNullOrEmpty()){
+                    if (!mMjPoiItemList.isNullOrEmpty()) {
                         aMapSearchAdapter!!.setSelPosition(0)
                         selectedPoiItem = mMjPoiItemList[0]
                     }

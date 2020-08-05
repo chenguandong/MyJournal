@@ -11,14 +11,11 @@ import java.util.Locale;
  * @author guandongchen
  * @date 2018/1/12
  */
-
 public class DateTools {
     private static Locale locale = Locale.getDefault();
 
     /**
      * 格式化时间格式
-     * @param time
-     * @return
      */
     public static String formatTime(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", locale);
@@ -26,7 +23,7 @@ public class DateTools {
         return birthStr;
     }
 
-    public static String getChineseWeek(Date date){
+    public static String getChineseWeek(Date date) {
 
         return TimeUtils.getChineseWeek(date);
     }
@@ -40,12 +37,12 @@ public class DateTools {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DATE);
-        return new int[]{year, month+1, day};
+        return new int[] { year, month + 1, day };
     }
 
-    public  static String coverNumToWeekChina(String num){
+    public static String coverNumToWeekChina(String num) {
         String numName = num;
-        switch (num){
+        switch (num) {
             case "1":
                 numName = "一";
                 break;

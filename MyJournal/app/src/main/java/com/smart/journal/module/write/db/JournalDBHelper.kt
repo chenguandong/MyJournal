@@ -24,8 +24,18 @@ object JournalDBHelper {
      * 获取所有日记
      * @return
      */
-    fun allJournals():LiveData<List<JournalBeanDBBean>>{
-       return journalDao!!.allJournal()
+    fun allJournals(): LiveData<List<JournalBeanDBBean>> {
+        return journalDao!!.allJournal()
+    }
+
+    /**
+     * 保存日志 从导出的数据导入
+     */
+    fun saveJournal(journalBeanDBBeans: List<JournalBeanDBBean>) {
+        for (journalBeanDBBean in journalBeanDBBeans) {
+            journalDao!!.saveJournal(journalBeanDBBean)
+        }
+
     }
 
     /**

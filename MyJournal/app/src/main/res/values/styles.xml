@@ -12,7 +12,6 @@
         <item name="android:actionBarItemBackground">@drawable/bar_selector_style</item>
     </style>
 
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -40,8 +39,8 @@
     </style>
 
     <declare-styleable name="AspectRatioViewPager">
-        <attr name="widthRatio" format="integer"/>
-        <attr name="heightRatio" format="integer"/>
+        <attr name="widthRatio" format="integer" />
+        <attr name="heightRatio" format="integer" />
     </declare-styleable>
 
     <style name="StartAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -53,7 +52,7 @@
     </style>
 
     <style name="translucent" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowBackground" >@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

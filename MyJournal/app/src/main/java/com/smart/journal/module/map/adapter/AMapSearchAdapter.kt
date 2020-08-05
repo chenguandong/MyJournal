@@ -24,7 +24,6 @@ class AMapSearchAdapter(layoutResId: Int, data: MutableList<MjPoiItem>?) : BaseQ
     }
 
 
-
     override fun convert(helper: BaseViewHolder, item: MjPoiItem) {
         var adressTitleTextView = helper!!.getView<TextView>(R.id.adressTitleTextView)
         var adressSubTitleTextView = helper.getView<TextView>(R.id.adressSubTitleTextView)

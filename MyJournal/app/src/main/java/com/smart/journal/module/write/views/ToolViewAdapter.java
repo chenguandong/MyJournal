@@ -15,13 +15,10 @@ import androidx.core.content.ContextCompat;
  * @author guandongchen
  * @date 2018/1/18
  */
-
-public class ToolViewAdapter extends BaseQuickAdapter<ToolBean, BaseViewHolder>{
-
+public class ToolViewAdapter extends BaseQuickAdapter<ToolBean, BaseViewHolder> {
     public ToolViewAdapter(int layoutResId, @Nullable List<ToolBean> data) {
         super(layoutResId, data);
     }
-
 
     @Override
     protected void convert(BaseViewHolder helper, ToolBean item) {

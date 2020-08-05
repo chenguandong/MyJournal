@@ -18,10 +18,10 @@ abstract class NoteBookDao {
     abstract fun allNoteBook(): List<NoteBookDBBean?>?
 
     @Query("SELECT * FROM notebook where id = :bookId")
-    abstract fun getNoteBookById(bookId:Int): List<NoteBookDBBean>
+    abstract fun getNoteBookById(bookId: Int): List<NoteBookDBBean>
 
     @Query("SELECT * FROM notebook where id = :bookName")
-    abstract fun getNoteBookByName(bookName:String): List<NoteBookDBBean>
+    abstract fun getNoteBookByName(bookName: String): List<NoteBookDBBean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveNoteBook(vararg noteBookDBBean: NoteBookDBBean?)

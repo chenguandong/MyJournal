@@ -16,7 +16,6 @@ import id.zelory.compressor.Compressor;
  * @author guandongchen
  * @date 2018/1/22
  */
-
 public class EncodeTools {
     /**
      * bitmap转为base64
@@ -58,19 +57,17 @@ public class EncodeTools {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    public static String compressImageFileToBase64String(String photoPath, Context context){
+    public static String compressImageFileToBase64String(String photoPath, Context context) {
         try {
-            File file =  new Compressor(context)
-                    .setMaxWidth(640)
-                    .setMaxHeight(480)
-                    .setQuality(75)
-                    //.setCompressFormat(Bitmap.CompressFormat.JPEG)
-                    .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_PICTURES).getAbsolutePath())
-                    .compressToFile(new File(photoPath));
-            String path= file.getAbsolutePath();
+            File file = new Compressor(context).setMaxWidth(640)
+                .setMaxHeight(480)
+                .setQuality(75)
+                //.setCompressFormat(Bitmap.CompressFormat.JPEG)
+                .setDestinationDirectoryPath(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                .compressToFile(new File(photoPath));
+            String path = file.getAbsolutePath();
             return path;
-
         } catch (IOException e) {
             e.printStackTrace();
         }

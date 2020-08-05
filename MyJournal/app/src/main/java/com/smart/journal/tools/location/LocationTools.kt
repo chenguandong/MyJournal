@@ -1,16 +1,13 @@
 package com.smart.journal.tools.location
 
+
 import android.util.Log
-
-
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.smart.journal.app.MyApp
 import com.smart.journal.tools.location.bean.LocationBean
-
-
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 /**
  * @author guandongchen
@@ -20,6 +17,7 @@ import java.util.Date
 object LocationTools {
     //声明AMapLocationClient类对象
     private var mLocationClient: AMapLocationClient? = null
+
     //声明AMapLocationClientOption对象
     private var mLocationOption: AMapLocationClientOption? = null
 
@@ -106,10 +104,10 @@ object LocationTools {
                 mLocationClient!!.stopLocation()
                 mLocationClient!!.startLocation()
             }
-                return  this
+            return this
         }
 
-  /*  companion object{
-        val ourInstance = LocationTools();
-    }*/
+    /*  companion object{
+          val ourInstance = LocationTools();
+      }*/
 }

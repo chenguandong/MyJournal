@@ -47,7 +47,7 @@ class ToolView : LinearLayout {
     }
 
     private fun initView(context: Context) {
-         View.inflate(context, R.layout.view_toolbar, this)
+        View.inflate(context, R.layout.view_toolbar, this)
 
         toolViewAdapter = ToolViewAdapter(R.layout.item_toolview, toolBeans)
 

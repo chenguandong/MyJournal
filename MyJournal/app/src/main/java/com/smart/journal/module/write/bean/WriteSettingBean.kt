@@ -11,18 +11,22 @@ import java.io.Serializable
  */
 class WriteSettingBean : Serializable {
     var journalId: Int? = null
+
     /**
      * 地理位置
      */
     var location: MjPoiItem? = null
+
     /**
      * 标签
      */
     var tags: List<String>? = null
+
     /**
      * 日记本
      */
     var journalBook: NoteBookDBBean? = null
+
     /**
      * 时间
      */
@@ -36,7 +40,7 @@ class WriteSettingBean : Serializable {
     /**
      * 是否收藏
      */
-    var isFavourite:Boolean = false
+    var isFavourite: Boolean = false
 
 
 }

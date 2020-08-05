@@ -52,7 +52,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
     }
 
     private var adapter: MoreSettingAdapter? = null
-    private var itemData =  ArrayList<MoreSettingBean>()
+    private var itemData = ArrayList<MoreSettingBean>()
 
     private var isFavourite = false
 
@@ -97,11 +97,11 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         val default = resources.getString(R.string.m_default)
 
         itemData.apply {
-            add(MoreSettingBean(resources.getString(R.string.location), "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_location)))
-            add(MoreSettingBean(resources.getString(R.string.tag), default,ContextCompat.getDrawable(context!!,R.drawable.ic_ws_tag)))
-            add(MoreSettingBean(resources.getString(R.string.journal_note), default, ContextCompat.getDrawable(context!!,R.drawable.ic_ws_journal)))
-            add(MoreSettingBean(resources.getString(R.string.date), "", ContextCompat.getDrawable(context!!,R.drawable.ic_ws_date)))
-            add(MoreSettingBean(resources.getString(R.string.m_favourite), resources.getString(R.string.un_favourite),ContextCompat.getDrawable(context!!,R.drawable.ic_ws_favourite)))
+            add(MoreSettingBean(resources.getString(R.string.location), "", ContextCompat.getDrawable(context!!, R.drawable.ic_ws_location)))
+            add(MoreSettingBean(resources.getString(R.string.tag), default, ContextCompat.getDrawable(context!!, R.drawable.ic_ws_tag)))
+            add(MoreSettingBean(resources.getString(R.string.journal_note), default, ContextCompat.getDrawable(context!!, R.drawable.ic_ws_journal)))
+            add(MoreSettingBean(resources.getString(R.string.date), "", ContextCompat.getDrawable(context!!, R.drawable.ic_ws_date)))
+            add(MoreSettingBean(resources.getString(R.string.m_favourite), resources.getString(R.string.un_favourite), ContextCompat.getDrawable(context!!, R.drawable.ic_ws_favourite)))
         }
 
 
@@ -112,11 +112,11 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         }
         itemData[2].subTitle = writeSetting?.journalBook?.name ?: default
         itemData[3].subTitle = writeSetting!!.time?.let { Date(it).toLocaleString() }
-        isFavourite  = writeSetting!!.isFavourite
-        if (isFavourite){
-            itemData[4].subTitle =resources.getString(R.string.favourite)
-        }else{
-            itemData[4].subTitle =resources.getString(R.string.un_favourite)
+        isFavourite = writeSetting!!.isFavourite
+        if (isFavourite) {
+            itemData[4].subTitle = resources.getString(R.string.favourite)
+        } else {
+            itemData[4].subTitle = resources.getString(R.string.un_favourite)
         }
         adapter = MoreSettingAdapter(itemData)
         recyclerView.adapter = adapter
@@ -170,12 +170,12 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         4 -> {
                             isFavourite = !isFavourite
                             if (isFavourite) {
-                                itemData[4].subTitle= resources.getString(R.string.favourite)
+                                itemData[4].subTitle = resources.getString(R.string.favourite)
                             } else {
-                                itemData[4].subTitle= resources.getString(R.string.un_favourite)
+                                itemData[4].subTitle = resources.getString(R.string.un_favourite)
                             }
                             adapter!!.notifyDataSetChanged()
-                            EventBus.getDefault().post(MessageEvent("0",NOTE_FAVOURITE_CHANGE))
+                            EventBus.getDefault().post(MessageEvent("0", NOTE_FAVOURITE_CHANGE))
 
                         }
                     }

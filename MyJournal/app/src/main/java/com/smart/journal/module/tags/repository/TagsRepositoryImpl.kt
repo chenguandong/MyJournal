@@ -1,6 +1,5 @@
 package com.smart.journal.module.tags.repository
 
-import androidx.lifecycle.LiveData
 import com.smart.journal.module.tags.TagsDbHelpr
 import com.smart.journal.module.tags.bean.TagsDbBean
 
@@ -14,7 +13,7 @@ class TagsRepositoryImpl : TagsRepository {
         return TagsDbHelpr.getAllTags()
     }
 
-    override fun getTagsByName(tagName: String): List<TagsDbBean>{
+    override fun getTagsByName(tagName: String): List<TagsDbBean> {
         return TagsDbHelpr.getTagsByName(tagName)
     }
 

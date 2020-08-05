@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".module.menu.CreateNoteBookActivity">
-    <include layout="@layout/toolbar"/>
+
+    <include layout="@layout/toolbar" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        >
+        android:layout_margin="16dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editInputEditText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="请输入日记本名称"
-            android:textSize="14sp"
             android:textColor="@color/black"
-            />
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

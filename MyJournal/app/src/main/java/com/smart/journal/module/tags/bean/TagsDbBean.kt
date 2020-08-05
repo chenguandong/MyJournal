@@ -12,11 +12,13 @@ import java.io.Serializable
  * @date 2020/3/24
  */
 @Entity(tableName = "tags")
-class TagsDbBean :Serializable{
-    @PrimaryKey(autoGenerate = true) var uid: Int?=null
-    @ColumnInfo(name = "name") var name: String? =null
-    @ColumnInfo(name = "color") var color: Int? = null
-
+class TagsDbBean : Serializable {
+    @PrimaryKey(autoGenerate = true)
+    var uid: Int? = null
+    @ColumnInfo(name = "name")
+    var name: String? = null
+    @ColumnInfo(name = "color")
+    var color: Int? = null
 
 
     @Ignore

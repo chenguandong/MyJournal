@@ -1,13 +1,11 @@
 package com.smart.journal.customview.dialog
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.*
+import androidx.fragment.app.Fragment
 import com.andrognito.patternlockview.PatternLockView
 import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
@@ -39,7 +37,7 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    private var passcode:String? =null
+    private var passcode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,45 +60,45 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lockView.addPatternLockListener(object: PatternLockViewListener {
+        lockView.addPatternLockListener(object : PatternLockViewListener {
             override fun onComplete(pattern: MutableList<PatternLockView.Dot>?) {
-                var pass =  PatternLockUtils.patternToString(lockView, pattern)
+                var pass = PatternLockUtils.patternToString(lockView, pattern)
 
 
-                if (pass.length<4){
+                if (pass.length < 4) {
                     infoTextView.text = "密码过短,请重新绘制"
                     errorLock()
                     clearLockCode()
-                }else if(param1== param1closelock){
-                    if (pass==UserTools.lockCode){
+                } else if (param1 == param1closelock) {
+                    if (pass == UserTools.lockCode) {
                         UserTools.deleteLockCode()
                         clearLockCodeAndDissMiss()
 
 
-                    }else{
+                    } else {
                         infoTextView.text = "密码错误,请重新绘制"
                     }
-                }else{
+                } else {
                     //说明已经设置了密码 需要解锁
-                    if (!TextUtils.isEmpty(UserTools.lockCode)){
+                    if (!TextUtils.isEmpty(UserTools.lockCode)) {
 
-                        if (pass==UserTools.lockCode){
+                        if (pass == UserTools.lockCode) {
                             clearLockCodeAndDissMiss()
-                        }else{
+                        } else {
                             infoTextView.text = "密码错误,请重新绘制"
                         }
                         return
                     }
 
-                    if (TextUtils.isEmpty(passcode)){
+                    if (TextUtils.isEmpty(passcode)) {
                         infoTextView.text = "再次绘制确认密码"
                         passcode = pass
                         clearLockCode()
-                    }else{
-                        if (pass == passcode){
+                    } else {
+                        if (pass == passcode) {
                             UserTools.saveLockCode(pass)
                             clearLockCodeAndDissMiss()
-                        }else{
+                        } else {
                             infoTextView.text = "两次输入密码不一致,请重新输入"
                             errorLock()
                         }
@@ -122,21 +120,21 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         })
     }
 
-    private fun errorLock(){
+    private fun errorLock() {
         lockView.setViewMode(PatternLockView.PatternViewMode.WRONG)
     }
 
-    private fun clearLockCodeAndDissMiss(){
+    private fun clearLockCodeAndDissMiss() {
         Handler().postDelayed({
             lockView.clearPattern()
             dismiss()
-        },1000)
+        }, 1000)
     }
 
-    private fun clearLockCode(){
+    private fun clearLockCode() {
         Handler().postDelayed({
             lockView.clearPattern()
-        },1000)
+        }, 1000)
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -191,6 +189,7 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
 
         const val param1changelock: String = "changelock"
         const val param1closelock: String = "closelock"
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 PatternLockDialogFragment().apply {

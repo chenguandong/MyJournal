@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
+<paths>
     <!-- /storage/emulated/0/Download/${applicationId}/.beta/apk-->
-    <external-path name="beta_external_path" path="Download/"/>
-    <external-path name="external_path_picture" path="Pictures/"/><!-- PhotoTool.createImageFile()创建的图片路径。签到拍照用。 -->
+    <external-path
+        name="beta_external_path"
+        path="Download/" />
+    <external-path
+        name="external_path_picture"
+        path="Pictures/" /><!-- PhotoTool.createImageFile()创建的图片路径。签到拍照用。 -->
     <!--/storage/emulated/0/Android/data/${applicationId}/files/apk/-->
-    <external-path name="beta_external_files_path" path="Android/data/"/>
+    <external-path
+        name="beta_external_files_path"
+        path="Android/data/" />
     <external-path
         name="my_images"
-        path="images"/>
+        path="images" />
 </paths>

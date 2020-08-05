@@ -10,8 +10,8 @@ import java.util.*
  * @author guandongchen
  * @date 2018/3/30
  */
-interface WeatherRepository{
-    fun  getWeatherLiveData(): MutableLiveData<TodayWeatherBean>
-    fun  getTodayWeatherData(): ArrayList<TodayWeatherBean.ForecastsBean.CastsBean>
-    fun  onError():MutableLiveData<CallBackBean<TodayWeatherBean>>
+interface WeatherRepository {
+    fun getWeatherLiveData(): MutableLiveData<TodayWeatherBean>
+    fun getTodayWeatherData(): ArrayList<TodayWeatherBean.ForecastsBean.CastsBean>
+    fun onError(): MutableLiveData<CallBackBean<TodayWeatherBean>>
 }

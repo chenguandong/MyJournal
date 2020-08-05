@@ -28,6 +28,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.view_dialog_preview_bottom_sheet, container, false)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return if (context == null) {
             super.onCreateDialog(savedInstanceState)
@@ -56,7 +57,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         KeyboardUtils.hideSoftInput(activity)
     }
 
-    open fun setOpenState(){
+    open fun setOpenState() {
         // 初始为展开状态
         behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
 

@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/list_selector_ex"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal">
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/locationNameTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        tools:text="地址"
+        android:layout_weight="1"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
         android:gravity="center|left"
+        android:lines="1"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="@color/black"
         app:drawableLeftCompat="@drawable/ic_ws_location"
-        android:drawablePadding="10dp"
-        android:lines="1"
-        android:ellipsize="end"
-        android:layout_weight="1"
-        />
+        tools:text="地址" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/locationSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        tools:text="20"
+        android:layout_weight="0"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
         android:gravity="center|left"
+        android:lines="1"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="@color/black"
-        android:drawablePadding="10dp"
-        android:lines="1"
-        android:ellipsize="end"
-        android:layout_weight="0"
-        />
+        tools:text="20" />
 </LinearLayout>

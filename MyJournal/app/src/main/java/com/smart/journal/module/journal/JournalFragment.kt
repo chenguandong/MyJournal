@@ -35,7 +35,7 @@ import org.greenrobot.eventbus.EventBus
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class JournalFragment : BaseFragment,SearchEable {
+class JournalFragment : BaseFragment, SearchEable {
 
     private var isLoaded: Boolean? = false
     override fun getData() {
@@ -129,8 +129,6 @@ class JournalFragment : BaseFragment,SearchEable {
     }
 
 
-
-
     override fun initData() {
 
 
@@ -146,7 +144,7 @@ class JournalFragment : BaseFragment,SearchEable {
                 }
 
             }
-            FRAGMENT_TYPE_SEARCH_LOCATION->{
+            FRAGMENT_TYPE_SEARCH_LOCATION -> {
                 param2?.let {
                     journalViewModel!!.searchJournalByLocationName(it).observe(viewLifecycleOwner, Observer {
 
@@ -156,7 +154,8 @@ class JournalFragment : BaseFragment,SearchEable {
                     })
                 }
             }
-            FRAGMENT_EMPTY->{}
+            FRAGMENT_EMPTY -> {
+            }
             else -> {
                 journalViewModel!!.getJournalBeans().observe(viewLifecycleOwner, Observer {
                     journalAdapter!!.setNewData(it as MutableList<JournalBeanDBBean>?)
@@ -177,6 +176,7 @@ class JournalFragment : BaseFragment,SearchEable {
 
         const val FRAGMENT_TYPE_SEARCH_TAG = "fragment_type_search_tag"
         const val FRAGMENT_TYPE_SEARCH_LOCATION = "fragment_type_search_location"
+
         //初始化时候不做任何事情显示一个空界面
         const val FRAGMENT_EMPTY = "fragment_empty"
 
@@ -195,27 +195,27 @@ class JournalFragment : BaseFragment,SearchEable {
         super.onMessageEvent(event)
         if (event!!.tag == MessageEvent.NOTE_CHANGE) {
             initData()
-            doSerarch("",SearchEableType.ALL);
+            doSerarch("", SearchEableType.ALL);
         }
     }
 
     override fun doSerarch(serarchKey: String, searchType: String) {
-        when(searchType){
-            SearchEableType.ALL->{
+        when (searchType) {
+            SearchEableType.ALL -> {
                 journalViewModel!!.searchJournalByKeyWord(serarchKey).observe(viewLifecycleOwner, Observer {
                     it?.let { datas ->
                         journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
                     }
                 })
             }
-            SearchEableType.FAVOURITE->{
+            SearchEableType.FAVOURITE -> {
                 journalViewModel!!.searchJournalByFavourite(serarchKey).observe(viewLifecycleOwner, Observer {
                     it?.let { datas ->
                         journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
                     }
                 })
             }
-            SearchEableType.TAG->{
+            SearchEableType.TAG -> {
                 journalViewModel!!.searchJournalByTag(serarchKey).observe(viewLifecycleOwner, Observer {
                     it?.let { datas ->
                         journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
@@ -223,7 +223,7 @@ class JournalFragment : BaseFragment,SearchEable {
                 })
             }
 
-            SearchEableType.LOCATION->{
+            SearchEableType.LOCATION -> {
                 journalViewModel!!.searchJournalByLocationName(serarchKey).observe(viewLifecycleOwner, Observer {
                     it?.let { datas ->
                         journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)

@@ -5,21 +5,24 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.loader.content.CursorLoader
+import com.alibaba.fastjson.TypeReference
 import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.ZipUtils
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.smart.journal.app.MyApp
 import com.smart.journal.bean.PhotoFileInfo
-import com.smart.journal.db.dao.JournalDao
 import com.smart.journal.db.entity.JournalBeanDBBean
-import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.write.db.JournalDBHelper
 import com.yanzhenjie.album.AlbumFile
+import okio.buffer
+import okio.source
 import java.io.File
 import java.io.IOException
 import java.util.*
+
 
 /**
  * @author guandongchen
@@ -28,12 +31,20 @@ import java.util.*
 object MJFileTools {
     //日记图片存放路径
     var JOURNALDIR = MyApp.instance!!.filesDir.absolutePath + File.separator + "/MyJournal"
+
     //日记图片导出导入路径
     var JOURNALDIR_EXPORT = File(Environment.getExternalStorageDirectory().absolutePath + "/MyJournal/export").absolutePath
+
     //备份导出路径
     var JOURNALDIR_BACK_UP_EXPORT = File(Environment.getExternalStorageDirectory().absolutePath + "/JournalBackUp").absolutePath
 
-    var JOURNALDIR_BACK_UP_EXPORT_TEXT = JOURNALDIR_BACK_UP_EXPORT +File.separator+"journal.json"
+    var JOURNALDIR_BACK_UP_EXPORT_TEXT = JOURNALDIR_BACK_UP_EXPORT + File.separator + "journal.json"
+
+    /**
+     * 备份文件的Json 文件名称
+     */
+    var JOURNALDIR_JSON_NAME = "journal.json"
+
 
     /**
      * 图片导出路径
@@ -135,21 +146,52 @@ object MJFileTools {
     /**
      * 备份所有日记到SDCard
      */
-    fun backUpExportJournal(){
+    fun backUpExportJournal() {
 
-        FileUtils.copyDir(JOURNALDIR,JOURNALDIR_BACK_UP_EXPORT_IMAGES)
+        FileUtils.copyDir(JOURNALDIR, JOURNALDIR_BACK_UP_EXPORT_IMAGES)
         Log.i("backUpExportJournal", Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
-        MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT_TEXT),Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
+        MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT_TEXT), Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
 
         var paths = mutableListOf<String>()
         paths.add(JOURNALDIR_BACK_UP_EXPORT_TEXT)
         paths.add(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
 
-        ZipUtils.zipFiles(paths,JOURNALDIR_BACK_UP_EXPORT+File.separator+"back.zip")
+        ZipUtils.zipFiles(paths, JOURNALDIR_BACK_UP_EXPORT + File.separator + "back.zip")
 
         FileUtils.deleteDir(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
         FileUtils.delete(File(JOURNALDIR_BACK_UP_EXPORT_TEXT))
 
+    }
+
+    fun importExportJournal() {
+        //备份文件
+        var backZipFile = File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back.zip")
+        var unZipFile = File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back")
+        //判断备份文件是否存在
+        if (backZipFile.exists()){
+            ZipUtils.unzipFile(backZipFile,unZipFile)
+            ToastUtils.showShort("导入成功")
+            //读取解压的备份文件 journal.json
+            var jsonStr = StringBuilder()
+            File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back"+File.separator + JOURNALDIR_JSON_NAME).source().use { fileSource ->
+                fileSource.buffer().use { bufferedSource ->
+                    while (true) {
+                        val line: String = bufferedSource.readUtf8Line() ?: break
+                        jsonStr.append(line)
+                        Log.i("exportjsion =", jsonStr.toString())
+                    }
+                }
+            }
+
+            //读取所有日记匹配是否存在当前数据,存在不导入,不存在就导入进去
+            val journalList: List<JournalBeanDBBean> = Gson().fromJson(jsonStr.toString(), object : TypeToken<List<JournalBeanDBBean?>?>() {}.type)
+            JournalDBHelper.saveJournal(journalList)
+            //copy 图片文件
+            FileUtils.copyDir(File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back"+File.separator + "images"),File(JOURNALDIR))
+
+        }else{
+            ToastUtils.showShort("没有找到备份文件")
+        }
     }
 
 }

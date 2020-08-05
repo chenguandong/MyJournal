@@ -11,11 +11,11 @@ import android.provider.MediaStore;
 import java.io.File;
 
 /**
- *  Utility functions to support Uri conversion and processing.
+ * Utility functions to support Uri conversion and processing.
  */
 public final class UriHelpers {
-
-    private UriHelpers() {}
+    private UriHelpers() {
+    }
 
     /**
      * Get the file path for a uri. This is a convoluted way to get the path for an Uri created using the
@@ -23,7 +23,7 @@ public final class UriHelpers {
      * way to do this at this point. It is taken from https://github.com/iPaulPro/aFileChooser.
      *
      * @param context The context of the application
-     * @param uri The uri of the saved file
+     * @param uri     The uri of the saved file
      * @return The file with path pointing to the saved file. It can return null if we can't resolve the uri properly.
      */
     public static File getFileForUri(final Context context, final Uri uri) {
@@ -42,8 +42,8 @@ public final class UriHelpers {
             } else if (isDownloadsDocument(uri)) {
                 // DownloadsProvider
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris
-                        .withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                final Uri contentUri =
+                    ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                 path = getDataColumn(context, contentUri, null, null);
             } else if (isMediaDocument(uri)) {
@@ -63,7 +63,7 @@ public final class UriHelpers {
 
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[] {
-                        split[1]
+                    split[1]
                 };
 
                 path = getDataColumn(context, contentUri, selection, selectionArgs);
@@ -82,18 +82,16 @@ public final class UriHelpers {
         return null;
     }
 
-    private static String getDataColumn(Context context, Uri uri, String selection,
-                                        String[] selectionArgs) {
+    private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {
-                column
+            column
         };
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
@@ -105,7 +103,6 @@ public final class UriHelpers {
         }
         return null;
     }
-
 
     private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());

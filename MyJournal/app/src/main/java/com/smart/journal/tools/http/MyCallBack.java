@@ -12,9 +12,7 @@ import retrofit2.Response;
  * @author guandongchen
  * @date 2018/1/16
  */
-
 public abstract class MyCallBack<T extends Serializable> implements Callback<T> {
-
     private CallBackBean<T> callBackBean;
 
     public MyCallBack() {
@@ -25,10 +23,9 @@ public abstract class MyCallBack<T extends Serializable> implements Callback<T> 
         callBackBean = new CallBackBean<T>(call, response);
         if (response.code() != 200) {
             callBackBean.setErrorMeg("请求出错");
-        }else{
+        } else {
             onSuccess(callBackBean);
         }
-
     }
 
     @Override
@@ -38,11 +35,9 @@ public abstract class MyCallBack<T extends Serializable> implements Callback<T> 
             callBackBean.setErrorMeg("请检查网络连接");
         }
         onFail(callBackBean);
-
     }
 
     protected abstract void onSuccess(CallBackBean<T> callBackBean);
 
     protected abstract void onFail(CallBackBean<T> callBackBean);
-
 }

@@ -12,7 +12,7 @@ import java.util.*
  * @author guandongchen
  * @date 2018/3/30
  */
-class WeatherRepositoryImpl:WeatherRepository{
+class WeatherRepositoryImpl : WeatherRepository {
 
     override fun onError(): MutableLiveData<CallBackBean<TodayWeatherBean>> {
         return errorData

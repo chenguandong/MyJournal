@@ -8,26 +8,22 @@
             android:id="@+id/nav_camera"
             android:icon="@android:drawable/ic_menu_send"
             android:title="Import"
-            android:visible="false"
-            />
+            android:visible="false" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@android:drawable/ic_menu_send"
             android:title="Gallery"
-            android:visible="false"
-            />
+            android:visible="false" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@android:drawable/ic_menu_send"
             android:title="Slideshow"
-            android:visible="false"
-            />
+            android:visible="false" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@android:drawable/ic_menu_send"
             android:title="Tools"
-            android:visible="false"
-            />
+            android:visible="false" />
     </group>
 
     <item android:title="">
@@ -39,14 +35,12 @@
             <item
                 android:id="@+id/nav_send"
                 android:icon="@android:drawable/ic_menu_set_as"
-                android:title="设置"
-                />
+                android:title="设置" />
 
             <item
-                android:icon="@android:drawable/ic_menu_set_as"
-                android:title="设置"
                 android:actionLayout="@layout/item_journal"
-                />
+                android:icon="@android:drawable/ic_menu_set_as"
+                android:title="设置" />
         </menu>
     </item>
 

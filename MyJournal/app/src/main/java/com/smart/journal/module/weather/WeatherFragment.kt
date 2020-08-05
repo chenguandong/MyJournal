@@ -1,15 +1,13 @@
 package com.smart.journal.module.weather
 
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.smart.journal.R
 import com.smart.journal.adapter.WeatherAdapter
 import com.smart.journal.base.BaseFragment
@@ -32,7 +30,7 @@ class WeatherFragment : BaseFragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
 
-    private var weatherViewModel:WeatherViewModel?=null
+    private var weatherViewModel: WeatherViewModel? = null
 
     private var weatherAdapter: WeatherAdapter? = null
 
@@ -46,7 +44,7 @@ class WeatherFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return  inflater.inflate(R.layout.fragment_weather, container, false)
+        return inflater.inflate(R.layout.fragment_weather, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,13 +53,14 @@ class WeatherFragment : BaseFragment() {
         weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
         weatherViewModel!!.getWeatherLiveData().observe(this, androidx.lifecycle.Observer {
 
-            todayWeatherBean->weatherAdapter!!.notifyDataSetChanged()
+            todayWeatherBean ->
+            weatherAdapter!!.notifyDataSetChanged()
 
             swipeRefreshLayout.isRefreshing = false
 
         })
-        weatherViewModel!!.onError().observe(this, Observer {
-            callBackBean->SnackbarTools.showSimpleSnackbar(context,callBackBean!!.errorMeg)
+        weatherViewModel!!.onError().observe(this, Observer { callBackBean ->
+            SnackbarTools.showSimpleSnackbar(context, callBackBean!!.errorMeg)
 
             swipeRefreshLayout.isRefreshing = false
         })

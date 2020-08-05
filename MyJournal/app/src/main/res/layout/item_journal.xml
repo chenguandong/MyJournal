@@ -1,58 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="6dp"
-    android:background="@drawable/list_selector_ex">
+    android:background="@drawable/list_selector_ex"
+    android:padding="6dp">
     <!--android:background="?android:attr/selectableItemBackground"-->
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageView"
         android:layout_width="86dp"
         android:layout_height="86dp"
+        android:layout_centerVertical="true"
         android:paddingLeft="4dp"
         android:paddingTop="4dp"
         android:paddingRight="4dp"
         android:scaleType="centerCrop"
-        app:riv_corner_radius="4dp"
-        android:layout_centerVertical="true"
-        />
+        app:riv_corner_radius="4dp" />
 
     <TextView
         android:id="@+id/contentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/imageView"
-        android:layout_toLeftOf="@id/weekTextView"
-        android:text=""
-        android:textColor="@color/black"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:textSize="@dimen/sp_14"
-        android:textStyle="bold"
         android:layout_above="@+id/infoTextView"
         android:layout_marginRight="4dp"
-        />
+        android:layout_toLeftOf="@id/weekTextView"
+        android:layout_toRightOf="@id/imageView"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/weekTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
-        android:textSize="@dimen/sp_12"
-        android:text="星期-" />
+        android:layout_marginRight="@dimen/dp_10"
+        android:text="星期-"
+        android:textSize="@dimen/sp_12" />
 
     <TextView
         android:id="@+id/dayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-
         android:layout_below="@+id/weekTextView"
-        android:text="30"
+
+        android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_10"
+        android:text="30"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_24" />
 
@@ -60,11 +58,10 @@
         android:id="@+id/infoTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:layout_toRightOf="@id/imageView"
         android:layout_alignParentBottom="true"
-        android:paddingRight="@dimen/dp_10"
-        android:textSize="@dimen/sp_12"
+        android:layout_toRightOf="@id/imageView"
         android:lines="1"
-        />
+        android:paddingRight="@dimen/dp_10"
+        android:text=""
+        android:textSize="@dimen/sp_12" />
 </RelativeLayout>

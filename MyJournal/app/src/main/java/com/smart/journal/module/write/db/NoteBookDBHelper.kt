@@ -11,6 +11,7 @@ import com.smart.journal.db.entity.NoteBookDBBean
  */
 object NoteBookDBHelper {
     var noteBookDao: NoteBookDao? = null
+
     init {
         noteBookDao = MyApp.database!!.mNoteBookDao()
     }
@@ -18,13 +19,14 @@ object NoteBookDBHelper {
     /**
      * 通过ID 查询单条日记本内容
      */
-    fun queryNoteBookById(bookId:Int):List<NoteBookDBBean>{
+    fun queryNoteBookById(bookId: Int): List<NoteBookDBBean> {
         return noteBookDao!!.getNoteBookById(bookId)
     }
+
     /**
      * 通过ID 查询单条日记本内容
      */
-    fun queryNoteBookByName(bookName:String):List<NoteBookDBBean>{
+    fun queryNoteBookByName(bookName: String): List<NoteBookDBBean> {
         return noteBookDao!!.getNoteBookByName(bookName)
     }
 }

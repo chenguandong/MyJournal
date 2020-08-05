@@ -13,18 +13,18 @@ class JournalBean(override var itemType: Int) : Serializable, MultiItemEntity {
     var imageURL: String? = null
 
 
-    constructor(content: String, imageURL: String) : this(itemType=WRITE_TAG_TEXT) {
+    constructor(content: String, imageURL: String) : this(itemType = WRITE_TAG_TEXT) {
         this.content = content
         this.imageURL = imageURL
         if (!TextUtils.isEmpty(content)) {
-            itemType= WRITE_TAG_TEXT
+            itemType = WRITE_TAG_TEXT
         }
         if (!TextUtils.isEmpty(imageURL)) {
             itemType = WRITE_TAG_IMAGE
         }
     }
 
-    constructor(content: String) : this(itemType=WRITE_TAG_TEXT) {
+    constructor(content: String) : this(itemType = WRITE_TAG_TEXT) {
         this.content = content
     }
 

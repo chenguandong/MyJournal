@@ -1,6 +1,5 @@
 package com.smart.journal.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
@@ -18,8 +17,8 @@ abstract class TagsDao {
     abstract fun getAllTags(): List<TagsDbBean>
 
     @Query("SELECT * FROM tags where name like '%'|| :tagName ||'%' ")
-    abstract fun getTagsByName(tagName:String):List<TagsDbBean>
+    abstract fun getTagsByName(tagName: String): List<TagsDbBean>
 
     @Insert(onConflict = REPLACE)
-    abstract fun insertOrUpdateTag(tag:TagsDbBean)
+    abstract fun insertOrUpdateTag(tag: TagsDbBean)
 }

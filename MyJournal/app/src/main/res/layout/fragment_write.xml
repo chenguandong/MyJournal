@@ -1,24 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.smart.journal.module.write.WriteFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <include
-        layout="@layout/toolbar"
-        />
+    <include layout="@layout/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/writeRecycleView"
-        android:layout_above="@+id/toolView"
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/toolView"
+        android:layout_below="@+id/toolbar"
         android:background="@color/write"
-        android:padding="12dp"
-        />
+        android:padding="12dp" />
 
     <com.smart.journal.module.write.views.ToolView
         android:id="@+id/toolView"
@@ -32,11 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="24dp"
         android:layout_margin="16dp"
-        android:tint="#FFFFFF"
+        android:layout_marginBottom="24dp"
         android:backgroundTint="@android:color/holo_red_light"
-        app:borderWidth="0dp"
+        android:tint="#FFFFFF"
         android:visibility="visible"
+        app:borderWidth="0dp"
         app:srcCompat="@drawable/ic_journal_save" />
 </RelativeLayout>

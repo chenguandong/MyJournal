@@ -3,19 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@drawable/list_selector_ex"
-    android:gravity="center"
-    >
+    android:gravity="center">
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/addImageButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="新建日记本"
         android:gravity="center|left"
-        android:tint="@color/black"
-        android:textSize="14sp"
-        android:textColor="@color/black"
         android:paddingLeft="66dp"
-        />
-
+        android:text="新建日记本"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:tint="@color/black" />
 
 </LinearLayout>

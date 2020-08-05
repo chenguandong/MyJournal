@@ -1,7 +1,6 @@
 package com.smart.journal.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.smart.journal.db.entity.JournalBeanDBBean
 
@@ -21,35 +20,35 @@ abstract class JournalDao {
     abstract fun saveJournal(journalBeanDBBeans: JournalBeanDBBean?)
 
     @Query("SELECT * FROM journal ORDER BY date DESC")
-    abstract fun allJournal():LiveData<List<JournalBeanDBBean>>
+    abstract fun allJournal(): LiveData<List<JournalBeanDBBean>>
 
     @Query("SELECT * FROM journal ORDER BY date DESC")
-    abstract fun allJournalNoLiveData():List<JournalBeanDBBean>
+    abstract fun allJournalNoLiveData(): List<JournalBeanDBBean>
 
     @Query("SELECT * FROM journal where date = :date ORDER BY date DESC")
-    abstract fun queryJournalByDate(date:Long):List<JournalBeanDBBean>
+    abstract fun queryJournalByDate(date: Long): List<JournalBeanDBBean>
 
     @Query("SELECT * FROM journal where id = :id ORDER BY date DESC")
-    abstract fun queryJournalById(id:Int):List<JournalBeanDBBean>
+    abstract fun queryJournalById(id: Int): List<JournalBeanDBBean>
 
     @Query("SELECT * FROM journal where content like '%'|| :keyWord ||'%'OR address like '%'|| :keyWord ||'%' OR tags like '%'|| :keyWord ||'%' ORDER BY date DESC")
-    abstract fun searchJournalByKeyWord(keyWord:String):LiveData<List<JournalBeanDBBean>>
+    abstract fun searchJournalByKeyWord(keyWord: String): LiveData<List<JournalBeanDBBean>>
 
     @Query("SELECT * FROM journal where tags = :tagName ORDER BY date DESC")
-    abstract fun searchJournalByTag(tagName:String):LiveData<List<JournalBeanDBBean>>
+    abstract fun searchJournalByTag(tagName: String): LiveData<List<JournalBeanDBBean>>
 
     @Query("SELECT * FROM journal where address like '%'|| :locationName ||'%'  ORDER BY date DESC")
-    abstract fun searchJournalByTagLocationName(locationName:String):LiveData<List<JournalBeanDBBean>>
+    abstract fun searchJournalByTagLocationName(locationName: String): LiveData<List<JournalBeanDBBean>>
 
     @Query("SELECT * FROM journal where content like '%'|| :keyWord ||'%'OR address like '%'|| :keyWord ||'%' OR tags like '%'|| :keyWord ||'%' AND favourite = 1 ORDER BY date DESC")
-    abstract fun searchJournalFromFavourite(keyWord: String):LiveData<List<JournalBeanDBBean>>
+    abstract fun searchJournalFromFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>>
 
 
     @Delete
     abstract fun deleteJournal(journalBeanDBBean: JournalBeanDBBean?)
 
     @Query("DELETE FROM journal WHERE id = :journalId")
-    abstract fun deleteJournalById(journalId:Int)
+    abstract fun deleteJournalById(journalId: Int)
 
     /* @Delete
 

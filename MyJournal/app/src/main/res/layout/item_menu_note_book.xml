@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/list_selector_ex"
-    >
+    android:background="@drawable/list_selector_ex">
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/noteBookNameTextView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:textColor="@color/black"
-        android:text="Journal"
         android:gravity="center|left"
         android:paddingLeft="66dp"
-        />
+        android:text="Journal"
+        android:textColor="@color/black" />
 </LinearLayout>
