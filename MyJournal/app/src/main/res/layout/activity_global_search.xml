@@ -28,6 +28,7 @@
             app:tabIndicatorHeight="1dp"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/black"
+            android:background="@color/white"
             app:tabTextColor="@color/black">
 
             <com.google.android.material.tabs.TabItem

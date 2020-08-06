@@ -6,9 +6,14 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.Menu
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.StringDef
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.commit
+import com.blankj.utilcode.util.ToastUtils
+import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.module.journal.JournalFragment
@@ -104,9 +109,9 @@ class SearchActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_search_view, menu)
         val searchItem = menu!!.findItem(R.id.toolbar_search_view)
         mSearchView = searchItem.actionView as SearchView
-        mSearchView!!.isSubmitButtonEnabled = true
-        mSearchView!!.setIconifiedByDefault(true)
         mSearchView!!.queryHint = "搜索"
+        //进入进入展开模式
+        mSearchView!!.isIconified = true
         mSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String?): Boolean {
                 return true

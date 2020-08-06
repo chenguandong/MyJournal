@@ -6,7 +6,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.view.View.OnKeyListener
+import android.view.View.*
 import android.widget.EditText
 import com.blankj.utilcode.util.KeyboardUtils
 import com.bumptech.glide.Glide
@@ -57,6 +57,8 @@ class WriteAdapter : BaseMultiItemQuickAdapter<JournalBean, BaseViewHolder> {
                     override fun afterTextChanged(s: Editable) {}
                 })
                 editText.isEnabled = isEditable
+                editText.isFocusable = isEditable
+                editText.visibility = if (!isEditable&&TextUtils.isEmpty(editText.text)) GONE else VISIBLE
                 editText.setSelection(editText.text.length)
                 editText.requestFocus()
                 KeyboardUtils.showSoftInput(context as Activity)

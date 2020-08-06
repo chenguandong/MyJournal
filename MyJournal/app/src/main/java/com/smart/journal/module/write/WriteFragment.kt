@@ -78,8 +78,8 @@ class WriteFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
+            mParam1 = requireArguments().getString(ARG_PARAM1)
+            mParam2 = requireArguments().getString(ARG_PARAM2)
         }
 
         viewModel.getJounalData().observe(this, Observer<List<JournalBean>> { journal ->

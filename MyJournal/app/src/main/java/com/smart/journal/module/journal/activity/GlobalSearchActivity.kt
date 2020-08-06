@@ -80,8 +80,6 @@ class GlobalSearchActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_search_view, menu)
         val searchItem = menu!!.findItem(R.id.toolbar_search_view)
         mSearchView = searchItem.actionView as SearchView
-        mSearchView!!.isSubmitButtonEnabled = true
-        mSearchView!!.setIconifiedByDefault(true)
         mSearchView!!.queryHint = "搜索"
         mSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String?): Boolean {

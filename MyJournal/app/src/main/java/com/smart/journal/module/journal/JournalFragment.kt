@@ -25,6 +25,7 @@ import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 
 
 /**
@@ -86,7 +87,7 @@ class JournalFragment : BaseFragment, SearchEable {
         journalAdapter = JournalAdapter(R.layout.item_journal, arrayListOf())
 
         val groupListener = GroupListener { postion ->
-            journalAdapter!!.data[postion].address
+            Date(journalAdapter!!.data[postion].date).toLocaleString()
         }
         val decoration = StickyDecoration.Builder
                 .init(groupListener) //重置span（使用GridLayoutManager时必须调用）

@@ -69,7 +69,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         val searchView = menu!!.findItem(R.id.toolbar_right_action)
-        searchView.setIcon(android.R.drawable.ic_search_category_default)
+        searchView.setIcon(R.drawable.ic_search)
         return super.onCreateOptionsMenu(menu)
     }
 
