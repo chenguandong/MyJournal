@@ -1,10 +1,10 @@
 package com.smart.journal.module.write.views
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.alibaba.fastjson.JSON
@@ -12,7 +12,6 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
 import com.smart.journal.customview.dialog.BaseBottomSheetDialogFragment
@@ -171,7 +170,6 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         3 -> {
 
 
-
                             //获取日历的一个实例，里面包含了当前的年月日
                             //获取日历的一个实例，里面包含了当前的年月日
                             val calendar = Calendar.getInstance()
@@ -183,15 +181,22 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                             //构建一个日期对话框，该对话框已经集成了日期选择器
                             //DatePickerDialog的第二个构造参数指定了日期监听器
                             val dialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-                                    Logger.d(year)
-                                    Logger.d(month)
-                                    Logger.d(day)
-                                    calendar.set(year,month,day)
-                                     Logger.d(calendar.time.toLocaleString())
+
+                                calendar.set(year, month, day)
                                 writeSetting!!.time = calendar.time.time
-                                itemData[3].subTitle = calendar.time.toLocaleString()
-                                adapter!!.notifyDataSetChanged()
-                                
+
+
+                                val dialog = TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { timePicker, houre, minute ->
+                                    calendar.set(year, month, day, houre, minute)
+                                    writeSetting!!.time = calendar.time.time
+                                    itemData[3].subTitle = calendar.time.toLocaleString()
+                                    adapter!!.notifyDataSetChanged()
+                                },
+                                        calendar[Calendar.HOUR_OF_DAY],
+                                        calendar[Calendar.MINUTE],
+                                        true) //true表示使用二十四小时制
+                                dialog.show()
+
                             },
                                     calendar[Calendar.YEAR],
                                     calendar[Calendar.MONTH],
