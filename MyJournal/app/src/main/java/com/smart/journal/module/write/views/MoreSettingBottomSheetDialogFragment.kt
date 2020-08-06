@@ -1,8 +1,10 @@
 package com.smart.journal.module.write.views
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.alibaba.fastjson.JSON
@@ -10,6 +12,7 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
 import com.smart.journal.customview.dialog.BaseBottomSheetDialogFragment
@@ -28,6 +31,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
+
 
 /**
  *
@@ -97,11 +101,11 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         val default = resources.getString(R.string.m_default)
 
         itemData.apply {
-            add(MoreSettingBean(resources.getString(R.string.location), "", ContextCompat.getDrawable(context!!, R.drawable.ic_ws_location)))
-            add(MoreSettingBean(resources.getString(R.string.tag), default, ContextCompat.getDrawable(context!!, R.drawable.ic_ws_tag)))
-            add(MoreSettingBean(resources.getString(R.string.journal_note), default, ContextCompat.getDrawable(context!!, R.drawable.ic_ws_journal)))
-            add(MoreSettingBean(resources.getString(R.string.date), "", ContextCompat.getDrawable(context!!, R.drawable.ic_ws_date)))
-            add(MoreSettingBean(resources.getString(R.string.m_favourite), resources.getString(R.string.un_favourite), ContextCompat.getDrawable(context!!, R.drawable.ic_ws_favourite)))
+            add(MoreSettingBean(resources.getString(R.string.location), "", ContextCompat.getDrawable(requireContext(), R.drawable.ic_ws_location)))
+            add(MoreSettingBean(resources.getString(R.string.tag), default, ContextCompat.getDrawable(requireContext(), R.drawable.ic_ws_tag)))
+            add(MoreSettingBean(resources.getString(R.string.journal_note), default, ContextCompat.getDrawable(requireContext(), R.drawable.ic_ws_journal)))
+            add(MoreSettingBean(resources.getString(R.string.date), "", ContextCompat.getDrawable(requireContext(), R.drawable.ic_ws_date)))
+            add(MoreSettingBean(resources.getString(R.string.m_favourite), resources.getString(R.string.un_favourite), ContextCompat.getDrawable(requireContext(), R.drawable.ic_ws_favourite)))
         }
 
 
@@ -165,6 +169,36 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //时间
                         3 -> {
+
+
+
+                            //获取日历的一个实例，里面包含了当前的年月日
+                            //获取日历的一个实例，里面包含了当前的年月日
+                            val calendar = Calendar.getInstance()
+                            writeSetting!!.time?.let {
+                                calendar.time = Date(it)
+                            }
+                            //构建一个日期对话框，该对话框已经集成了日期选择器
+                            //DatePickerDialog的第二个构造参数指定了日期监听器
+                            //构建一个日期对话框，该对话框已经集成了日期选择器
+                            //DatePickerDialog的第二个构造参数指定了日期监听器
+                            val dialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+                                    Logger.d(year)
+                                    Logger.d(month)
+                                    Logger.d(day)
+                                    calendar.set(year,month,day)
+                                     Logger.d(calendar.time.toLocaleString())
+                                writeSetting!!.time = calendar.time.time
+                                itemData[3].subTitle = calendar.time.toLocaleString()
+                                adapter!!.notifyDataSetChanged()
+                                
+                            },
+                                    calendar[Calendar.YEAR],
+                                    calendar[Calendar.MONTH],
+                                    calendar[Calendar.DAY_OF_MONTH])
+                            //把日期对话框显示在界面上
+                            //把日期对话框显示在界面上
+                            dialog.show()
                         }
                         //收藏
                         4 -> {
