@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.WindowManager
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
@@ -28,6 +29,9 @@ import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.wingsofts.dragphotoview.DragPhotoView
 import kotlinx.android.synthetic.main.act_photo.*
+import kotlinx.android.synthetic.main.activity_global_search.*
+import kotlinx.android.synthetic.main.item_journal.*
+import uk.co.senab.photoview.PhotoView
 import java.util.*
 
 
@@ -68,7 +72,6 @@ class PhotoViewPagerActivity : BaseActivity() {
             }
         })
 
-
     }
 
     override fun initView() {
@@ -90,16 +93,14 @@ class PhotoViewPagerActivity : BaseActivity() {
         @SuppressLint("ResourceType")
         override fun instantiateItem(container: ViewGroup, position: Int): View {
 
-
-            val photoView = DragPhotoView(container.context)
+            val photoView = PhotoView(container.context)
 
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
-            photoView.setOnExitListener { dragPhotoView, v, v1, v2, v3 -> finish() }
-            photoView.setOnTapListener { dragPhotoView -> finish() }
+            photoView.setBackgroundColor(ContextCompat.getColor(container.context, android.R.color.black))
 
-            photoView.setBackgroundColor(ContextCompat.getColor(container.context, android.R.color.transparent))
+            photoView.setOnClickListener { finish() }
 
             Glide.with(container.context).load(photoUrl!![position]).into(photoView)
 
@@ -115,7 +116,7 @@ class PhotoViewPagerActivity : BaseActivity() {
         }
 
         override fun getItemPosition(`object`: Any): Int {
-            return androidx.viewpager.widget.PagerAdapter.POSITION_NONE
+            return POSITION_NONE
         }
 
     }

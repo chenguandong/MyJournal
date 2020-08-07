@@ -14,5 +14,6 @@ public class PhotoViewTools {
         intent.putExtra(PhotoViewPagerActivity.Companion.getURLS(), photosUrl); //图片数组
         intent.putExtra(PhotoViewPagerActivity.Companion.getURLS_CHOOSE_INDEX(), currentIndex); //当前选中第几个图片
         context.startActivity(intent);
+
     }
 }

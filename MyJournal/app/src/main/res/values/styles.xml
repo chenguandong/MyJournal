@@ -45,7 +45,7 @@
 
     <style name="StartAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@mipmap/journal_bg</item>
+       <!-- <item name="android:windowBackground">@mipmap/journal_bg</item>-->
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="windowActionBar">false</item>
