@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/write"
+    android:fitsSystemWindows="true">
+    <!-- app:behavior_hideable="true"
+     app:behavior_peekHeight="100dp"
+     app:layout_behavior="@string/bottom_sheet_behavior"
+     android:background="@color/dracula_album_popup_bg"-->
+    <fragment
+        android:id="@+id/journalFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.smart.journal.module.journal.JournalFragment"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

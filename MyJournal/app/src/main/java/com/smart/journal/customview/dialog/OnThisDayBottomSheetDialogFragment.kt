@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smart.journal.R
+import com.smart.journal.module.journal.JournalFragment
 import com.smart.journal.tools.DividerItemDecorationTools
 import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
 
@@ -22,11 +23,11 @@ import kotlinx.android.synthetic.main.view_dialog_preview_bottom_sheet.*
  * @author guandongchen
  * @date 2020/3/9
  */
-open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
+open class OnThisDayBottomSheetDialogFragment : BottomSheetDialogFragment() {
     protected var behavior: BottomSheetBehavior<*>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.view_dialog_preview_bottom_sheet, container, false)
+        return inflater.inflate(R.layout.fragment_on_this_day_dialog_bottom_sheet, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,8 +38,6 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.addItemDecoration(DividerItemDecorationTools.getItemDecoration(context))
 
     }
 
@@ -50,7 +49,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val bottomSheet = dialog.delegate.findViewById<FrameLayout>(R.id.design_bottom_sheet)
         if (bottomSheet != null) {
             val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
-            layoutParams.height = ScreenUtils.getScreenHeight()
+            layoutParams.height = ScreenUtils.getScreenHeight()-200
             behavior = BottomSheetBehavior.from(bottomSheet)
             setOpenState()
         }
@@ -63,9 +62,5 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    fun doclick(v: View) {
-        //点击任意布局关闭
-        behavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-    }
 
 }

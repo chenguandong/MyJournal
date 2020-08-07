@@ -27,6 +27,7 @@ class SlideMenuAdapter : BaseMultiItemQuickAdapter<SlideMenuBean, BaseViewHolder
             //日记本Item
             ItemMenuType.MENU_NOTE_BOOK -> {
                 helper.setText(R.id.noteBookNameTextView, item!!.noteBook!!.name)
+                item.noteBook!!.color?.let { helper.setTextColor(R.id.noteBookNameTextView, it) }
             }
             //添加按钮
             ItemMenuType.MENU_NOTE_BOOK_ADD -> {

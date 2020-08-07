@@ -36,6 +36,7 @@ class CreateNoteBookActivity : BaseActivity() {
                     .initialColors(intArrayOf(R.color.logo_red,R.color.logo_yellow,R.color.logo_blue,R.color.logo_green))
                     .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                     .density(12)
+                    .lightnessSliderOnly()
                     .setOnColorSelectedListener {
 
                     }

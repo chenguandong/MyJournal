@@ -1,5 +1,6 @@
 package com.smart.journal.module.menu
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
@@ -7,14 +8,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
 import com.smart.journal.base.BaseFragment
+import com.smart.journal.customview.dialog.OnThisDayBottomSheetDialogFragment
 import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
@@ -24,17 +25,13 @@ import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
 class SlideMenuFragment : BaseFragment() {
-    // TODO: Rename and change types of parameters
     var param1: String? = null
     var param2: String? = null
 
@@ -43,6 +40,8 @@ class SlideMenuFragment : BaseFragment() {
 
     var menusList: ArrayList<SlideMenuBean>? = ArrayList()
     var menuAdapter: SlideMenuAdapter? = null
+
+    var onThisDayFragment:OnThisDayBottomSheetDialogFragment? = null
 
     private var headerView: SlideMenuHeaderView? = null
 
@@ -72,8 +71,7 @@ class SlideMenuFragment : BaseFragment() {
     }
 
 
-
-     override fun initView() {
+    override fun initView() {
         headerView = SlideMenuHeaderView(context = context, delegate = object : SlideMenuHeaderView.SlideMenuHeaderViewDelegate {
             override fun onTagItemClick() {
                 SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.TAG_SEARCH)
@@ -87,29 +85,19 @@ class SlideMenuFragment : BaseFragment() {
             }
 
             override fun onThisDayItemClick() {
+               /* onThisDayFragment =  null
+                if (onThisDayFragment==null){
+                    onThisDayFragment = OnThisDayBottomSheetDialogFragment()
+                }
+                onThisDayFragment!!.show(activity!!.supportFragmentManager, "$Random(10).nextInt()")*/
             }
 
         })
-    }
 
-     override fun initData() {
-        var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
-        if (allDbNoteList.isEmpty()) {
-            MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean("默认"))
-        }
-        allDbNoteList = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
-        menusList!!.clear()
-        allDbNoteList.forEach {
-            menusList!!.add(SlideMenuBean(it, ItemMenuType.MENU_NOTE_BOOK))
-        }
-        menusList!!.add(SlideMenuBean(NoteBookDBBean(""), ItemMenuType.MENU_NOTE_BOOK_ADD))
         menuAdapter = SlideMenuAdapter(menusList!!)
-
-
         menuRecyclerView.layoutManager = LinearLayoutManager(context)
         headerView?.let { menuAdapter!!.addHeaderView(it) }
         menuRecyclerView.adapter = menuAdapter
-        menuAdapter!!.notifyDataSetChanged()
 
         menuAdapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
@@ -120,6 +108,20 @@ class SlideMenuFragment : BaseFragment() {
             }
 
         })
+    }
+
+    override fun initData() {
+        var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
+        if (allDbNoteList.isEmpty()) {
+            MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean("默认"))
+        }
+        allDbNoteList = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
+        menusList!!.clear()
+        allDbNoteList.forEach {
+            menusList!!.add(SlideMenuBean(it, ItemMenuType.MENU_NOTE_BOOK))
+        }
+        menusList!!.add(SlideMenuBean(NoteBookDBBean(""), ItemMenuType.MENU_NOTE_BOOK_ADD))
+        menuAdapter!!.notifyDataSetChanged()
 
     }
 
@@ -135,11 +137,10 @@ class SlideMenuFragment : BaseFragment() {
 
     override fun onMessageEvent(event: MessageEvent?) {
         super.onMessageEvent(event)
-        if (event!!.tag == MessageEvent.NOTE_CHANGE){
+        if (event!!.tag == MessageEvent.NOTE_CHANGE) {
             headerView!!.refresh()
         }
     }
-
 
 
     interface OnFragmentInteractionListener {
