@@ -27,11 +27,20 @@ class NoteBookDBBean constructor() : Serializable {
     @ColumnInfo(name = "create_time")
     var createTime: Long? = null
 
+    @ColumnInfo(name = "color")
+    var color:Int? = null
+
+    @Ignore
+    constructor(name: String?,color:Int?) : this() {
+        this.name = name
+        this.color = color
+        this.createTime = System.currentTimeMillis()
+    }
+
     @Ignore
     constructor(name: String?) : this() {
         this.name = name
         this.createTime = System.currentTimeMillis()
     }
-
 
 }

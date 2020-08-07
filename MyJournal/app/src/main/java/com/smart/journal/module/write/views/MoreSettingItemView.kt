@@ -36,8 +36,8 @@ class MoreSettingItemView : LinearLayout {
     private fun refreshColor() {
 
         when (itemBean!!.subTitle) {
-            resources.getString(R.string.favourite) -> DrawableCompat.setTint(logoImageView.drawable, ContextCompat.getColor(context, R.color.default_red))//logoImageView.setColorFilter(R.color.default_red, PorterDuff.Mode.SRC_ATOP)
-            resources.getString(R.string.un_favourite) -> logoImageView.setColorFilter(ContextCompat.getColor(context, R.color.default_yellow), PorterDuff.Mode.SRC_ATOP)
+            resources.getString(R.string.favourite) -> DrawableCompat.setTint(logoImageView.drawable, ContextCompat.getColor(context, R.color.logo_red))//logoImageView.setColorFilter(R.color.default_red, PorterDuff.Mode.SRC_ATOP)
+            resources.getString(R.string.un_favourite) -> logoImageView.setColorFilter(ContextCompat.getColor(context, R.color.logo_yellow), PorterDuff.Mode.SRC_ATOP)
         }
     }
 

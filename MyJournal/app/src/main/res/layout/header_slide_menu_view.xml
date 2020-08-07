@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -14,6 +15,7 @@
         android:gravity="center|left"
         android:paddingLeft="16dp"
         android:text="@string/tag"
+        android:textStyle="bold"
         android:textColor="@color/black" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -26,6 +28,7 @@
         android:gravity="center|left"
         android:paddingLeft="16dp"
         android:text="@string/location"
+        android:textStyle="bold"
         android:textColor="@color/black" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -38,19 +41,41 @@
         android:gravity="center|left"
         android:paddingLeft="16dp"
         android:text="@string/m_favourite"
+        android:textStyle="bold"
         android:textColor="@color/black" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/onThisDayTextView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/list_selector_ex"
-        android:drawableStart="@drawable/ic_on_this_day"
-        android:drawablePadding="30dp"
-        android:gravity="center|left"
-        android:paddingLeft="16dp"
-        android:text="@string/on_this_day"
-        android:textColor="@color/black" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/onThisDayTextView"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/list_selector_ex"
+            android:drawableStart="@drawable/ic_on_this_day"
+            android:drawablePadding="30dp"
+            android:gravity="center|left"
+            android:paddingLeft="16dp"
+            android:text="@string/on_this_day"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/numTextView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:textColor="@color/white"
+                tools:text="10"
+                android:gravity="center"
+                android:background="@drawable/dian_bg"
+                android:padding="2dp"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginRight="16dp"
+                />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

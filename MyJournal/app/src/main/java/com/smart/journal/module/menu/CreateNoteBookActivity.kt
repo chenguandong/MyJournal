@@ -6,15 +6,21 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.db.entity.NoteBookDBBean
 import kotlinx.android.synthetic.main.activity_create_note_book.*
+import java.lang.reflect.Array
+import java.util.*
+
 
 class CreateNoteBookActivity : BaseActivity() {
-
+    var color = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_note_book)
@@ -22,7 +28,25 @@ class CreateNoteBookActivity : BaseActivity() {
     }
 
     override fun initView() {
-        initSimpleToolbar("创建新的日记本")
+        initSimpleToolbar(resources.getString(R.string.create_new_journal_book))
+        colorTextView.setOnClickListener {
+            ColorPickerDialogBuilder
+                    .with(context)
+                    .setTitle(R.string.choose_color)
+                    .initialColors(intArrayOf(R.color.logo_red,R.color.logo_yellow,R.color.logo_blue,R.color.logo_green))
+                    .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                    .density(12)
+                    .setOnColorSelectedListener {
+
+                    }
+                    .setPositiveButton(R.string.ok) { dialog, selectedColor, allColors ->
+                        this.color = selectedColor
+                        toolbar.setBackgroundColor(selectedColor)
+                    }
+                    .setNegativeButton(R.string.album_cancel) { dialog, which -> }
+                    .build()
+                    .show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,7 +69,7 @@ class CreateNoteBookActivity : BaseActivity() {
                         ToastUtils.showShort("已存在名称日记本")
                         return false
                     } else {
-                        MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean(editInputEditText.text.toString()))
+                        MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean(editInputEditText.text.toString(),color))
                     }
                 }
 

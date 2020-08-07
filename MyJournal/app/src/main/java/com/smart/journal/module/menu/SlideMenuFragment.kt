@@ -11,15 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.app.MyApp
+import com.smart.journal.base.BaseFragment
 import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
 import com.smart.journal.module.menu.view.SlideMenuHeaderView
 import com.smart.journal.module.tags.activity.SearchActivity
+import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_slide_menu.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +33,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class SlideMenuFragment : Fragment() {
+class SlideMenuFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     var param1: String? = null
     var param2: String? = null
@@ -42,6 +48,7 @@ class SlideMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -54,14 +61,19 @@ class SlideMenuFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_slide_menu, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        initData()
+    override fun getData() {
 
     }
 
-    private fun initView() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+
+    }
+
+
+
+     override fun initView() {
         headerView = SlideMenuHeaderView(context = context, delegate = object : SlideMenuHeaderView.SlideMenuHeaderViewDelegate {
             override fun onTagItemClick() {
                 SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.TAG_SEARCH)
@@ -80,7 +92,7 @@ class SlideMenuFragment : Fragment() {
         })
     }
 
-    private fun initData() {
+     override fun initData() {
         var allDbNoteList: List<NoteBookDBBean> = MyApp.database!!.mNoteBookDao().allNoteBook() as List<NoteBookDBBean>
         if (allDbNoteList.isEmpty()) {
             MyApp.database!!.mNoteBookDao().saveNoteBook(NoteBookDBBean("默认"))
@@ -120,9 +132,14 @@ class SlideMenuFragment : Fragment() {
             initData()
         }
     }
-    /* fun onButtonPressed(uri: Uri) {
-         listener?.onFragmentInteraction(uri)
-     }*/
+
+    override fun onMessageEvent(event: MessageEvent?) {
+        super.onMessageEvent(event)
+        if (event!!.tag == MessageEvent.NOTE_CHANGE){
+            headerView!!.refresh()
+        }
+    }
+
 
 
     interface OnFragmentInteractionListener {
@@ -148,5 +165,10 @@ class SlideMenuFragment : Fragment() {
                         putString(ARG_PARAM2, param2)
                     }
                 }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

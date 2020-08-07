@@ -24,4 +24,7 @@
     <string name="on_this_day">那年今日</string>
     <string name="add">添加_</string>
     <string name="journal">日记</string>
+    <string name="color">颜色</string>
+    <string name="choose_color">选择颜色</string>
+    <string name="create_new_journal_book">创建新的日记本</string>
 </resources>
