@@ -85,11 +85,11 @@ class SlideMenuFragment : BaseFragment() {
             }
 
             override fun onThisDayItemClick() {
-               /* onThisDayFragment =  null
+                onThisDayFragment =  null
                 if (onThisDayFragment==null){
                     onThisDayFragment = OnThisDayBottomSheetDialogFragment()
                 }
-                onThisDayFragment!!.show(activity!!.supportFragmentManager, "$Random(10).nextInt()")*/
+                onThisDayFragment!!.show(activity!!.supportFragmentManager, "$Random(10).nextInt()")
             }
 
         })

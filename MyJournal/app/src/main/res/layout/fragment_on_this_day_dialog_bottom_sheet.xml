@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/write"
+    android:background="@android:color/transparent"
     android:fitsSystemWindows="true">
     <!-- app:behavior_hideable="true"
      app:behavior_peekHeight="100dp"
      app:layout_behavior="@string/bottom_sheet_behavior"
      android:background="@color/dracula_album_popup_bg"-->
-    <fragment
-        android:id="@+id/journalFragment"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.smart.journal.module.journal.JournalFragment"
-        />
+        app:cardCornerRadius="@dimen/sp_18"
+        android:background="@color/logo_red"
+        >
+        <FrameLayout
+            android:layout_marginTop="16dp"
+            android:id="@+id/journalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </androidx.cardview.widget.CardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
