@@ -136,7 +136,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                         }
                         //标签
                         1 -> {
-                            SearchActivity.startActivity(requireContext(),SearchActivity.TagActivityType.TAG_SEARCH)
+                            SearchActivity.startActivity(requireContext(),"")
                         }
                         /* 日记本 */
                         2 -> {

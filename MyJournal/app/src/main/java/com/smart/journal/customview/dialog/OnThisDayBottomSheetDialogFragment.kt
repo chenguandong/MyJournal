@@ -3,6 +3,7 @@ package com.smart.journal.customview.dialog
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smart.journal.R
 import com.smart.journal.module.journal.JournalFragment
+import com.smart.journal.module.journal.SearchEableType
+import kotlinx.android.synthetic.main.act_search_adress.*
 
 /**
  *
@@ -23,6 +26,8 @@ import com.smart.journal.module.journal.JournalFragment
  */
 open class OnThisDayBottomSheetDialogFragment : BottomSheetDialogFragment() {
     protected var behavior: BottomSheetBehavior<*>? = null
+
+    private var journalFragment:JournalFragment? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_on_this_day_dialog_bottom_sheet, container, false)
@@ -36,7 +41,11 @@ open class OnThisDayBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        childFragmentManager.beginTransaction().replace(R.id.journalLayout,JournalFragment.newInstance("","")).commit()
+        journalFragment =JournalFragment.newInstance("","")
+        childFragmentManager.beginTransaction().replace(R.id.journalLayout, journalFragment!!).commit()
+        Handler().postDelayed({
+            journalFragment!!.doSerarch("", SearchEableType.ON_THIS_DAY)
+        },100)
     }
 
     override fun onStart() {

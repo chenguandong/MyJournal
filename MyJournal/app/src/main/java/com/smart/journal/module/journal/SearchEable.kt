@@ -26,5 +26,6 @@ annotation class SearchEableType {
         const val TAG = "tag"
         const val LOCATION = "location"
         const val FAVOURITE = "favourite"
+        const val ON_THIS_DAY = "onThisDay"
     }
 }

@@ -86,12 +86,18 @@ android {
 }
 
 dependencies {
+    def paging_version = "2.1.2"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.2'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+
+    // alternatively - without Android dependencies for testing
+    testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+
+    implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -100,24 +106,24 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //3D地图
     //implementation 'com.amap.api:3dmap:latest.integration'
     //2D地图
     implementation 'com.amap.api:map2d:6.0.0'
     //搜索
-    implementation 'com.amap.api:search:7.1.0'
+    implementation 'com.amap.api:search:7.4.0'
     //定位
-    implementation 'com.amap.api:location:4.8.0'
+    implementation 'com.amap.api:location:5.1.0'
     //导航
     //implementation 'com.amap.api:navi-3dmap:latest.integration'
 
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.alibaba:fastjson:1.1.71.android'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.3.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.alibaba:fastjson:1.2.73'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.8.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
     implementation 'com.blankj:utilcode:1.22.2'
 
@@ -133,7 +139,7 @@ dependencies {
 
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'top.zibin:Luban:1.1.3'
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
@@ -153,10 +159,10 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
     // Room (use 1.1.0-beta1 for latest beta)
-    annotationProcessor 'androidx.room:room-compiler:2.2.3'
-    implementation 'androidx.room:room-ktx:2.2.3'
-    implementation 'androidx.room:room-runtime:2.2.3'
-    kapt 'androidx.room:room-compiler:2.2.3'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+    implementation 'androidx.room:room-ktx:2.2.5'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 
     // Test helpers for LiveData
@@ -173,7 +179,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     //implementation 'com.zhy.base:fileprovider:1.0.0'
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.yanzhenjie:album:2.1.3'
 
     implementation 'com.yalantis:phoenix:1.2.3'

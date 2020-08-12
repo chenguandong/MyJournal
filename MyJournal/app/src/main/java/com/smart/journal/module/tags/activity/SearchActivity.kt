@@ -92,6 +92,7 @@ class SearchActivity : BaseActivity() {
                     }
                 }
                 else -> {
+                    initSimpleToolbar(resources.getString(R.string.tag))
                     tagFragment = TagFragment.newInstance()
                     supportFragmentManager.commit {
                         replace(R.id.container, tagFragment!!)

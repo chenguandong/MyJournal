@@ -1,6 +1,7 @@
 package com.smart.journal.app
 
 import android.content.Context
+import android.os.Build
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
@@ -12,6 +13,10 @@ import com.smart.journal.BuildConfig
 import com.smart.journal.db.AppDatabase
 import com.smart.journal.tools.location.LocationTools
 import com.tencent.bugly.Bugly
+import java.lang.reflect.Constructor
+import java.lang.reflect.Field
+import java.lang.reflect.Method
+
 
 /**
  * @author guandongchen
@@ -66,4 +71,27 @@ class MyApp : MultiDexApplication() {
         const val UPDATE_APP_ID = BuildConfig.APPLICATION_ID + ".fileProvider"
 
     }
+
+    private fun closeAndroidPDialog() {
+        if (Build.VERSION.SDK_INT < 28) return
+        try {
+            val aClass = Class.forName("android.content.pm.PackageParser\$Package")
+            val declaredConstructor = aClass.getDeclaredConstructor(String::class.java)
+            declaredConstructor.setAccessible(true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            val cls = Class.forName("android.app.ActivityThread")
+            val declaredMethod: Method = cls.getDeclaredMethod("currentActivityThread")
+            declaredMethod.setAccessible(true)
+            val activityThread: Any = declaredMethod.invoke(null)
+            val mHiddenApiWarningShown: Field = cls.getDeclaredField("mHiddenApiWarningShown")
+            mHiddenApiWarningShown.setAccessible(true)
+            mHiddenApiWarningShown.setBoolean(activityThread, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }

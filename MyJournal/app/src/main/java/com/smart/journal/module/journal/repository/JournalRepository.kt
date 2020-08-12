@@ -10,7 +10,7 @@ import com.smart.journal.db.entity.JournalBeanDBBean
 
 interface JournalRepository {
 
-    fun getJournalBeans(): LiveData<List<JournalBeanDBBean>>
+     fun getJournalBeans(): LiveData<List<JournalBeanDBBean>>
 
     fun deleteJournal(journalBeanDBBean: JournalBeanDBBean)
 

@@ -2,6 +2,7 @@ package com.smart.journal.module.journal
 
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.smart.journal.module.journal.viewmodel.JournalViewModel
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
+import org.apache.commons.collections4.CollectionUtils
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
@@ -200,7 +202,7 @@ class JournalFragment : BaseFragment, SearchEable {
         }
     }
 
-    override fun doSerarch(serarchKey: String, searchType: String) {
+    override fun doSerarch(serarchKey: String,@SearchEableType searchType: String) {
         when (searchType) {
             SearchEableType.ALL -> {
                 journalViewModel!!.searchJournalByKeyWord(serarchKey).observe(viewLifecycleOwner, Observer {
@@ -228,6 +230,16 @@ class JournalFragment : BaseFragment, SearchEable {
                 journalViewModel!!.searchJournalByLocationName(serarchKey).observe(viewLifecycleOwner, Observer {
                     it?.let { datas ->
                         journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
+                    }
+                })
+            }
+            SearchEableType.ON_THIS_DAY -> {
+                journalViewModel!!.searchJournalByKeyWord(serarchKey).observe(viewLifecycleOwner, Observer { it ->
+                    it?.let { datas ->
+
+                        journalAdapter!!.setNewData(CollectionUtils.select(datas) { it ->
+                            DateUtils.isToday(it.date)
+                        } as MutableList<JournalBeanDBBean>?)
                     }
                 })
             }
