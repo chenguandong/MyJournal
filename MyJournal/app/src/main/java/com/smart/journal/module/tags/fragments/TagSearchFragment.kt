@@ -3,12 +3,15 @@ package com.smart.journal.module.tags.fragments
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.smart.journal.module.journal.SearchEable
+import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.module.tags.bean.TagsDbBean
 
-class TagSearchFragment : TagFragment {
+class TagSearchFragment : TagFragment , SearchEable {
 
     interface TagSearchFragmentDelegate {
         fun onItemClickListener(tagsDbBean: TagsDbBean)
+        fun onNoKeyWordSearch()
     }
 
     var delegate: TagSearchFragmentDelegate? = null
@@ -33,17 +36,21 @@ class TagSearchFragment : TagFragment {
     }
 
 
-    override fun searchText(keyWord: String) {
-        if (keyWord.isNullOrBlank()) {
-            viewModel.loadUsers()
-        } else {
-            viewModel.queryTagByNameNoAdd(keyWord)
-        }
-    }
 
     companion object {
         fun newInstance(param: TagSearchFragmentDelegate): TagSearchFragment {
             return TagSearchFragment(param)
+        }
+    }
+
+    override fun doSerarch(serarchKey: String, searchType: String) {
+        if (serarchKey.isNullOrBlank()) {
+            //viewModel.loadAllTags()
+            delegate?.let {
+                it.onNoKeyWordSearch()
+            }
+        } else {
+            viewModel.queryTagByNameNoAdd(serarchKey)
         }
     }
 

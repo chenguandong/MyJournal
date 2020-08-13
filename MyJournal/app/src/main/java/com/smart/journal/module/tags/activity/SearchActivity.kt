@@ -17,6 +17,8 @@ import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.module.journal.JournalFragment
+import com.smart.journal.module.journal.SearchEable
+import com.smart.journal.module.journal.SearchEableType
 import com.smart.journal.module.menu.fragment.LocationSearchFragment
 import com.smart.journal.module.menu.fragment.LocationSearchFragment.LocationSearchFragmentDelegate
 import com.smart.journal.module.tags.activity.SearchActivity.TagActivityType.Companion.LOCATION_SEARCH
@@ -24,6 +26,7 @@ import com.smart.journal.module.tags.activity.SearchActivity.TagActivityType.Com
 import com.smart.journal.module.tags.bean.TagsDbBean
 import com.smart.journal.module.tags.fragments.TagFragment
 import com.smart.journal.module.tags.fragments.TagSearchFragment
+import com.smart.journal.module.tags.fragments.TagSearchWapperFragment
 
 class SearchActivity : BaseActivity() {
     @Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
@@ -38,7 +41,7 @@ class SearchActivity : BaseActivity() {
 
     var mSearchView: SearchView? = null
 
-    var tagSearchFragment: TagSearchFragment? = null
+    var tagSearchFragment: TagSearchWapperFragment? = null
 
     var tagFragment: TagFragment? = null
 
@@ -59,7 +62,7 @@ class SearchActivity : BaseActivity() {
             when (intent.getSerializableExtra(ACTIVITY_TYPE)) {
                 TAG_SEARCH -> {
                     initSimpleToolbar(resources.getString(R.string.tag))
-                    tagSearchFragment = TagSearchFragment.newInstance(object : TagSearchFragment.TagSearchFragmentDelegate {
+                   /* tagSearchFragment = TagSearchFragment.newInstance(object : TagSearchFragment.TagSearchFragmentDelegate {
                         override fun onItemClickListener(tagsDbBean: TagsDbBean) {
                             tagsDbBean.name?.let {
                                 supportFragmentManager.commit {
@@ -70,7 +73,15 @@ class SearchActivity : BaseActivity() {
 
                         }
 
-                    })
+                        override fun onNoKeyWordSearch() {
+                            supportFragmentManager.commit {
+                                replace(R.id.container, tagSearchFragment!!)
+                            }
+
+                        }
+
+                    })*/
+                    tagSearchFragment = TagSearchWapperFragment()
                     supportFragmentManager.commit {
                         replace(R.id.container, tagSearchFragment!!)
                     }
@@ -123,7 +134,7 @@ class SearchActivity : BaseActivity() {
                 when (intent.getSerializableExtra(ACTIVITY_TYPE)) {
                     TAG_SEARCH -> {
                         tagSearchFragment?.let {
-                            it.searchText(s!!)
+                            it.doSerarch(s!!, SearchEableType.TAG)
                         }
                     }
                     LOCATION_SEARCH -> {

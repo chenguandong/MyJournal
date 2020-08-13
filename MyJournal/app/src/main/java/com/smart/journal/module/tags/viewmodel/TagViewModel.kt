@@ -18,7 +18,7 @@ class TagViewModel(application: Application) : AndroidViewModel(application) {
 
 
     init {
-        loadUsers()
+        loadAllTags()
     }
 
     fun getTags(): LiveData<List<TagsDbBean>> {
@@ -28,7 +28,7 @@ class TagViewModel(application: Application) : AndroidViewModel(application) {
     fun inertTag(tagsDbBean: TagsDbBean) {
         viewModelScope.launch {
             tagsRepository.insertOrUpdateTag(tagsDbBean)
-            loadUsers()
+            loadAllTags()
         }
 
     }
@@ -52,7 +52,7 @@ class TagViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun loadUsers() {
+    fun loadAllTags() {
         viewModelScope.launch {
             val data: List<TagsDbBean> = tagsRepository.getAllTags() // loadUser is a suspend function.
             tags.value = data

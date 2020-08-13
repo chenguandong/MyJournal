@@ -22,6 +22,7 @@ import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.adapter.JournalAdapter
 import com.smart.journal.module.journal.manager.JournalManager
 import com.smart.journal.module.journal.viewmodel.JournalViewModel
+import com.smart.journal.module.tags.activity.SearchActivity
 import com.smart.journal.tools.KeyStoreTools
 import com.smart.journal.tools.eventbus.MessageEvent
 import kotlinx.android.synthetic.main.fragment_journal.*
@@ -38,7 +39,7 @@ import java.util.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class JournalFragment : BaseFragment, SearchEable {
+ open class JournalFragment : BaseFragment, SearchEable  {
 
     private var isLoaded: Boolean? = false
     override fun getData() {

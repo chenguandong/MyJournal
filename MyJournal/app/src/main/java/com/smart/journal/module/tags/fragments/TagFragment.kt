@@ -51,7 +51,7 @@ open class TagFragment : BaseFragment() {
      */
     open fun searchText(keyWord: String) {
         if (keyWord.isNullOrBlank()) {
-            viewModel.loadUsers()
+            viewModel.loadAllTags()
         } else {
             viewModel.queryTagByName(keyWord)
         }
