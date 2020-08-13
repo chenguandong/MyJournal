@@ -17,6 +17,7 @@ import com.smart.journal.app.MyApp
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.customview.dialog.OnThisDayBottomSheetDialogFragment
 import com.smart.journal.db.entity.NoteBookDBBean
+import com.smart.journal.module.journal.SearchEableType
 import com.smart.journal.module.menu.adapter.SlideMenuAdapter
 import com.smart.journal.module.menu.bean.SlideMenuBean
 import com.smart.journal.module.menu.enums.ItemMenuType
@@ -74,11 +75,11 @@ class SlideMenuFragment : BaseFragment() {
     override fun initView() {
         headerView = SlideMenuHeaderView(context = context, delegate = object : SlideMenuHeaderView.SlideMenuHeaderViewDelegate {
             override fun onTagItemClick() {
-                SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.TAG_SEARCH)
+                SearchActivity.startActivity(context!!, SearchEableType.TAG)
             }
 
             override fun onLocationItemClick() {
-                SearchActivity.startActivity(context!!, SearchActivity.TagActivityType.LOCATION_SEARCH)
+                SearchActivity.startActivity(context!!, SearchEableType.LOCATION)
             }
 
             override fun onFavouriteItemClick() {

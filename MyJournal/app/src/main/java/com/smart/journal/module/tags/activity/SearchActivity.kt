@@ -21,23 +21,21 @@ import com.smart.journal.module.journal.SearchEable
 import com.smart.journal.module.journal.SearchEableType
 import com.smart.journal.module.menu.fragment.LocationSearchFragment
 import com.smart.journal.module.menu.fragment.LocationSearchFragment.LocationSearchFragmentDelegate
-import com.smart.journal.module.tags.activity.SearchActivity.TagActivityType.Companion.LOCATION_SEARCH
-import com.smart.journal.module.tags.activity.SearchActivity.TagActivityType.Companion.TAG_SEARCH
 import com.smart.journal.module.tags.bean.TagsDbBean
 import com.smart.journal.module.tags.fragments.TagFragment
 import com.smart.journal.module.tags.fragments.TagSearchFragment
 import com.smart.journal.module.tags.fragments.TagSearchWapperFragment
 
 class SearchActivity : BaseActivity() {
-    @Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
+   /* @Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     @StringDef(TAG_SEARCH, LOCATION_SEARCH)
     annotation class TagActivityType {
         companion object {
-            const val TAG_SEARCH = "tag_search"
-            const val LOCATION_SEARCH = "location_search"
+            *//*const val TAG_SEARCH = "tag_search"
+            const val LOCATION_SEARCH = "location_search"*//*
         }
-    }
+    }*/
 
     var mSearchView: SearchView? = null
 
@@ -60,33 +58,14 @@ class SearchActivity : BaseActivity() {
         if (savedInstanceState == null) {
 
             when (intent.getSerializableExtra(ACTIVITY_TYPE)) {
-                TAG_SEARCH -> {
+                SearchEableType.TAG -> {
                     initSimpleToolbar(resources.getString(R.string.tag))
-                   /* tagSearchFragment = TagSearchFragment.newInstance(object : TagSearchFragment.TagSearchFragmentDelegate {
-                        override fun onItemClickListener(tagsDbBean: TagsDbBean) {
-                            tagsDbBean.name?.let {
-                                supportFragmentManager.commit {
-                                    replace(R.id.container, JournalFragment.newInstance(JournalFragment.FRAGMENT_TYPE_SEARCH_TAG, it))
-                                    setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                                }
-                            }
-
-                        }
-
-                        override fun onNoKeyWordSearch() {
-                            supportFragmentManager.commit {
-                                replace(R.id.container, tagSearchFragment!!)
-                            }
-
-                        }
-
-                    })*/
                     tagSearchFragment = TagSearchWapperFragment()
                     supportFragmentManager.commit {
                         replace(R.id.container, tagSearchFragment!!)
                     }
                 }
-                LOCATION_SEARCH -> {
+                SearchEableType.LOCATION -> {
                     initSimpleToolbar(resources.getString(R.string.location))
                     locationSearchFragment = LocationSearchFragment.newInstance("", "")
                     locationSearchFragment!!.delegate = object : LocationSearchFragmentDelegate {
@@ -132,12 +111,12 @@ class SearchActivity : BaseActivity() {
             override fun onQueryTextChange(s: String?): Boolean {
 
                 when (intent.getSerializableExtra(ACTIVITY_TYPE)) {
-                    TAG_SEARCH -> {
+                    SearchEableType.TAG -> {
                         tagSearchFragment?.let {
                             it.doSerarch(s!!, SearchEableType.TAG)
                         }
                     }
-                    LOCATION_SEARCH -> {
+                    SearchEableType.LOCATION -> {
                         locationSearchFragment?.let {
                             it.searchText(s!!)
                         }
@@ -159,7 +138,7 @@ class SearchActivity : BaseActivity() {
         const val ACTIVITY_TYPE = "activity_type"
 
         @JvmStatic
-        fun startActivity(context: Context, @TagActivityType tagAction: String) {
+        fun startActivity(context: Context, @SearchEableType tagAction: String) {
             context.startActivity(
                     Intent(context, SearchActivity::class.java).putExtra(ACTIVITY_TYPE, tagAction)
             )
