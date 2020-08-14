@@ -44,8 +44,11 @@ abstract class JournalDao {
     @Query("SELECT * FROM journal where address like '%'|| :locationName ||'%'  ORDER BY date DESC")
     abstract fun searchJournalByTagLocationName(locationName: String): LiveData<List<JournalBeanDBBean>>
 
-    @Query("SELECT * FROM journal where content like '%'|| :keyWord ||'%'OR address like '%'|| :keyWord ||'%' OR tags like '%'|| :keyWord ||'%' AND favourite = 1 ORDER BY date DESC")
+    @Query("SELECT * FROM journal where content  like '%'|| :keyWord ||'%'OR address like '%'|| :keyWord ||'%' OR tags like '%'|| :keyWord ||'%'  AND favourite = 1 ORDER BY date DESC")
     abstract fun searchJournalFromFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>>
+
+    @Query("SELECT * FROM journal where favourite = 1 ORDER BY date DESC")
+    abstract fun searchJournalFavourite(): LiveData<List<JournalBeanDBBean>>
 
 
     @Delete

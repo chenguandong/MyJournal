@@ -54,7 +54,7 @@ class JournalViewModel : ViewModel() {
     }
 
     fun searchJournalByFavourite(tagName: String): LiveData<List<JournalBeanDBBean>> {
-        return journalRepository.searchJournalByTag(tagName)
+        return journalRepository.searchJournalByFavourite(tagName)
     }
 
     fun searchJournalByLocationName(locationName: String): LiveData<List<JournalBeanDBBean>> {

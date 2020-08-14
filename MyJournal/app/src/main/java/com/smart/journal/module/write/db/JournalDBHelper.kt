@@ -124,7 +124,12 @@ object JournalDBHelper {
     }
 
     fun searchJournalFromFavourite(keyWord: String): LiveData<List<JournalBeanDBBean>> {
-        return journalDao!!.searchJournalFromFavourite(keyWord)
+        if (TextUtils.isEmpty(keyWord)){
+            return journalDao!!.searchJournalFavourite()
+        }else{
+            return journalDao!!.searchJournalFromFavourite(keyWord)
+        }
+
     }
 
     fun searchByNoteBookName(noteBookName: String):LiveData<List<JournalBeanDBBean>>{

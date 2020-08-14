@@ -37,6 +37,7 @@ class SlideMenuFragment : BaseFragment() {
     interface SlideMenuFragmentCallBack {
         // TODO: Update argument type and name
         fun onNoteBookItemClick(notebook:NoteBookDBBean)
+        fun onFavouriteItemClick()
     }
 
     var param1: String? = null
@@ -92,6 +93,9 @@ class SlideMenuFragment : BaseFragment() {
             }
 
             override fun onFavouriteItemClick() {
+                slideMenuFragmentCallBack?.let {
+                    it.onFavouriteItemClick()
+                }
             }
 
             override fun onThisDayItemClick() {
@@ -99,7 +103,7 @@ class SlideMenuFragment : BaseFragment() {
                 if (onThisDayFragment==null){
                     onThisDayFragment = OnThisDayBottomSheetDialogFragment()
                 }
-                onThisDayFragment!!.show(activity!!.supportFragmentManager, "$Random(10).nextInt()")
+                onThisDayFragment!!.show(activity!!.supportFragmentManager, "")
             }
 
         })

@@ -68,6 +68,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
                 drawer_layout.closeDrawer(GravityCompat.START)
             }
+
+            override fun onFavouriteItemClick() {
+                setToolbarTitle(resources.getString(R.string.favourite))
+                (journalFragment as JournalFragment).doSerarch("",SearchEableType.FAVOURITE)
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
         }
         supportFragmentManager.beginTransaction().replace(R.id.menuFragment, slideMenuFragment!!).commit()
 
