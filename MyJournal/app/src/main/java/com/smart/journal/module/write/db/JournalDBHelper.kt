@@ -2,6 +2,7 @@ package com.smart.journal.module.write.db
 
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
+import com.smart.journal.R
 import com.smart.journal.app.MyApp
 import com.smart.journal.contants.Contancts
 import com.smart.journal.db.dao.JournalDao
@@ -60,7 +61,7 @@ object JournalDBHelper {
         if (settingBean.journalBook != null) {
             journalBeanDBBean.bookName = settingBean!!.journalBook!!.name
         }else{
-            journalBeanDBBean.bookName  = "默认"
+            journalBeanDBBean.bookName  = MyApp.instance!!.resources.getString(R.string.m_default)
         }
         if (settingBean!!.location != null) {
             val locationBean = settingBean!!.location

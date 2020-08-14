@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/dp_10"
-    android:paddingRight="@dimen/dp_10"
+    android:padding="@dimen/album_dp_6"
     android:textColor="@color/black">
 
     <EditText
@@ -17,5 +16,5 @@
         android:lineSpacingMultiplier="1.5"
         android:minHeight="48dp"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_16" />
 </LinearLayout>

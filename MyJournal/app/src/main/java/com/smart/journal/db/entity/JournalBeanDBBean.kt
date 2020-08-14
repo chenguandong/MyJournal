@@ -53,6 +53,9 @@ class JournalBeanDBBean {
     @ColumnInfo(name = "favourite", index = false)
     var favourite: Boolean? = false
 
+    @ColumnInfo(name = "mood")
+    var mood: String? = null
+
     @Ignore
     var journalItemBean: JournalItemBean? = null
 

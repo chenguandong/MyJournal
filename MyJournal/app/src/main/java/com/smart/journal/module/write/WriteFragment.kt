@@ -149,7 +149,6 @@ class WriteFragment : BaseFragment() {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
 
-                    // new PhotoViewPagerActivity(currentIndex,photosUrl).show(context.getSupportFragmentManager(),"");
                     val transfer = Transferee.getDefault(requireActivity())
                     transfer!!.apply(TransferConfig.build()
                             .setImageLoader(GlideImageLoader.with(context))
@@ -159,9 +158,7 @@ class WriteFragment : BaseFragment() {
                         override fun onDismiss() {
                             transfer!!.destroy()
                             activity!!.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                activity!!.window!!.statusBarColor = Color.BLACK
-                            }*/
+
                         }
 
                         override fun onShow() {

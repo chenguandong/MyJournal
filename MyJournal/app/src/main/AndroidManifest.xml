@@ -63,19 +63,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- photopicker -->
-        <!--
-<activity
-            android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> &lt;!&ndash; photopicker &ndash;&gt;
-        -->
-        <activity android:name=".module.write.activity.WriteActivity" />
-        <activity
-            android:name=".customview.preview.PhotoViewPagerActivity"
-            android:theme="@style/translucent" />
+        </activity>
+
+        <activity android:name=".module.write.activity.WriteActivity" android:windowSoftInputMode="adjustResize"/>
+
         <activity android:name=".module.mine.setting.SettingActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".base.OpenShareFileActivity">

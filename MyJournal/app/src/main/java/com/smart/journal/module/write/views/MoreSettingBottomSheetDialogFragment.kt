@@ -79,6 +79,9 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
             }
             MessageEvent.NOTE_TAG_CHANGE -> {
                 var selectedTag: List<String> = Gson().fromJson(event.message, object : TypeToken<List<String>>() {}.type)
+                if (selectedTag.size==0){
+                    return
+                }
                 selectedTag?.let { it ->
                     writeSetting!!.tags = it as List<String>
                     writeSetting?.tags?.let {
@@ -153,6 +156,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                                     }
                                 }
                             }
+                            writeSetting!!.journalBook = allDbNoteList[0]
                             AlertDialog.Builder(requireActivity())
                                     .setTitle(resources.getString(R.string.choose_default_note))
                                     .setSingleChoiceItems(items, choosedItem) { _, which ->
@@ -213,8 +217,9 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
                             } else {
                                 itemData[4].subTitle = resources.getString(R.string.un_favourite)
                             }
+                            writeSetting!!.isFavourite = isFavourite
                             adapter!!.notifyDataSetChanged()
-                            EventBus.getDefault().post(MessageEvent("0", NOTE_FAVOURITE_CHANGE))
+                            EventBus.getDefault().post(MessageEvent(if(isFavourite)"1" else "0", NOTE_FAVOURITE_CHANGE))
 
                         }
                     }
