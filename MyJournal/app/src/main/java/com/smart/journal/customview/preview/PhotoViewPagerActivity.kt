@@ -16,17 +16,28 @@
 package com.smart.journal.customview.preview
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smart.journal.R
 import com.smart.journal.base.BaseActivity
+import com.smart.journal.module.journal.JournalFragment
+import com.smart.journal.module.journal.SearchEableType
 import com.wingsofts.dragphotoview.DragPhotoView
 import kotlinx.android.synthetic.main.act_photo.*
 import kotlinx.android.synthetic.main.activity_global_search.*
@@ -35,53 +46,20 @@ import uk.co.senab.photoview.PhotoView
 import java.util.*
 
 
-class PhotoViewPagerActivity : BaseActivity() {
+open class PhotoViewPagerActivity : BottomSheetDialogFragment {
 
     private var choosedIndex: Int = 0
 
     private var samplePagerAdapter: SamplePagerAdapter? = null
 
+    protected var behavior: BottomSheetBehavior<*>? = null
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.act_photo)
-        photoUrl = intent.getSerializableExtra(URLS) as List<String>
+    private var photoUrl: List<String>? = ArrayList()
 
-        if (photoUrl == null) {
-            ToastUtils.showShort("无可显示图片")
-            return
-        }
-        choosedIndex = intent.getIntExtra(URLS_CHOOSE_INDEX, 0)
-
-        samplePagerAdapter = SamplePagerAdapter()
-        photoViewPage.adapter = samplePagerAdapter
-        photoViewPage.currentItem = choosedIndex
-        photoViewPage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-        })
-
+    constructor(choosedIndex: Int, photoUrl: List<String>?) : super() {
+        this.choosedIndex = choosedIndex
+        this.photoUrl = photoUrl
     }
-
-    override fun initView() {
-
-    }
-
-    override fun initData() {
-
-    }
-
 
     internal inner class SamplePagerAdapter : androidx.viewpager.widget.PagerAdapter() {
 
@@ -96,11 +74,9 @@ class PhotoViewPagerActivity : BaseActivity() {
             val photoView = PhotoView(container.context)
 
             // Now just add PhotoView to ViewPager and return it
-            container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            container.addView(photoView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
 
             photoView.setBackgroundColor(ContextCompat.getColor(container.context, android.R.color.black))
-
-            photoView.setOnClickListener { finish() }
 
             Glide.with(container.context).load(photoUrl!![position]).into(photoView)
 
@@ -121,13 +97,77 @@ class PhotoViewPagerActivity : BaseActivity() {
 
     }
 
-    companion object {
 
-        val URLS = "photoURls"//图片集合
-        val URLS_CHOOSE_INDEX = "photoURls_choose_index"// 当前选中
-        val URLS_SHOW_TAG = "URLS_SHOW_TAG"// 自定义字段
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.act_photo, container, false)
+    }
 
 
-        private var photoUrl: List<String>? = ArrayList()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (photoUrl == null) {
+            ToastUtils.showShort("无可显示图片")
+            return
+        }
+
+        samplePagerAdapter = SamplePagerAdapter()
+        photoViewPage.adapter = samplePagerAdapter
+        photoViewPage.currentItem = choosedIndex
+        photoViewPage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+        })
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return if (context == null) {
+            super.onCreateDialog(savedInstanceState)
+        } else BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetStyle)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // 设置软键盘不自动弹出
+        dialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        val dialog = dialog as BottomSheetDialog
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+        bottomSheet!!.setBackgroundColor(Color.TRANSPARENT)
+        if (bottomSheet != null) {
+            val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+            //layoutParams.height = getPeekHeight()
+            behavior = BottomSheetBehavior.from(bottomSheet)
+            behavior!!.peekHeight = getPeekHeight()
+            setOpenState()
+        }
+        KeyboardUtils.hideSoftInput(requireActivity())
+    }
+
+    open fun setOpenState() {
+        // 初始为展开状态
+        behavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+
+    }
+
+    /**
+     * 弹窗高度，默认为屏幕高度的四分之三
+     * 子类可重写该方法返回peekHeight
+     *
+     * @return height
+     */
+    protected open fun getPeekHeight(): Int {
+        val peekHeight = resources.displayMetrics.heightPixels
+        //设置弹窗高度为屏幕高度的3/4
+        return peekHeight - 0//peekHeight / 10
     }
 }

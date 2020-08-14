@@ -54,7 +54,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
             behavior = BottomSheetBehavior.from(bottomSheet)
             setOpenState()
         }
-        KeyboardUtils.hideSoftInput(activity)
+        KeyboardUtils.hideSoftInput(requireActivity())
     }
 
     open fun setOpenState() {

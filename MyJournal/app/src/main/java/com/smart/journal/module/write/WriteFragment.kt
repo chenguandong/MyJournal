@@ -3,6 +3,8 @@ package com.smart.journal.module.write
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -11,14 +13,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.hitomi.tilibrary.transfer.TransferConfig
+import com.hitomi.tilibrary.transfer.Transferee
 import com.smart.journal.R
+import com.smart.journal.app.MyApp
 import com.smart.journal.base.BaseFragment
-import com.smart.journal.customview.preview.PhotoViewTools
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
 import com.smart.journal.module.write.adapter.WriteAdapter
@@ -34,6 +39,7 @@ import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.file.MJFileTools
 import com.smart.journal.tools.image.ImageLoader
 import com.smart.journal.tools.logs.LogTools
+import com.vansz.glideimageloader.GlideImageLoader
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumConfig
 import com.yanzhenjie.album.api.widget.Widget
@@ -58,6 +64,7 @@ class WriteFragment : BaseFragment() {
     private var writeSectionBeans = ArrayList<JournalBean>()
     private var adapter: WriteAdapter? = null
     private var writeSetting: WriteSettingBean? = WriteSettingBean()
+
 
     private var isEditable: Boolean = false
         set(value) {
@@ -141,11 +148,27 @@ class WriteFragment : BaseFragment() {
         adapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 if (writeSectionBeans[position].itemType == JournalBean.WRITE_TAG_IMAGE) {
-                    PhotoViewTools.showPhotos(object : java.util.ArrayList<String>() {
-                        init {
-                            writeSectionBeans[position].imageURL?.let { add(it) }
+
+                    // new PhotoViewPagerActivity(currentIndex,photosUrl).show(context.getSupportFragmentManager(),"");
+                    val transfer = Transferee.getDefault(requireActivity())
+                    transfer!!.apply(TransferConfig.build()
+                            .setImageLoader(GlideImageLoader.with(context))
+                            .setSourceUrlList(arrayListOf(writeSectionBeans[position].imageURL))
+                            .create()
+                    ).show(object :Transferee.OnTransfereeStateChangeListener{
+                        override fun onDismiss() {
+                            transfer!!.destroy()
+                            activity!!.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                activity!!.window!!.statusBarColor = Color.BLACK
+                            }*/
                         }
-                    }, 0, context)
+
+                        override fun onShow() {
+
+                        }
+
+                    })
                 }
             }
 
@@ -155,7 +178,7 @@ class WriteFragment : BaseFragment() {
             if (isEditable) {
                 saveJournal()
                 fab.setImageResource(R.drawable.ic_journal_save)
-                KeyboardUtils.hideSoftInput(activity)
+                KeyboardUtils.hideSoftInput(requireActivity())
             } else {
                 isEditable = true
                 fab.setImageResource(R.drawable.ic_journal_save)
@@ -331,8 +354,8 @@ class WriteFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         EventBus.getDefault().unregister(this)
+        super.onDestroy()
     }
 
 

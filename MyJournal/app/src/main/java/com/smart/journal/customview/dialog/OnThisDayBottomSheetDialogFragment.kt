@@ -62,7 +62,7 @@ open class OnThisDayBottomSheetDialogFragment : BottomSheetDialogFragment() {
             behavior!!.peekHeight = getPeekHeight()
             setOpenState()
         }
-        KeyboardUtils.hideSoftInput(activity)
+        KeyboardUtils.hideSoftInput(requireActivity())
     }
 
     open fun setOpenState() {

@@ -2,6 +2,7 @@ package com.smart.journal.module.journal.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.FileUtils
 import com.smart.journal.contants.Contancts
 import com.smart.journal.db.entity.JournalBeanDBBean
 import com.smart.journal.module.journal.repository.JournalRepository
@@ -36,7 +37,7 @@ class JournalViewModel : ViewModel() {
                     //删除本地图片
                     var imagePath = content.replace(Contancts.FILE_TYPE_IMAGE,"")
                     com.orhanobut.logger.Logger.d(imagePath)
-                    com.blankj.utilcode.util.FileUtils.deleteFile(imagePath)
+                    FileUtils.delete(imagePath!!)
                 }
 
             }

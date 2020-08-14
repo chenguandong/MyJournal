@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:orientation="vertical">
-
+    android:fitsSystemWindows="true">
+    <!-- app:behavior_hideable="true"
+     app:behavior_peekHeight="100dp"
+     app:layout_behavior="@string/bottom_sheet_behavior"
+     android:background="@color/dracula_album_popup_bg"-->
     <com.smart.journal.customview.preview.HackyViewPager
         android:id="@+id/photoViewPage"
         android:layout_width="match_parent"
@@ -12,4 +17,5 @@
         android:layout_weight="1"
         android:background="@android:color/transparent" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

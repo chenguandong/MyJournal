@@ -103,6 +103,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {/* Do something */}
 }

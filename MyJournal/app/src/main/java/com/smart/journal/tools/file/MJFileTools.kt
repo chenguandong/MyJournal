@@ -55,7 +55,7 @@ object MJFileTools {
         val fileInfo = getPhotoInfoFromAlbum(albumFile)
         val fileName = UUID.randomUUID().toString() + "." + fileInfo.fileType
         val file = File(JOURNALDIR, fileName)
-        FileUtils.copyFile(File(fileInfo.filePath), file) { false }
+        FileUtils.copy(File(fileInfo.filePath), file)
         return file.absolutePath
     }
 
@@ -64,7 +64,7 @@ object MJFileTools {
         val shareFilePath = MJFileUtils.fileProviderPath(fileUri)
         val fileName = UUID.randomUUID().toString() + "." + MJFileUtils.getFileEndType(fileUri.toString())
         val file = File(JOURNALDIR_EXPORT, fileName)
-        FileUtils.copyFile(File(shareFilePath), file) { false }
+        FileUtils.copy(File(shareFilePath), file)
         if (unzip) {
             try {
                 val exportFile = File(JOURNALDIR_EXPORT + "/" + fileName.substring(0, fileName.indexOf(".")))
@@ -148,7 +148,7 @@ object MJFileTools {
      */
     fun backUpExportJournal() {
 
-        FileUtils.copyDir(JOURNALDIR, JOURNALDIR_BACK_UP_EXPORT_IMAGES)
+        FileUtils.copy(JOURNALDIR, JOURNALDIR_BACK_UP_EXPORT_IMAGES)
         Log.i("backUpExportJournal", Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
         MJFileUtils.writeEnv(File(JOURNALDIR_BACK_UP_EXPORT_TEXT), Gson().toJson(MyApp.database!!.mJournalDao().allJournalNoLiveData()))
 
@@ -158,7 +158,7 @@ object MJFileTools {
 
         ZipUtils.zipFiles(paths, JOURNALDIR_BACK_UP_EXPORT + File.separator + "back.zip")
 
-        FileUtils.deleteDir(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
+        FileUtils.delete(JOURNALDIR_BACK_UP_EXPORT_IMAGES)
         FileUtils.delete(File(JOURNALDIR_BACK_UP_EXPORT_TEXT))
 
     }
@@ -187,7 +187,7 @@ object MJFileTools {
             val journalList: List<JournalBeanDBBean> = Gson().fromJson(jsonStr.toString(), object : TypeToken<List<JournalBeanDBBean?>?>() {}.type)
             JournalDBHelper.saveJournal(journalList)
             //copy 图片文件
-            FileUtils.copyDir(File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back"+File.separator + "images"),File(JOURNALDIR))
+            FileUtils.copy(File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back"+File.separator + "images"),File(JOURNALDIR))
 
         }else{
             ToastUtils.showShort("没有找到备份文件")

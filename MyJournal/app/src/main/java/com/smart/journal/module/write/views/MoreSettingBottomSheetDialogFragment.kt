@@ -95,7 +95,7 @@ class MoreSettingBottomSheetDialogFragment : BaseBottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState)
         EventBus.getDefault().register(this)
 
-        KeyboardUtils.hideSoftInput(activity)
+        KeyboardUtils.hideSoftInput(requireActivity())
 
         val default = resources.getString(R.string.m_default)
 
