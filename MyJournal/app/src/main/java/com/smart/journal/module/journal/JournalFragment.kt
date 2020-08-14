@@ -126,10 +126,6 @@ private const val ARG_PARAM2 = "param2"
             false
         }
         journalRecycleView!!.adapter = journalAdapter
-
-        swipeRefreshLayout.setOnRefreshListener {
-            initData()
-        }
     }
 
 
@@ -167,7 +163,6 @@ private const val ARG_PARAM2 = "param2"
             }
         }
 
-        swipeRefreshLayout.isRefreshing = false
     }
 
 
