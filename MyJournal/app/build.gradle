@@ -175,7 +175,6 @@ dependencies {
     ////////////////////////////////////////
     implementation 'com.github.githubwing:DragPhotoView:1.0.1'
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
-    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     //implementation 'com.zhy.base:fileprovider:1.0.0'

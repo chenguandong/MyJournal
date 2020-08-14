@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
@@ -51,7 +52,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private val titles = arrayOf("日记", "图片", "地图", "日历")
 
     var slideMenuFragment: SlideMenuFragment? = null
-    var mSearchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,8 +86,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun initView() {
 
-        //BottomNavigationViewHelper.disableShiftMode(navigationView)
-
         journalFragment = JournalFragment.newInstance("", "")
 
         mapFragment = MapFragment.newInstance()
@@ -108,8 +106,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //fragmentList.add((weatherFragment as WeatherFragment?)!!)
 
         viewPager!!.offscreenPageLimit = fragmentList.size
-        navigationView.setupWithViewPager(viewPager)
-        // navigationView.enableShiftingMode(false)
+
+        navigationView.setOnNavigationItemSelectedListener(object :BottomNavigationView.OnNavigationItemSelectedListener{
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                when (item.itemId){
+                    R.id.item_journal-> viewPager.setCurrentItem(0,false)
+                    R.id.item_photos-> viewPager.setCurrentItem(1,false)
+                    R.id.item_map-> viewPager.setCurrentItem(2,false)
+                    R.id.item_calendar-> viewPager.setCurrentItem(3,false)
+                }
+                return true
+            }
+
+        })
 
         fragmentPagerAdapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): androidx.fragment.app.Fragment {
@@ -128,14 +137,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         viewPager!!.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
-                navigationView!!.menu.getItem(position).isChecked = true
 
-                title = titles[position]
-                toolbar.title = title
             }
 
             override fun onPageSelected(position: Int) {
-
+               // navigationView!!.menu.getItem(position).isChecked = true
+                title = titles[position]
+                toolbar.title = title
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -148,6 +156,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        initPermission()
+
+
+        fab.setOnClickListener {
+            startActivity(Intent(this@MainActivity, WriteActivity::class.java))
+        }
+
+        LocationTools.instance
+
+        settingButton.setOnClickListener { startActivity(Intent(context, SettingActivity::class.java)) }
+    }
+
+    private fun initPermission() {
         PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_STORAGE, object : PermissionTools.PermissionCallBack {
             override fun permissionYES() {
                 PermissionTools.checkPermission(this@MainActivity, PermissionTools.PermissionType.PERMISSION_TYPE_LOCATION, object : PermissionTools.PermissionCallBack {
@@ -165,15 +186,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             }
         })
-
-
-        fab.setOnClickListener {
-            startActivity(Intent(this@MainActivity, WriteActivity::class.java))
-        }
-
-        LocationTools.instance
-
-        settingButton.setOnClickListener { startActivity(Intent(context, SettingActivity::class.java)) }
     }
 
     override fun initData() {
