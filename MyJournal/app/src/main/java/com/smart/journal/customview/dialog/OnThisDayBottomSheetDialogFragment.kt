@@ -57,7 +57,7 @@ open class OnThisDayBottomSheetDialogFragment : BottomSheetDialogFragment() {
         bottomSheet!!.setBackgroundColor(Color.TRANSPARENT)
         if (bottomSheet != null) {
             val layoutParams = bottomSheet.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
-            //layoutParams.height = getPeekHeight()
+            layoutParams.height = getPeekHeight()
             behavior = BottomSheetBehavior.from(bottomSheet)
             behavior!!.peekHeight = getPeekHeight()
             setOpenState()
