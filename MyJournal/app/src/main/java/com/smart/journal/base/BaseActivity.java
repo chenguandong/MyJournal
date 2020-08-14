@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.smart.journal.R;
 import com.smart.journal.tools.eventbus.MessageEvent;
 
@@ -34,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor(R.color.white).statusBarDarkFont(true, 0.2f).init();
     }
 
     @Override

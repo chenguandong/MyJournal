@@ -59,6 +59,8 @@ object JournalDBHelper {
         journalBeanDBBean.date = settingBean!!.time!!
         if (settingBean.journalBook != null) {
             journalBeanDBBean.bookName = settingBean!!.journalBook!!.name
+        }else{
+            journalBeanDBBean.bookName  = "默认"
         }
         if (settingBean!!.location != null) {
             val locationBean = settingBean!!.location
@@ -124,5 +126,8 @@ object JournalDBHelper {
         return journalDao!!.searchJournalFromFavourite(keyWord)
     }
 
+    fun searchByNoteBookName(noteBookName: String):LiveData<List<JournalBeanDBBean>>{
+        return journalDao!!.searchByNoteBookName(noteBookName)
+    }
 }
 

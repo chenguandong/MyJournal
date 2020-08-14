@@ -244,6 +244,14 @@ private const val ARG_PARAM2 = "param2"
                     }
                 })
             }
+
+            SearchEableType.NOTE_BOOK->{
+                journalViewModel!!.searchByNoteBookName(serarchKey).observe(viewLifecycleOwner, Observer { it ->
+                    it?.let { datas ->
+                        journalAdapter!!.setNewData(datas as MutableList<JournalBeanDBBean>)
+                    }
+                })
+            }
         }
 
     }

@@ -66,6 +66,10 @@ class JournalViewModel : ViewModel() {
         return journalRepository.getJournalBeans()
     }
 
+    fun searchByNoteBookName(noteBookName: String): LiveData<List<JournalBeanDBBean>> {
+        return journalRepository.searchByNoteBookName(noteBookName)
+    }
+
     public override fun onCleared() {
         journalRepository.onLiveDataCleared()
         super.onCleared()

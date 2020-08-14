@@ -45,5 +45,9 @@ class JournalRepositoryImpl : JournalRepository {
         return JournalDBHelper.searchJournalByLocationName(locationName)
     }
 
+    override fun searchByNoteBookName(noteBookName: String): LiveData<List<JournalBeanDBBean>> {
+        return JournalDBHelper.searchByNoteBookName(noteBookName)
+    }
+
 
 }

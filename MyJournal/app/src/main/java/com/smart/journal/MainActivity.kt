@@ -13,8 +13,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.google.android.material.navigation.NavigationView
 import com.smart.journal.base.BaseActivity
 import com.smart.journal.customview.dialog.PatternLockDialogFragment
+import com.smart.journal.db.entity.NoteBookDBBean
 import com.smart.journal.module.calendar.Calendar2Fragment
 import com.smart.journal.module.journal.JournalFragment
+import com.smart.journal.module.journal.SearchEableType
 import com.smart.journal.module.journal.activity.GlobalSearchActivity
 import com.smart.journal.module.map.MapFragment
 import com.smart.journal.module.menu.SlideMenuFragment
@@ -58,6 +60,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         init()
         MJFileTools.createJournalPath()
         slideMenuFragment = SlideMenuFragment.newInstance("", "")
+        slideMenuFragment!!.slideMenuFragmentCallBack= object : SlideMenuFragment.SlideMenuFragmentCallBack{
+            override fun onNoteBookItemClick(notebook: NoteBookDBBean) {
+                setToolbarTitle(notebook!!.name)
+                notebook!!.name?.let {
+                    (journalFragment as JournalFragment).doSerarch(it,SearchEableType.NOTE_BOOK)
+                }
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
+        }
         supportFragmentManager.beginTransaction().replace(R.id.menuFragment, slideMenuFragment!!).commit()
 
         if (!TextUtils.isEmpty(UserTools.lockCode)) {

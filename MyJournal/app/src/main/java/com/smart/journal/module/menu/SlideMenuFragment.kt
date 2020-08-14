@@ -33,6 +33,12 @@ private const val ARG_PARAM2 = "param2"
 
 
 class SlideMenuFragment : BaseFragment() {
+
+    interface SlideMenuFragmentCallBack {
+        // TODO: Update argument type and name
+        fun onNoteBookItemClick(notebook:NoteBookDBBean)
+    }
+
     var param1: String? = null
     var param2: String? = null
 
@@ -45,6 +51,9 @@ class SlideMenuFragment : BaseFragment() {
     var onThisDayFragment:OnThisDayBottomSheetDialogFragment? = null
 
     private var headerView: SlideMenuHeaderView? = null
+
+     var slideMenuFragmentCallBack:SlideMenuFragmentCallBack ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,9 +111,17 @@ class SlideMenuFragment : BaseFragment() {
 
         menuAdapter!!.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                if (menusList!!.get(position)!!.itemType == ItemMenuType.MENU_NOTE_BOOK_ADD) {
-                    var intent = Intent(context, CreateNoteBookActivity::class.java)
-                    startActivityForResult(intent, REQUEST_CODE)
+                var itemType = menusList!!.get(position)!!.itemType
+                when(itemType){
+                    ItemMenuType.MENU_NOTE_BOOK_ADD->{
+                        var intent = Intent(context, CreateNoteBookActivity::class.java)
+                        startActivityForResult(intent, REQUEST_CODE)
+                    }
+                    ItemMenuType.MENU_NOTE_BOOK->{
+                        slideMenuFragmentCallBack?.let {
+                            it.onNoteBookItemClick(menusList!![position].noteBook!!)
+                        }
+                    }
                 }
             }
 
@@ -144,10 +161,7 @@ class SlideMenuFragment : BaseFragment() {
     }
 
 
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
+
 
     companion object {
         /**

@@ -6,6 +6,7 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.andrognito.patternlockview.PatternLockView
 import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
@@ -50,11 +51,12 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         val style = androidx.fragment.app.DialogFragment.STYLE_NO_TITLE
         val theme = android.R.style.Theme_Holo_Light_NoActionBar_Fullscreen
         setStyle(style, theme)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_pattern_lock_dialog, container, false)
     }
 
@@ -120,6 +122,10 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         })
     }
 
+
+    override fun show(manager: FragmentManager, tag: String?) {
+        super.show(manager, tag)
+    }
     private fun errorLock() {
         lockView.setViewMode(PatternLockView.PatternViewMode.WRONG)
     }
@@ -153,6 +159,7 @@ class PatternLockDialogFragment : androidx.fragment.app.DialogFragment() {
         isCancelable = false
         super.onActivityCreated(savedInstanceState)
     }
+
 
 
     override fun onDetach() {

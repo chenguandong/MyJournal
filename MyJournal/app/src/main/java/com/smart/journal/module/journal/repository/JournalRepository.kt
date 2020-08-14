@@ -25,4 +25,9 @@ interface JournalRepository {
     fun searchJournalByLocation(addressName: String): LiveData<List<JournalBeanDBBean>>
 
     fun searchJournalByLocationName(locationName: String): LiveData<List<JournalBeanDBBean>>
+
+    /**
+     * 按照日记本名字搜索
+     */
+    fun searchByNoteBookName(noteBookName: String): LiveData<List<JournalBeanDBBean>>
 }
