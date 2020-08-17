@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,8 +10,15 @@
         <item name="windowNoTitle">true</item>
         <item name="colorControlNormal">@color/black</item>
         <item name="android:actionBarItemBackground">@drawable/bar_selector_style</item>
-    </style>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
+    </style>
+    <!-- DrawerLayout 按钮样式 -->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+
+        <item name="color">@color/black</item>
+
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.smart.journal.MainActivity">
+    android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     <include layout="@layout/toolbar" />
-
+   </com.google.android.material.appbar.AppBarLayout>
     <com.smart.journal.customview.MViewPagerNoScroll
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigationView"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/app_bar_layout"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginBottom="56dp"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="56dp"
+        android:layout_gravity="end|bottom"
         android:background="@color/write"
         app:itemIconTint="@color/tab_color"
         app:itemTextColor="@color/tab_color"
@@ -31,11 +38,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigationView"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
         android:backgroundTint="@android:color/holo_red_light"
         android:tint="#FFFFFF"
         android:visibility="visible"
         app:borderWidth="0dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="72dp"
+        android:layout_marginRight="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

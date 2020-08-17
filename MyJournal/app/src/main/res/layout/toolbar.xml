@@ -8,4 +8,5 @@
     android:elevation="@dimen/dp_10"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     app:title=""
+    app:layout_scrollFlags="scroll|enterAlways|snap"
     app:titleTextColor="#000000" />
