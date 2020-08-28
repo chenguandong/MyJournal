@@ -274,10 +274,3 @@
 
    -dontwarn com.yanzhenjie.album.**
    -dontwarn com.yanzhenjie.mediascanner.**
-
-
-
-   #baidu map
-   -keep class com.baidu.** {*;}
-   -keep class mapsdkvi.com.** {*;}
-   -dontwarn com.baidu.**

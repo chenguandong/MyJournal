@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.SizeUtils
 import com.gavin.com.library.StickyDecoration
 import com.gavin.com.library.listener.GroupListener
+import com.orhanobut.logger.Logger
 import com.smart.journal.R
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.db.entity.JournalBeanDBBean
@@ -80,8 +81,8 @@ private const val ARG_PARAM2 = "param2"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        var sha1 = KeyStoreTools.sHA1(activity)
-        Log.i("sha1=", sha1)
+    /*    var sha1 = KeyStoreTools.sHA1(activity)
+        Log.i("sha1=", sha1)*/
     }
 
 

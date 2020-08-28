@@ -12,10 +12,11 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bar_selector_white"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:background="@drawable/list_selector_ex"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         app:divider="@drawable/line"
+        android:orientation="horizontal"
         app:showDividers="beginning">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -38,10 +39,12 @@
         android:id="@+id/exportLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bar_selector_white"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:divider="@drawable/line"
+        android:background="@drawable/list_selector_ex"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:divider="@drawable/shape_line"
+        app:dividerPadding="1dp"
+        android:orientation="vertical"
         app:showDividers="beginning">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -57,10 +60,11 @@
         android:id="@+id/inportLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bar_selector_white"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:divider="@drawable/line"
+        android:background="@drawable/list_selector_ex"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:divider="@drawable/shape_line"
+        android:orientation="vertical"
         app:showDividers="beginning">
 
         <androidx.appcompat.widget.AppCompatTextView

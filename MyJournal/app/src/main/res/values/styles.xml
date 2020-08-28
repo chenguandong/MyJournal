@@ -72,4 +72,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimAmount">0.7</item>
     </style>
+
+    <!-- toolbar标题样式 -->
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

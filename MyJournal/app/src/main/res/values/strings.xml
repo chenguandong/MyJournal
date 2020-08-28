@@ -27,4 +27,6 @@
     <string name="color">颜色</string>
     <string name="choose_color">选择颜色</string>
     <string name="create_new_journal_book">创建新的日记本</string>
+    <string name="export_success">导出成功</string>
+    <string name="send">发送</string>
 </resources>

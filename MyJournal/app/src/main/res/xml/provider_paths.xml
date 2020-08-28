@@ -14,4 +14,27 @@
     <external-path
         name="my_images"
         path="images" />
+
+    <root-path
+        name="root"
+        path="" />
+    <files-path
+        name="files"
+        path="" />
+
+    <cache-path
+        name="cache"
+        path="" />
+
+    <external-path
+        name="external"
+        path="" />
+
+    <external-files-path
+        name="external_file_path"
+        path="" />
+    <external-cache-path
+        name="external_cache_path"
+        path="" />
+
 </paths>
