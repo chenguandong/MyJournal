@@ -60,7 +60,7 @@ class JournalAdapter : BaseQuickAdapter<JournalBeanDBBean, BaseViewHolder> {
 
         contentTextview.text = item.journalItemBean!!.content
         if (item.address != null) {
-            infoTextview.text = DateTools.formatTime(item.date) + "." + StringTools.getNotNullString(item.address)
+            infoTextview.text = item.bookName + "." + StringTools.getNotNullString(item.address)
         }
         weekTextview.text = DateTools.getChineseWeek(Date(item.date))
         dayTextview.text = DateTools.getYMd(Date(item.date))[2].toString() + ""

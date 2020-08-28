@@ -30,6 +30,7 @@ import com.amap.api.services.geocoder.RegeocodeResult
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
+import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.smart.journal.R
@@ -127,6 +128,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                 aMapSearchAdapter!!.setSelPosition(position)
                 selectedPoiItem = poiItem
                 aMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(poiItem.latitude, poiItem.longitude), 25f))
+                KeyboardUtils.hideSoftInput(this@AMapAdressSearchActivity)
             }
 
         })
@@ -225,7 +227,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
                         poiItem.latitude = itemPoint.latLonPoint.latitude
                         poiItem.longitude = itemPoint.latLonPoint.longitude
                         poiItem.snippet = itemPoint!!.title
-                        poiItem.title = itemPoint.snippet + ":" + itemPoint.distance + "M"
+                        poiItem.title = itemPoint.snippet  /*":" + itemPoint.distance + "M"*/
                         mMjPoiItemList.add(poiItem)
 
                     }

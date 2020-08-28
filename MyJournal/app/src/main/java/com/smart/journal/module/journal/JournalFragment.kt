@@ -100,6 +100,7 @@ private const val ARG_PARAM2 = "param2"
                 .setGroupTextColor(ContextCompat.getColor(context, R.color.black))
                 .setGroupBackground(ContextCompat.getColor(context, R.color.gray_bg_light))
                 .setDivideColor(ContextCompat.getColor(context, R.color.divider))
+                .setTextSideMargin(SizeUtils.dp2px(12f))
                 .setDivideHeight(1)
                 .build()
 
@@ -131,8 +132,6 @@ private const val ARG_PARAM2 = "param2"
 
 
     override fun initData() {
-
-
         when (fragmentType) {
             FRAGMENT_TYPE_SEARCH_TAG -> {
                 param2?.let {

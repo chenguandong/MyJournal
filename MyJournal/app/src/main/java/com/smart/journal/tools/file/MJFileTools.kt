@@ -188,7 +188,7 @@ object MJFileTools {
             JournalDBHelper.saveJournal(journalList)
             //copy 图片文件
             FileUtils.copy(File(JOURNALDIR_BACK_UP_EXPORT + File.separator + "back"+File.separator + "images"),File(JOURNALDIR))
-
+            FileUtils.delete(unZipFile)
         }else{
             ToastUtils.showShort("没有找到备份文件")
         }

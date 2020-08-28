@@ -45,7 +45,7 @@ class SettingActivity : BaseActivity() {
                     .setIcon(R.drawable.ic_search)
                     .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialogInterface, i ->
 
-                    }).setNegativeButton(R.string.send, DialogInterface.OnClickListener { dialogInterface, i ->
+                    })/*.setNegativeButton(R.string.send, DialogInterface.OnClickListener { dialogInterface, i ->
                         val shareIntent = Intent(Intent.ACTION_SEND)
                         //传输文件 采用流的方式
                         var uri = FileProvider.getUriForFile(this, "com.smart.journal.fileProvider", File(exportPath))
@@ -54,7 +54,7 @@ class SettingActivity : BaseActivity() {
                         startActivity(shareIntent)
 
 
-                    }).show()
+                    })*/.show()
 
         }
 
@@ -93,7 +93,7 @@ class SettingActivity : BaseActivity() {
                 Logger.d(path.fileName)
                 Logger.d(path.fileType)
 
-                MJFileTools.importExportJournal();
+                MJFileTools.importExportJournal()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
