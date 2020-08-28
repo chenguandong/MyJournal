@@ -67,7 +67,7 @@ class AMapAdressSearchActivity : BaseActivity(), LocationSource,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_amap_adress_search)
         mapView.onCreate(savedInstanceState)// 此方法必须重写i
-        initSimpleToolbar("选择地址")
+        initSimpleToolbar("选择位置")
         init()
     }
 

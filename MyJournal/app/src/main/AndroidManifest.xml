@@ -20,9 +20,9 @@
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_photos"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_logo_photos"
+        android:roundIcon="@mipmap/ic_launcher_round_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".module.journal.activity.GlobalSearchActivity"></activity>
