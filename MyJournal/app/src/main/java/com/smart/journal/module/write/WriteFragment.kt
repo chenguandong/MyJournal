@@ -3,18 +3,17 @@ package com.smart.journal.module.write
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.widget.RelativeLayout
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSON
-import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.gson.Gson
@@ -22,7 +21,6 @@ import com.google.gson.reflect.TypeToken
 import com.hitomi.tilibrary.transfer.TransferConfig
 import com.hitomi.tilibrary.transfer.Transferee
 import com.smart.journal.R
-import com.smart.journal.app.MyApp
 import com.smart.journal.base.BaseFragment
 import com.smart.journal.module.map.activity.AMapAdressSearchActivity
 import com.smart.journal.module.map.bean.MjPoiItem
@@ -35,6 +33,7 @@ import com.smart.journal.module.write.viewmodel.WriteFragmentViewModel
 import com.smart.journal.module.write.views.MoreSettingBottomSheetDialogFragment
 import com.smart.journal.module.write.views.ToolView
 import com.smart.journal.tools.PermissionTools
+import com.smart.journal.tools.SoftKeyBoardListener
 import com.smart.journal.tools.eventbus.MessageEvent
 import com.smart.journal.tools.file.MJFileTools
 import com.smart.journal.tools.image.ImageLoader
@@ -247,6 +246,28 @@ class WriteFragment : BaseFragment() {
                 }
 
             }
+        })
+        SoftKeyBoardListener.setListener(requireActivity(), object : SoftKeyBoardListener.OnSoftKeyBoardChangeListener{
+            override fun keyBoardShow(height: Int) {
+                var toolViewLayout:RelativeLayout.LayoutParams = toolView.layoutParams as RelativeLayout.LayoutParams
+                var fablayout:RelativeLayout.LayoutParams = fab.layoutParams as RelativeLayout.LayoutParams
+                toolViewLayout.bottomMargin = height
+                fablayout.bottomMargin = height+ SizeUtils.dp2px(24f)
+                toolView.requestLayout()
+                fab.requestLayout()
+                LogTools.d("keyBoardShow$height")
+            }
+
+            override fun keyBoardHide(height: Int) {
+                LogTools.d("keyBoardShow$height")
+                var toolViewLayout:RelativeLayout.LayoutParams = toolView.layoutParams as RelativeLayout.LayoutParams
+                var fablayout:RelativeLayout.LayoutParams = fab.layoutParams as RelativeLayout.LayoutParams
+                toolViewLayout.bottomMargin = 0
+                fablayout.bottomMargin = SizeUtils.dp2px(24f)
+                toolView.requestLayout()
+                fab.requestLayout()
+            }
+
         })
 
 
